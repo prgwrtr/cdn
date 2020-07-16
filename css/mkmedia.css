@@ -1,0 +1,305 @@
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+body {
+  color: #444;
+  font-size: 16px;
+  font-family: Verdana, Helvetica, "Microsoft YaHei", "微软雅黑", "Droid Sans", "YouYuan", sans-serif;
+  line-height: 200%;
+  letter-spacing: 0.07em;
+  background-color: #ffffff;
+  padding: 0px;
+  margin: 0px;
+}
+
+#demo-page {
+  left: 0px;
+  right: 0px;
+  /*
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  */
+}
+
+.container {
+  background-color: #fff;
+  padding: 30px 2% 30px 2%;
+}
+
+@media screen and (max-width: 640px) {
+  .columns-container {
+    margin: auto;
+    max-width: 600px;
+  }
+  #big-heading {
+    display: block;
+  }
+  #little-heading {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .columns-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+  }
+  #big-heading {
+    display: none;
+  }
+  #little-heading {
+    display: block;
+  }
+  .column {
+    display: inline-block;
+    width: 48%;
+    margin-top: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
+  }
+}
+
+
+h1 {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 20px;
+  text-align: center;
+  line-height: 2.0;
+  color: #fff;
+  text-shadow: 1px 1px 5px rgba(20,20,50,0.4);
+  background-color: #2af;
+  letter-spacing: 0.1em;
+  margin: 0px;
+  background-image:
+    radial-gradient(circle at 75% 80%,rgba(200,245,255,0.5) 0%,rgba(80,170,200,0.3) 50%,rgba(0,0,0,0) 100%),
+    radial-gradient(circle at 15% 10%,rgba(200,245,255,0.5) 0%,rgba(80,170,200,0.3) 25%,rgba(0,0,0,0) 100%);
+}
+
+#big-heading {
+  padding: 1.5em 1.0em;
+}
+
+.column h1 {
+  padding: 1em 10px;
+}
+
+.descr {
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 180%;
+  text-align: center;
+  color: #345;
+  background-color: #f3f7ff;
+  padding: 40px 30px 60px 30px;
+  margin: 0px 0px 20px 0px;
+}
+
+form {
+  padding: 30px;
+}
+
+.inp-group {
+  margin: 7px 5px;
+  line-height: 2.0;
+}
+
+.inp-group-inline {
+  display: inline-block;
+  line-height: 200%;
+  margin: 0.5em 0.5em;
+}
+
+select {
+  font-size: 105%;
+  background-color: #fff;
+  color: #333;
+  letter-spacing: 0.15em;
+  padding: 0.2em 1em 0.5em 0.5em;
+  border-radius: 0.5em;
+}
+
+label {
+  color: #4488aa;
+  font-size: 110%;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin-top: 1em;
+  padding: 0.5em 0em 0.5em 0.5em !important;
+  line-height: 150%;
+}
+
+.single-line {
+  display: block;
+}
+
+textarea {
+  font-family: monospace;
+  font-size: 100%;
+  letter-spacing: 0.05em;
+  width: 100%;
+  padding: 0.5em 0.8em;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  color: #444;
+  outline-color: #eee;
+  outline-width: thick;
+  box-shadow: inset 0.1em 0.1em 0.2em #ddd;
+}
+
+.big-btn {
+  background-color: #33aaee;
+  color:#fff;
+  letter-spacing: 0.1em;
+  font-size: 20px;
+  text-shadow:
+    0px 0px 1px rgba(255,255,255,0.7),
+    1px 1px 2px rgba(0,0,50,0.5);
+  height: 50px;
+  box-shadow: 1px 1px 4px rgba(100,100,100,0.5);
+  border-radius:5px;
+  border: 1px solid rgba(100,180,200,0.8);
+  padding: 0px 20px;
+  margin: 2px 5px;
+}
+
+.big-btn:hover {
+  background-color: #29e;
+}
+
+.big-btn:active {
+  transform: translate(1.2px, 0.8px);
+  background-color: #27f;
+  border: 1px solid rgba(160,200,230,0.5);
+  box-shadow: 1px 1px 6px #888;
+}
+
+.big-btn:disabled,
+.big-btn[disabled],
+.big-btn[disabled]:active,
+.big-btn[disabled]:hover {
+  background-image:linear-gradient(180deg,rgb(180,180,180) 0%,rgb(180,180,180) 100%);
+  border: 1px solid rgba(180,180,180,0.8);
+}
+
+.copy-btn-wrapper {
+  min-height: 72px;
+  margin: 0px;
+  padding: 5px 80px 5px 10px;
+  overflow: auto; /* https://stackoverflow.com/questions/211383/what-methods-of-clearfix-can-i-use */
+  position: relative;
+}
+
+.copy-btn-note {
+  color: #555;
+  font-size: 80%;
+  line-height: 1.8;
+}
+
+.copy-btn {
+  background-color: #080;
+  color: #fff;
+  letter-spacing: 0.1em;
+  font-size: 16px;
+  width: 72px;
+  height: 36px;
+  border: 1px solid #7a7;
+  border-radius: 4px;
+  position: absolute;
+  top: 0px;
+  right: 3px;
+}
+
+.copy-btn:hover {
+  background-color: #3b3;
+}
+
+.copy-btn:active {
+  background-color: #393;
+  border: 1px solid #060;
+  box-shadow: 1px 1px 1px #585;
+}
+
+.copied-msg {
+  display: inline-block;
+  position: absolute;
+  background-color: #eefff7;
+  border: 1px solid #dff;
+  color: #383;
+  font-size: 14px;
+  padding: 3px 12px;
+  top: 0px;
+  right: 83px;
+  min-height: 36px;
+}
+
+.qr-btn {
+  background-color: #e90;
+  color: #fff;
+  letter-spacing: 0.1em;
+  font-size: 18px;
+  padding: 6px 20px;
+  border: 1px solid #eda;
+  border-radius: 6px;
+}
+
+.qr-btn:hover {
+  background-color: #f3aa00;
+}
+
+.qr-btn:active {
+  background-color: #c70;
+  border: 1px solid #a60;
+  box-shadow: 1px 1px 1px #883;
+}
+
+.out-url {
+  border: 1px solid rgba(0,100,255,0.1);
+  background-color: rgba(220,240,255,0.1);
+  font-family: monospace;
+  font-size: 90%;
+  line-height: 1.5;
+  padding: 8px 12px;
+  max-height: 200px;
+  margin: 5px 2px;
+  overflow: scroll;
+}
+
+.out-url a {
+  font-size: 90%;
+  line-height: 1.25;
+  letter-spacing: 0px;
+  text-decoration: none;
+  color: rgb(60,150,200);
+}
+
+.out-url a:hover {
+  color: rgb(30,120,150);
+}
+
+a.download {
+  text-decoration: none;
+  font-weight: bold;
+  color: #5588cc;
+}
+
+a.download:hover {
+  color: #7755cc;
+}
+
+a.download:active {
+  color: #3377ff;
+}
+
+.inp-note {
+  padding: 0px 1em 1em 1em;
+  font-size: 90%;
+  color: #777;
+}

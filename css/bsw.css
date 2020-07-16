@@ -1,0 +1,8 @@
+#bsw-version {
+  letter-spacing: 0.33px;
+}
+
+.bsw-group {
+  display: inline-block;
+  box-shadow: 0px 0px 5px #eee;
+}

@@ -1,0 +1,44 @@
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  font-family: Verdana, Helvetica, "Microsoft YaHei", "微软雅黑", "Droid Sans", "YouYuan", sans-serif;
+  font-size: 18px;
+  margin: auto;
+  max-width: 800px;
+  padding: 10px;
+  color: #444;
+  letter-spacing: 0.1em;
+}
+textarea {
+  display: block;
+  font-size: 95%;
+  width: 100%;
+  margin: 3px 0px 0px 0px;
+  padding: 10px;
+  border-radius: 10px;
+  color: #444;
+  border-color: #ccc;
+  box-shadow: inset 2px 2px 10px #ddd;
+}
+button {
+  font-size: 18px;
+  height: 2.2em;
+  line-height: 1.43;
+  margin: 2px;
+  border-radius: 4px;
+  padding: 2px 12px;
+  color: #fff;
+  background-color: #58c;
+  border-width: 0px
+}
+button:hover {
+  background-color: #38e;
+}
+button:active {
+  background-color: #48f;
+  transform: translate(1px, 1px);
+}
+

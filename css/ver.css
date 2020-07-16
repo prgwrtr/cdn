@@ -1,0 +1,43 @@
+#ver-version {
+  /* the numeric value is used as the version number of this CSS */
+  letter-spacing: 0.33px;
+}
+
+/* the div for version */
+.version {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0px 0px 3px 0px;
+  border-bottom: 1px dotted #ccaaee;
+}
+
+.version:first-child {
+  margin-top: 20px;
+}
+
+.version:last-child {
+  margin-bottom: 30px;
+}
+
+/* inner span for version */
+.version span {
+  font-size: 10px;
+  color: #ffffff;
+  background-color: #aaee88;
+  letter-spacing: 0.02em;
+  padding: 5px 10px 5px 10px;
+  border-radius: 4px 4px 1px 1px;
+}
+
+/* anchors in the version */
+.version a {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.version a:hover {
+  color: #3388cc;
+  text-decoration: none;
+}
+
+

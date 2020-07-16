@@ -1,0 +1,82 @@
+#pqr-version {
+  /* the numeric value is used as the version number of this CSS */
+  letter-spacing: 0.33px;
+}
+
+body {
+  font-family: Verdana, Helvetica, "Microsoft YaHei", "微软雅黑", "Droid Sans", "YouYuan", sans-serif;
+  font-size: 16px;
+  max-width: 1000px;
+  margin: auto;
+  letter-spacing: 0.1em;
+}
+
+h1, h2, h3 {
+  color: #99c0cc;
+  text-align: center;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.7em;
+}
+
+.control-block {
+  background-color: #f7f7ff;
+  margin: 10px 0px 40px 0px;
+  padding: 30px 5% 50px 5% !important;
+  border-style: dotted;
+  border-color: #eeeeee;
+  border-width: 1px 0px 1px 0px;
+}
+
+.control-block h3 {
+  font-size: 150%;
+  background-color: #99ddbb;
+  color: #fcfcff;
+  margin: 20px 0% 40px 0%;
+  padding: 15px 0px 20px 0px;
+}
+
+.control-block h3 .seq {
+  font-size: 70%;
+  letter-spacing: 0px;
+  /*margin-left: -3.0em;*/
+  margin-right: 1.0em;
+  padding: 0.2em 0.6em 0.3em 0.9em;
+  color: #bbccdd;
+  background-color: #fff;
+  border-radius: 0.5em;
+  vertical-align: middle;
+}
+
+.key-toolbar-wrapper {
+  text-align: center;
+  margin: 10px 10% 40px 10%;
+}
+
+.input-group {
+  margin: 5px 0px;
+}
+
+.help-block {
+  font-size: 90%;
+}
+
+.media-preview-wrapper {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 5%;
+  padding-right: %5;
+}
+
+.preview-title {
+  color: #882222;
+  font-size: 90%;
+  margin: 5px 0px 5px 0px;
+}
+
+.apology {
+  color: #aaa;
+  font-size: smaller;
+  text-align: center;
+  margin: 10px 5% 20px 5%;
+}

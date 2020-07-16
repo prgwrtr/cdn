@@ -1,0 +1,67 @@
+#ed-version {
+  /* the numeric value is used as the version number of this CSS */
+  letter-spacing: 0.33px;
+}
+
+body {
+  font-family: Verdana, Helvetica, "Microsoft YaHei", "微软雅黑", "Droid Sans", "YouYuan", sans-serif;
+  font-size: 16px;
+  max-width: 1000px;
+  margin: auto;
+  letter-spacing: 0.1em;
+}
+
+h1, h2, h3 {
+  color: #99c0cc;
+  text-align: center;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.7em;
+}
+
+#html-editor {
+  margin: 0px 10px;
+}
+
+#vis-editor {
+  border-width: 1px;
+  border-color: #77aaff;
+  border-style: inset;
+  border-radius: 2px;
+  padding: 10px 15px;
+  width: 100%;
+  height: 600px;
+  overflow: scroll;
+}
+
+/* show placeholder for contenteditable div */
+[contenteditable][data-placeholder]:empty:before {
+  content: attr(data-placeholder);
+  color: #aaa;
+}
+
+#src-editor {
+  display: inline-block;
+  background: #fffff9;
+  font-family: "Lucida Console", monospace;
+  font-size: 100%;
+  padding: 5px 7px;
+  width: 100%;
+  min-height: 600px;
+}
+
+.color-demo {
+  padding: 0.1em 0.3em 0.3em 0.4em;
+}
+
+.btn-group, .bsw-group {
+  margin: 0.1em 0px 0.3em 0px;
+}
+
+.toolbar {
+  margin: 2px 0px 5px 10px;
+}
+
+.note {
+  padding: 20px 10px;
+  color: #888888;
+}

@@ -1,0 +1,221 @@
+body {
+  font-family: Verdana, Helvetica, "Microsoft YaHei", "微软雅黑", "Droid Sans", "YouYuan", sans-serif;
+  font-size: 16px;
+  max-width: 800px;
+  margin: auto;
+  letter-spacing: 0.1em;
+}
+
+.center {
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  color: #4488aa;
+  margin-top: 30px;
+}
+
+.main-descr {
+  color: #556677;
+  padding: 20px 35px 10px 25px;
+  margin: 15px 0px 25px 0px;
+  line-height: 200%;
+  background-color: #fafafa;
+}
+
+label.form-control {
+  font-weight: normal;
+}
+
+.help-block {
+  font-size: 90%;
+  padding: 5px 5px;
+}
+
+.help-block-long {
+  line-height: 200%;
+}
+
+.row {
+  margin: 0px 2px;
+}
+
+div[class^="col-"] {
+  margin-bottom: 5px;
+}
+
+.disclaimer {
+  text-align: center;
+  font-size: 70%;
+  color: #cccccc !important;
+  margin: 0px 0px 50px 0px;
+}
+
+/* deprecated */
+.prompt-text {
+  font-size: 150%;
+  /* background-color: #f4fffa; */
+  /* color: #559977; */
+  color: #779977;
+  border-radius: 5px;
+  width: 50%;
+  padding: 5px 0px 3px 10px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  /* border-bottom: 1px dotted #bbddff; */
+}
+
+.prompt-text-sm {
+  font-size: 135%;
+  color: #779988;
+  padding: 5px 0px 3px 10px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* TODO: not effective */
+.user-panel {
+  background-color: #fafafa;
+  margin: 10px 0px 20px 0px;
+}
+
+#src-editor, #output-text, #keyword-editor {
+  display: inline-block;
+  background: #fffff9;
+  /*font-family: "Lucida Console", monospace;*/
+  font-size: 120%;
+  padding: 5px 7px;
+  width: 100%;
+  min-height: 270px;
+}
+
+#output-html {
+  display: block;
+  overflow: scroll;
+  border: 1px solid #808080;
+  /*font-family: "Lucida Console", monospace;*/
+  margin: 2px 5px;
+  padding: 5px 7px;
+  line-height: 150%;
+}
+
+#sep-table {
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 10px 5px 5px 10px !important;
+  min-width: 60px;
+}
+
+th {
+  background-color: #88aadd;
+  color: white;
+}
+
+.btn-group.block-level {
+  display: flex;
+}
+
+.block-level .btn {
+  flex: 1
+}
+
+.char-code {
+  min-width: 10px;
+  text-align: center;
+  margin: 0px 2px 0px 2px;
+  padding: 2px 1px 2px 2px;
+  font-size: 60%;
+  font-family: "Arial", "Tahoma";
+  border: 1px dotted #666666;
+}
+
+.char-code-text {
+  background-color: #dddddd;
+  border: 1px dotted #444444;
+}
+
+.char-code-space {
+  background-color: #ffffdd;
+  border: 1px dotted #888822;
+}
+
+.char-code-diacr {
+  background-color: #ddeeff;
+  border: 1px dotted #224488;
+}
+
+.char-code-symbol {
+  background-color: #ddffdd;
+  border: 1px dotted #228822;
+}
+
+.char-code-control {
+  background-color: #ffdddd;
+  border: 1px dotted #882222;
+}
+
+.char-code-punct {
+  background-color: #ffddff;
+  border: 1px dotted #882288;
+}
+
+.char-code-hidden {
+  display: none !important;
+}
+
+.grey-box {
+  color: #555555;
+  background-color: white;
+  padding: 4px 4px 2px 8px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+}
+
+/* .tip and .tip-text are deprecated in favor of .spec-char
+ * hover does not work on iPhone */
+.tip {
+  position: relative;
+  display: inline-block;
+  min-width: 10px;
+  text-align: center;
+  margin: 0px 2px 0px 2px;
+  padding: 2px 2px 2px 2px;
+  font-family: "Arial", "Tahoma";
+  background-color: #ddffdd;
+  border: 1px dotted #228844;
+}
+
+.tip .tip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: #44aa66;
+  letter-spacing: 0px;
+  font: Arial, Tahoma, sans-serif;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1000;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.tip:hover .tip-text {
+  visibility: visible;
+  opacity: 1;
+}

@@ -1,0 +1,37 @@
+body {
+  font-family: Verdana, Helvetica, "Microsoft YaHei", "微软雅黑", "Droid Sans", "YouYuan", sans-serif;
+  font-size: 16px;
+  max-width: 800px;
+  margin: auto;
+  letter-spacing: 0.1em;
+}
+
+div[class^="col-"] {
+  margin-bottom: 5px;
+}
+
+#src-editor {
+  display: inline-block;
+  background: #fffff9;
+  font-family: "Lucida Console", monospace;
+  font-size: 120%;
+  padding: 5px 7px;
+  width: 100%;
+  min-height: 300px;
+}
+
+#sp-display {
+  display: block;
+  background-color: #ffffe0;
+  font-family: "Lucida Console", monospace;
+  margin: 2px 5px;
+  padding: 5px 7px;
+}
+
+.sp {
+  margin: 0px 2px;
+  padding: 2px 5px;
+  background-color: #ffff80;
+  border-radius: 2px;
+  border: #ffffe0 1px solid;
+}
