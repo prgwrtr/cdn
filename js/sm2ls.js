@@ -20,6 +20,7 @@ var titleTemplates = {
 };
 
 var sm2BarUITemplates = {
+  // default files installed on forums
   "header": ''
     + '<link rel="stylesheet" href="./sm2/Sound/bar-ui.css"/>\n'
     + '<script type="text/javascript" src="./sm2/Sound/js/soundmanager2.js"></script>\n'

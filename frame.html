@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>网页内嵌</title>
+
+<script type="text/javascript">
+// 使用方法：在网址后面加上?url=http://baidu.com 就可以访问http://baidu.com
+// 获取地址栏里url=后面的参数
+
+// update the time argument in the browser address bar
+function updateHrefTime() {
+  var now = (new Date()).getTime();
+  var href = location.href;
+  var r = href.match(/[\?\&]tim=([^\&]+)/i), hv = null, ht;
+  if ( r !== null ) {
+    hv = unescape(r[1]);
+    ht = parseInt(hv);
+  }
+  var p = href.indexOf("?");
+  if ( p < 0 ) {
+    location.href = href + "?tim=" + now;
+  } else if ( hv === null ) {
+    // add the time argument, put it right after the "?"
+    location.href = href.slice(0, p+1) + "tim=" + now + "&" + href.slice(p+1);
+  } else if ( ht !== ht || Math.abs(ht-now) > 60000 ) {
+    location.href = href.replace("tim=" + hv, "tim=" + now);
+  }
+}
+
+function getHref() {
+  var s, p, url = "";
+  s = window.location.href; // 地址栏
+  p = s.indexOf("?");
+  if ( p < 0 ) return "";
+  s = s.slice(p+1);
+
+  p = s.indexOf("url="); // 找 "url="
+  if ( p >= 0 ) {
+    var rem = s.slice(0, p);
+    if ( rem.toLowerCase().indexOf("hideurl") >= 0 ) {
+      document.getElementById("toolbar").style.display = "none";
+    }
+    url = s.slice(p+4); // "url=" 后面的所有东西
+    // 如果需要，在地址前加上http
+    if ( url.slice(0,4).toLowerCase() != "http" && url.slice(0,3).toLowerCase() != "ftp" ) {
+      if ( url.charAt(0) === "~" ) {
+        url = "https://" + url.slice(1);
+      } else {
+        url = "http://" + url;
+      }
+    }
+    // 更新内部地址栏
+    document.getElementById("url").value = url;
+  }
+  return url;
+}
+
+function refresh() {
+  var url = document.getElementById("url").value;
+  if ( url.length > 0 ) {
+    // 更新页面
+    document.getElementById("page").src = url;
+  }
+}
+
+window.onload = function() {
+  updateHrefTime();
+  getHref();
+  refresh();
+};
+</script>
+
+</head>
+<body>
+<section id="toolbar" style="display:flex;padding:0px 5px 10px 5px">
+  <input id="url"
+    style="width:100%;display:inline;background-color:#eee;font-family:Lucida Console;border-radius:10px;padding:7px 15px;margin-right:5px"
+    onchange="refresh()">
+  </input>
+  <div id="go" style="float:right;display:inline-block">
+    <button onclick="refresh()"
+      style="font-weight:bold;background-color:#225588;color:#fff;border-radius:10px;padding:7px 15px">
+      &gt;
+    </button>
+  </div>
+</section>
+
+<iframe id="page" name="href" src="about:blank"
+  frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"
+  style="position:absolute;width:100%;height:101.5%;left:0px;background:#fff">
+</iframe>
+
+</body>
+</html>

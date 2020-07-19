@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>链接转向</title>
+  <link rel="stylesheet" href="css/redir.css">
+</head>
+<body style="">
+
+<p style="display:none">
+Basic usage:
+Type the following into address bar
+https://bhffer.com/app/redir.html?url=http://baidu.com
+will lead to http://baidu.com
+or under WeChat, it will show a redirection page
+
+Generate encrypted URL
+https://bhffer.com/app/redir.html?enc
+</p>
+
+
+<div id="redir-panel" style="display:none;line-height:2.0">
+  <ul>
+    <li>请点击右上角
+    <span style="background-color:#eee;padding:0px 5px;margin:0px 2px;border-radius:5px">···</span>
+    菜单
+    <li>选择
+    <img src="https://i.niupic.com/images/2020/03/16/71Vk.jpg" alt="Browser" style="width:32px;vertical-align:middle">
+    “在浏览器打开”<br>
+    <span style="font-size:80%">（英文版：“Open with Browser”）</span>
+  </ul>
+</div>
+
+<label for="url" style="padding-left:10px;">网址：</label>
+<textarea id="url" rows="5" placeholder="https://bing.com"></textarea>
+
+<div id="gen-panel" style="margin-top:10px;display:none;">
+  <div role="toolbar">
+    <input id="enc-link" type="checkbox" checked>
+    <label for="enc-link">编码</label>
+    <button id="gen-link" class="a-btn" onclick="genLink()">生成</button>
+    <!-- <button id="shorten-link" class="a-btn" onclick="shortenLink()">缩短</button> -->
+    <button id="copy-link" class="a-btn" onclick="copyLink()">复制</button>
+  </div>
+  <div style="padding:5px">
+    <a id="out-url" href="" target="_blank" rel="noopener noreferrer"></a>
+  </div>
+</div>
+
+<script type="text/javascript" src="js/com1.js?v=0.06a"></script>
+<script type="text/javascript" src="js/redir.js?v=0.06"></script>
+
+
+</body>
+</html>
