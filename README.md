@@ -4,7 +4,7 @@ Github username: prgwrtr
 ```
 make sync
 git commit -a
-git tag -a "v0.0.5" -m "version v0.0.5"
+git tag -a "v1.0.0" -m "version v1.0.0"
 git push --follow-tags
 ```
 

@@ -97,7 +97,7 @@ function openURL(url, enc)
     url = flipenc(url);
   }
   // prepend "http://" or "https://" if necessary
-  if ( /(^[a-z]+:)?\/\//i.test(url) ) {
+  if ( !/(^[a-z]+:)?\/\//i.test(url) ) {
     if ( url.charAt(0) === "~" ) {
       url = "https://" + url.slice(1);
     } else {
