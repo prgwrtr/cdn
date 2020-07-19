@@ -40,26 +40,6 @@ if ( typeof String.prototype.trim !== 'function' ) {
   }
 }
 
-// update the time argument in the browser address bar
-function updateHrefTime() {
-  var now = (new Date()).getTime();
-  var href = location.href;
-  var r = href.match(/[\?\&]tim=([^\&]+)/i), hv = null, ht;
-  if ( r !== null ) {
-    hv = unescape(r[1]);
-    ht = parseInt(hv);
-  }
-  var p = href.indexOf("?");
-  if ( p < 0 ) {
-    location.href = href + "?tim=" + now;
-  } else if ( hv === null ) {
-    // add the time argument, put it right after the "?"
-    location.href = href.slice(0, p+1) + "tim=" + now + "&" + href.slice(p+1);
-  } else if ( ht !== ht || Math.abs(ht-now) > 60000 ) {
-    location.href = href.replace("tim=" + hv, "tim=" + now);
-  }
-}
-
 // basic animation: show and hide an element
 // `script` is [0th-opacity, duration, 1st-opacity, duration, 2nd-opacity...]
 function animateShow(el, script) {

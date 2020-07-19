@@ -23,12 +23,17 @@ function flipenc(s) {
 
 function genLink()
 {
-  var s = window.location.href, dom = s; // address bar
+  var s = location.href, outurl = s; // address bar
   var q = s.indexOf("?"); // look for "?"
-  if ( q >= 0 ) dom = s.slice(0, q);
-  if ( dom.indexOf("://localhost") >= 0 ) {
-    dom = "https://app.bhffer.com/redir.html";
+  if ( q >= 0 ) outurl = s.slice(0, q);
+  if ( outurl.indexOf("://localhost") >= 0
+    || outurl.indexOf("file://") >= 0 ) {
+    // fallback version of this webpage
+    outurl = "https://jsbin.com/vatizedige";
   }
+  // if inline display (like frame.html) is need,
+  // change https to http to avoid the mix content error
+  //outurl = outurl.replace(/^https:/g, "http:");
 
   var url = document.getElementById("url").value;
   url = url.split("\n")[0]; // get the first line
@@ -40,7 +45,7 @@ function genLink()
   url = url.replace(/^\s+|\s+$/g, ""); // trim
   if ( url === "" ) return;
   var enc = document.getElementById("enc-link").checked;
-  var outurl = dom + "?";
+  outurl += "?";
   if ( enc ) {
     outurl += "enc=1&";
     url = flipenc(url);
@@ -51,7 +56,7 @@ function genLink()
   a.innerHTML = outurl;
   a.href = outurl;
 }
-
+/*
 // things to do after the link is shortened
 function linkShortened(surl)
 {
@@ -67,7 +72,7 @@ function shortenLink()
   // shortenURL() is defined in com1.js
   shortenURL(s, 'bit.ly', linkShortened);
 }
-
+*/
 function copyLink(cpbtn) {
   var s = document.getElementById("out-url").href;
   copyTextToClipboard(s, cpbtn);
@@ -79,7 +84,7 @@ function showGenPanel(enc)
   // no url in address bar, show the generation panel
   document.getElementById("gen-panel").style.display = "";
   document.getElementById("gen-link").onclick = genLink;
-  document.getElementById("shorten-link").onclick = shortenLink;
+  //document.getElementById("shorten-link").onclick = shortenLink;
   document.getElementById("copy-link").onclick =
     function() { copyLink(); }
 }
@@ -91,11 +96,8 @@ function openURL(url, enc)
   if ( enc ) {
     url = flipenc(url);
   }
-  // prepend "http://" if necessary
-  var urll = url.toLowerCase();
-  if ( urll.slice(0,7) != "http://"
-    && urll.slice(0,8) != "https://"
-    && urll.slice(0,6) != "ftp://" ) {
+  // prepend "http://" or "https://" if necessary
+  if ( /(^[a-z]+:)?\/\//i.text(url) ) {
     if ( url.charAt(0) === "~" ) {
       url = "https://" + url.slice(1);
     } else {
@@ -112,10 +114,10 @@ function openURL(url, enc)
   }
 }
 
-// main function
 (function(){
+  // main function
   var s, p, q, args, url = undefined, enc = false;
-  s = window.location.href; // address bar
+  s = location.href; // address bar
   q = s.indexOf("?"); // look for "?"
   if ( q >= 0 ) {
     s = s.slice(q+1); // get the arguments

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="css/redir.css">
+</head>
+<body>
+
+<div id="redir-panel" style="display:none;line-height:2.0">
+  <ul>
+    <li>请点击右上角
+    <span style="background-color:#eee;padding:0px 5px;margin:0px 2px;border-radius:5px">···</span>
+    菜单
+    <li>选择
+    <img src="https://i.niupic.com/images/2020/03/16/71Vk.jpg" alt="Browser" style="width:32px;vertical-align:middle">
+    “在浏览器打开”<br>
+    <span style="font-size:80%">（英文版：“Open with Browser”）</span>
+  </ul>
+</div>
+
+<label for="url" style="padding-left:10px;">网址：</label>
+<textarea id="url" rows="5" placeholder="https://bing.com"></textarea>
+
+<div id="gen-panel" style="margin-top:10px;display:none;">
+  <div role="toolbar">
+    <input id="enc-link" type="checkbox" checked>
+    <label for="enc-link">编码</label>
+    <button id="gen-link" class="a-btn" onclick="genLink()">生成</button>
+    <!-- <button id="shorten-link" class="a-btn" onclick="shortenLink()">缩短</button> -->
+    <button id="copy-link" class="a-btn" onclick="copyLink()">复制</button>
+  </div>
+  <div style="padding:5px">
+    <a id="out-url" href="" target="_blank" rel="noopener noreferrer"></a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.2/js/com1.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.2/js/redir.js"></script>
+
+</body>
+</html>

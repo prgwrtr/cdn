@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>媒体代码生成器</title>
+<script>
+h=location.href,V=0,v="v=0.28";
+if((R=h.match(/[\?\&]src=[^\&]+/i))===null){
+if((r=h.match(/[\?\&](v=[^\&]+)/i))!==null)V=r[1];
+if((p=h.indexOf("?"))<0)location.href=h+"?"+v;
+else if(V===0)location.href=h.slice(0,p+1)+v+"&"+h.slice(p+1);
+else if(V!==v)location.href=h.replace(V,v);}
+</script>
+  <link rel="stylesheet" href="css/mkmedia.css?v=0.28">
+</head>
+<body>
+
+<div id="demo-page">
+  <div id="demo-canvas" style="padding:0px 0% 30px 0%"></div>
+</div>
+
+<div id="gen-page" style="display:none">
+<div id="heading">
+  <h1 id="big-heading">媒体代码生成器</h1>
+
+  <p id="lg-descr" class="descr" style="display:none">
+    将视频、音频或图片生成一个专门的分享链接
+  </p>
+</div>
+
+<div class="columns-container">
+  <div id="gen-box" class="column">
+    <h1 id="little-heading">媒体代码生成器</h1>
+    <div class="container">
+      <div class="inp-group">
+        <label for="inp-media-type">类型：</label>
+        <select id="inp-media-type" onchange="onChangeMediaType();writeCode()">
+          <option value="video">视频</option>
+          <option value="audio">音频</option>
+          <option value="image">图片</option>
+        </select>
+      </div>
+
+      <div class="inp-group">
+        <label for="inp-media-title" class="single-line">标题：</label>
+        <textarea id="inp-media-title" rows="3"
+          placeholder="【标题】"
+           onchange="writeCode()">【〔视频〕标题】</textarea>
+      </div>
+
+      <div class="inp-group">
+        <label for="inp-media-src" class="single-line">网址：</label>
+        <textarea id="inp-media-src" rows="2"
+          placeholder="http://my.web.site/video.mp4"
+          onchange="writeCode()"></textarea>
+      </div>
+
+      <div id="inp-video-poster-wrapper" class="inp-group">
+        <label for="inp-video-poster" class="single-line">视频封面网址：</label>
+        <textarea id="inp-video-poster" rows="2"
+          placeholder="http://my.web.site/video-poster.jpg"
+          onchange="writeCode()"></textarea>
+      </div>
+
+      <div class="inp-group">
+        <label for="inp-media-descr" class="single-line">简单描述：</label>
+        <textarea id="inp-media-descr" rows="7"
+          placeholder="内容描述……&#x0A;（分段空一行……）&#x0A;&#x0A;第二段……&#x0A;（仍在第二段……）"
+           onchange="writeCode()"></textarea>
+      </div>
+
+      <div class="inp-group">
+        <label for="inp-style">样式：</label>
+        <select id="inp-style" onchange="writeCode()">
+          <option value="simple" selected>简单</option>
+          <option value="darkred">深红</option>
+          <option value="pink">粉红</option>
+          <option value="orange">橘黄</option>
+          <option value="golden">金黄</option>
+          <option value="red">红色</option>
+          <option value="blue">蓝色</option>
+        </select>
+      </div>
+
+      <div class="inp-group-inline">
+        <span id="inp-video-options">
+          <label for="inp-video-loop" style="display:inline-block">
+            <input id="inp-video-loop" type="checkbox" checked onchange="writeCode()">
+            循环播放
+          </label>
+          <label for="inp-video-autoplay" style="display:inline-block">
+            <input id="inp-video-autoplay" type="checkbox" onchange="writeCode()">
+            自动播放
+          </label>
+        </span>
+        <span id="inp-audio-options" style="display:none">
+          <label for="inp-audio-loop">
+            <input id="inp-audio-loop" type="checkbox" onchange="writeCode()">
+            循环播放
+          </label>
+          <label for="inp-audio-autoplay">
+            <input id="inp-audio-autoplay" type="checkbox" onchange="writeCode()">
+            自动播放
+          </label>
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="column">
+    <h1>预览</h1>
+    <div id="preview-wrapper" class="container">
+      <div id="preview-box">
+        <div id="preview-canvas"></div>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top:5px">
+      <label for="code">源代码：</label>
+      <textarea id="code" rows="12"
+        onchange='onCodeChange()'></textarea>
+      <div class="copy-btn-wrapper">
+        <button id="copy-code-btn" class="copy-btn" type="button"
+          onclick='copyAnimated("code", "copy-code-btn", "code-copied-msg")'
+          >复制</button>
+        <span id="code-copied-msg" class="copied-msg" style="display:none;">
+          已复制代码到剪贴板
+        </span>
+      </div>
+    </div>
+
+    <div id="link-generator">
+      <h1>生成链接</h1>
+      <div class="container">
+        <div class="inp-group">
+          <label for="inp-encoding">编码算法：</label>
+          <select id="inp-encoding" onchange="writeCode()">
+            <option value="0">系统默认</option>
+            <option value="2" selected>文本64进制</option>
+            <option value="3">查表+文本64进制（测试）</option>
+          </select>
+        </div>
+
+        <div id="out-lurl" class="out-url"></div>
+        <div class="copy-btn-wrapper">
+          <button id="copy-lurl-btn" class="copy-btn" type="button"
+            onclick='copyAnimated("out-lurl-text", "copy-lurl-btn", "lurl-copied-msg", "out-lurl")'
+            >复制</button>
+          <div class="copy-btn-note">
+            长网址长度：
+            <span id="long-url-length"></span>
+            (请尽量确保长度小于2000，否则某些浏览器将无法打开链接）
+          </div>
+          <span id="lurl-copied-msg" class="copied-msg" style="display:none;">
+            已复制链接到剪贴板
+          </span>
+        </div>
+
+        <div style="text-align:center">
+          <div style="margin:10px 0px">
+            <button id="gen-lurl-qr" class="qr-btn" type="button"
+              onclick='makeLongURLQR()'>生成二维码</button>
+          </div>
+          <div>
+            <img id="lurl-qr" alt="链接二维码" src="" style="display:none">
+          </div>
+        </div>
+      </div>
+
+      <h1>缩短链接</h1>
+      <div class="container">
+        <div class="inp-group">
+          <label for="inp-surl-type">短网址服务器：</label>
+          <select id="inp-surl-type">
+            <option value="is.gd" selected>is.gd</option>
+            <option value="bit.ly">bit.ly</option>
+          </select>
+        </div>
+
+        <div class="inp-group">
+          <button id="surl-gen-btn" class="big-btn" type="button"
+            onclick="getShortURL()">生成短链接</button>
+        </div>
+
+        <div id="out-surl-wrapper" style="display:none">
+          <div id="out-surl" class="out-url"></div>
+          <div class="copy-btn-wrapper">
+            <button id="copy-surl-btn" class="copy-btn" type="button"
+              onclick='copyAnimated("out-surl-text", "copy-surl-btn", "surl-copied-msg", "out-surl")'
+              style="float:right">复制</button>
+            <span id="surl-copied-msg" class="copied-msg" style="display:none;">
+              已复制到剪贴板
+            </span>
+          </div>
+
+          <div style="text-align:center">
+            <div style="margin:0px 0px 20px 0px">
+              <button id="gen-surl-qr" class="qr-btn" type="button"
+                onclick='makeShortURLQR()'>生成短链接二维码</button>
+            </div>
+            <div>
+              <img id="surl-qr" alt="短链接二维码" src="" style="display:none">
+            </div>
+          </div>
+        </div>
+
+        <div id="hidden-controls" style="display:none">
+          <textarea id="out-lurl-text"></textarea>
+          <textarea id="out-surl-text"></textarea>
+          <input id="long-url">
+          <input id="short-url">
+        </div>
+
+        <div style="margin-bottom:50px">&nbsp;</div>
+      </div>
+    </div> <!-- link-generator -->
+  </div> <!-- right column -->
+
+</div> <!-- columns-container -->
+</div> <!-- gen-page -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.2/js/com1.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.2/js/urlalias.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.2/js/urib64.js"></script>
+<!--
+<script type="text/javascript" src="js/com1.js?v=0.27"></script>
+<script type="text/javascript" src="js/urlalias.js?v=0.04"></script>
+<script type="text/javascript" src="js/urib64.js?v=0.02"></script>
+-->
+<script type="text/javascript" src="js/mkmedia.js?v=0.28"></script>
+</body>
+</html>
