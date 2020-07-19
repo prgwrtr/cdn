@@ -3,7 +3,8 @@ Github username: prgwrtr
 ## Common use
 ```
 make sync
-git tag -a "v0.0.3" -m "version v0.0.3"
+git commit -a
+git tag -a "v0.0.5" -m "version v0.0.5"
 git push --follow-tags
 ```
 

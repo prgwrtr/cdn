@@ -94,7 +94,7 @@ a:hover {
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.2/js/com1.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.4/js/com1.js"></script>
 <script>
 document.getElementById("toggle-dev").click();
 function makeFrame() {
@@ -109,7 +109,7 @@ function makeFrame() {
   // to avoid the mixed content error, the hosting page must be http
   // if the target url (`s`) is so; but we don't know if the target
   // url is an https disguised as an http, so always use http for the page
-  h = h.replace("^https://", "http://");
+  h = h.replace("https://", "http://");
   p = h.indexOf("index.html");
   if ( p < 0 ) return;
   window.open( h.slice(0, p) + "frame.html?url=" + s );

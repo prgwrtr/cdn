@@ -29,7 +29,7 @@ function genLink()
   if ( outurl.indexOf("://localhost") >= 0
     || outurl.indexOf("file://") >= 0 ) {
     // fallback version of this webpage
-    outurl = "https://jsbin.com/vatizedige";
+    outurl = "https://jsbin.com/gayacob";
   }
   // if inline display (like frame.html) is need,
   // change https to http to avoid the mix content error
@@ -97,7 +97,7 @@ function openURL(url, enc)
     url = flipenc(url);
   }
   // prepend "http://" or "https://" if necessary
-  if ( /(^[a-z]+:)?\/\//i.text(url) ) {
+  if ( /(^[a-z]+:)?\/\//i.test(url) ) {
     if ( url.charAt(0) === "~" ) {
       url = "https://" + url.slice(1);
     } else {
