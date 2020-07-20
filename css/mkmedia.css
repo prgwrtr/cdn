@@ -118,6 +118,7 @@ form {
 
 select {
   font-size: 105%;
+  line-height: 2;
   background-color: #fff;
   color: #333;
   letter-spacing: 0.15em;

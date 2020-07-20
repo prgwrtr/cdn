@@ -91,12 +91,20 @@ button:active {
   display: inline-block;
   width: 2em;
   height: 2em;
-  line-height: 1.6;
+  font-weight: bold;
+  line-height: 2;
   text-align: center;
   vertical-align: middle;
   background-color: #eee;
   margin: 0px 2px;
   border-radius: 5px;
+}
+
+select {
+  font-size: 100%;
+  line-height: 2;
+  padding: 0.2em 0.5em 0.5em 0.5em;
+  border-radius: 4px;
 }
 
 iframe {

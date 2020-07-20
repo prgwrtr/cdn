@@ -3,7 +3,6 @@ Github username: prgwrtr
 ## Common use
 ```
 make sync
-git add js/*.js css/*.css img/*.png img/*.jpg img/*.gif
 git commit -a
 git tag -a "v1.0.0" -m "version v1.0.0"
 git push --follow-tags

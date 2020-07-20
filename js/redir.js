@@ -159,8 +159,12 @@ function handleInputURL(url, mode, enc)
         mode = kv[1];
         document.getElementById("mode").value = mode;
       }
-      if ( kv[0] === "enc" && kv.length >= 2 ) {
-        enc = kv[1];
+      if ( kv[0] === "enc" ) {
+        if ( kv.length >= 2 ) {
+          enc = kv[1];
+        } else {
+          enc = "1";
+        }
         document.getElementById("enc").value = enc;
       }
     }
