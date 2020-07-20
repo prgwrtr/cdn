@@ -26,37 +26,49 @@ function genLink()
   var s = location.href, outurl = s; // address bar
   var q = s.indexOf("?"); // look for "?"
   if ( q >= 0 ) outurl = s.slice(0, q);
-  if ( outurl.indexOf("://localhost") >= 0
-    || outurl.indexOf("file://") >= 0 ) {
-    // fallback version of this webpage
-    outurl = "https://jsbin.com/gayacob";
-  }
-  // if inline display (like frame.html) is need,
-  // change https to http to avoid the mix content error
-  //outurl = outurl.replace(/^https:/g, "http:");
 
+  // get the input url
   var url = document.getElementById("url").value;
-  url = url.split("\n")[0]; // get the first line
+  url = url.split("\n")[0].trim(); // get the first line
   if ( url.slice(0,7) === "http://" ) { // drop http://
     url = url.slice(7);
   } else if (url.slice(0, 8) === "https://" ) {
     url = "~" + url.slice(8);
   }
-  url = url.replace(/^\s+|\s+$/g, ""); // trim
+  url = url.trim();
   if ( url === "" ) return;
-  var enc = document.getElementById("enc-link").checked;
-  outurl += "?";
-  if ( enc ) {
-    outurl += "enc=1&";
-    url = flipenc(url);
+
+  var args = [];
+
+  var mode = document.getElementById("mode").value;
+  if ( mode !== "0" ) {
+    args.push("mode=" + mode);
+  }
+  // if inline display (like frame.html) is need,
+  // change https to http to avoid the mix content error
+  if ( mode === "2" || mode === "3" ) {
+    outurl = outurl.replace(/^https:\/\//g, "http://");
+  }
+
+  var enc = document.getElementById("enc").value;
+  if ( enc !== "0" ) {
+    args.push("enc=" + enc);
+    if ( enc === "1" ) {
+      url = flipenc(url);
+    }
   }
   url = encodeURIComponent(url);
-  outurl += "url=" + url;
+  args.push("url=" + url);
+
+  // form the final link
+  outurl += "?" + args.join("&");
+
+  document.getElementById("out-url-wrapper").style.display = "";
   var a = document.getElementById("out-url");
   a.innerHTML = outurl;
   a.href = outurl;
 }
-/*
+
 // things to do after the link is shortened
 function linkShortened(surl)
 {
@@ -72,28 +84,18 @@ function shortenLink()
   // shortenURL() is defined in com1.js
   shortenURL(s, 'bit.ly', linkShortened);
 }
-*/
+
 function copyLink(cpbtn) {
   var s = document.getElementById("out-url").href;
   copyTextToClipboard(s, cpbtn);
   animateShow("out-url", [1.0, 1000, 1.0, 700, 0.4, 500, 0.4, 800, 1.0]);
 }
 
-function showGenPanel(enc)
+function handleInputURL(url, mode, enc)
 {
-  // no url in address bar, show the generation panel
-  document.getElementById("gen-panel").style.display = "";
-  document.getElementById("gen-link").onclick = genLink;
-  //document.getElementById("shorten-link").onclick = shortenLink;
-  document.getElementById("copy-link").onclick =
-    function() { copyLink(); }
-}
-
-function openURL(url, enc)
-{
-  // redirecting: decoding an existing encoded address
+  // decode the url
   url = decodeURIComponent(url);
-  if ( enc ) {
+  if ( enc === "1" ) {
     url = flipenc(url);
   }
   // prepend "http://" or "https://" if necessary
@@ -105,18 +107,37 @@ function openURL(url, enc)
     }
   }
   document.getElementById("url").value = url;
+
   // check if the browser is Wechat
-  if ( !window.navigator.userAgent.match(/MicroMessenger/i) ) { // if not wechat
-    var ext = url.slice(url.length - 3).toLowerCase();
-    window.location.href = url; // jump to the real address
-  } else {
+  var isWechat = !!navigator.userAgent.match(/MicroMessenger/i), action;
+
+  if ( mode === "0" ) { // prompt for redirection if in wechat
+    if ( isWechat ) action = "prompt-redir";
+    else action = "go";
+  } else if ( mode === "1" ) { // always prompt for redirection
+    action = "prompt-redir";
+  } else if ( mode === "2" ) { // embed webpage if in wechat
+    if ( isWechat ) action = "embed";
+    else action = "go";
+  } else if ( mode === "3" ) {
+    action = "embed";
+  }
+
+  if ( action === "go" ) {
+    location.href = url;
+  } else if ( action === "prompt-redir" ) {
     document.getElementById("redir-panel").style.display = "";
+  } else if ( action === "embed" ) {
+    document.getElementById("container").style.display = "none";
+    var ifr = document.getElementById("embed-page");
+    ifr.src = url;
+    ifr.style.display = "";
   }
 }
 
 (function(){
   // main function
-  var s, p, q, args, url = undefined, enc = false;
+  var s, p, q, args, url = undefined, mode = "0", enc = "0", i, kv;
   s = location.href; // address bar
   q = s.indexOf("?"); // look for "?"
   if ( q >= 0 ) {
@@ -131,13 +152,24 @@ function openURL(url, enc)
       args = s;
     }
 
-    enc = ( args.indexOf("enc") >= 0 && args.indexOf("enc=0") < 0 );
+    args = args.split("&");
+    for ( i = 0; i < args.length; i++ ) {
+      kv = args[i].split("=");
+      if ( kv[0] === "mode" && kv.length >= 2 ) {
+        mode = kv[1];
+        document.getElementById("mode").value = mode;
+      }
+      if ( kv[0] === "enc" && kv.length >= 2 ) {
+        enc = kv[1];
+        document.getElementById("enc").value = enc;
+      }
+    }
   }
 
   if ( url === undefined ) {
-    document.getElementById("enc-link").checked = enc;
-    showGenPanel();
+    // no url in address bar, show the generation panel
+    document.getElementById("gen-panel").style.display = "";
   } else { // open the link
-    openURL(url, enc);
+    handleInputURL(url, mode, enc);
   }
 })();

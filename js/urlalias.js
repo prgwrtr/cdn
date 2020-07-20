@@ -69,6 +69,17 @@ var URLAlias = {
       s = s.replace(alias, real);
     }
     return s;
+  },
+
+  toAliasX: function(s, arr) {
+    var t = URLAlias.toAlias(s, arr),
+        r = URLAlias.fromAlias(t, arr), // try to recover the original s
+        err = 0;
+    if ( s !== r ) { // fail to recover
+      t = s;
+      err = 1;
+    }
+    return {"s": t, "err": err};
   }
 };
 

@@ -79,10 +79,19 @@ function isDemoMode() {
   return (document.getElementById("demo-page").style.display !== "none");
 }
 
+
+var URIEncodingError = 0;
+
 function URIEncode(s, enc, isURL)
 {
   if ( enc == "3" && typeof(URLAlias) !== 'undefined' && typeof(URIB64) !== 'undefined' ) {
-    s = URLAlias.toAlias(s);
+    var ret = URLAlias.toAliasX(s);
+    if ( ret.err == 0 ) {
+      s = ret.s;
+    } else {
+      URIEncodingError = "3";
+      console.log("Error: URLAlias.toAlias() fail to encode the input:\n" + s);
+    }
     s = URIB64.encode(s, "~"); // add "~" to whitelist
   } else if ( enc == "2" && typeof(URIB64) !== 'undefined') {
     if ( isURL ) s = stripHTTP(s);
@@ -532,71 +541,91 @@ function writeCode(enc)
   }
 
   var url = "https://app.bhffer.com/mkmedia.html"
-  var args = [], info = {};
+  var args = [], info = {}, tr;
 
   enc = document.getElementById("inp-encoding").value;
 
-  // use URIB64 to encode messages
-  if ( enc !== "0" ) {
-    // enc parameter needs to be the first
-    args.push("enc=" + enc);
-  }
+  // we try several rounds to avoid encoding failure
+  for ( tr = 0; tr < 3; tr++ ) {
+    URIEncodingError = 0;
 
-  var type = document.getElementById("inp-media-type").value;
-  args.push( "type=" + URIEncode(type, enc) );
-  info["type"] = type;
-
-  var src = document.getElementById("inp-media-src").value, src0 = src;
-  if ( src === "" ) {
-    src = defMedia[type + "-src"];
-  }
-  args.push( "src=" + URIEncode(src, enc, 1) );
-  info["src"] = src;
-
-  var opts = '';
-  if ( type === "video" ) {
-    var poster = document.getElementById("inp-video-poster").value;
-    if ( poster === "" && src0 === "" ) {
-      poster = defMedia["video-poster"];
-    }
-    if ( poster !== "" ) {
-      args.push( "poster=" + URIEncode(poster, enc, 1) );
-      info["poster"] = poster;
+    if ( enc !== "0" ) {
+      // enc parameter needs to be the first
+      args.push("enc=" + enc);
     }
 
-    var loop = document.getElementById("inp-video-loop").checked;
-    if ( !loop ) opts += 'L';
+    var type = document.getElementById("inp-media-type").value;
+    args.push( "type=" + URIEncode(type, enc) );
+    info["type"] = type;
 
-    var autoplay = document.getElementById("inp-video-autoplay").checked;
-    if ( autoplay ) opts += 'a';
-  } else if ( type === "audio" ) {
+    var src = document.getElementById("inp-media-src").value, src0 = src;
+    if ( src === "" ) {
+      src = defMedia[type + "-src"];
+    }
+    args.push( "src=" + URIEncode(src, enc, 1) );
+    info["src"] = src;
 
-    var loop = document.getElementById("inp-audio-loop").checked;
-    if ( loop ) opts += 'l';
+    var opts = '';
+    if ( type === "video" ) {
+      var poster = document.getElementById("inp-video-poster").value;
+      if ( poster === "" && src0 === "" ) {
+        poster = defMedia["video-poster"];
+      }
+      if ( poster !== "" ) {
+        args.push( "poster=" + URIEncode(poster, enc, 1) );
+        info["poster"] = poster;
+      }
 
-    var autoplay = document.getElementById("inp-audio-autoplay").checked;
-    if ( autoplay ) opts += 'a';
-  }
+      var loop = document.getElementById("inp-video-loop").checked;
+      if ( !loop ) opts += 'L';
 
-  info["opts"] = opts;
-  if ( opts !== '' ) {
-    args.push( "opts=" + URIEncode(opts, enc) );
-  }
+      var autoplay = document.getElementById("inp-video-autoplay").checked;
+      if ( autoplay ) opts += 'a';
+    } else if ( type === "audio" ) {
 
-  var style = document.getElementById("inp-style").value;
-  args.push( "style=" + URIEncode(style, enc) );
-  info["style"] = style;
+      var loop = document.getElementById("inp-audio-loop").checked;
+      if ( loop ) opts += 'l';
 
-  // let the title and descr be the last arguments
-  var title = document.getElementById("inp-media-title").value, stitle = title;
-  if ( stitle !== "" ) {
-    args.push( "title=" + URIEncode(stitle, enc) );
-    info["title"] = title;
-  }
-  var descr = document.getElementById("inp-media-descr").value, sdescr = descr;
-  if ( sdescr !== "" ) {
-    args.push( "descr=" + URIEncode(sdescr, enc) );
-    info["descr"] = descr;
+      var autoplay = document.getElementById("inp-audio-autoplay").checked;
+      if ( autoplay ) opts += 'a';
+    }
+
+    info["opts"] = opts;
+    if ( opts !== '' ) {
+      args.push( "opts=" + URIEncode(opts, enc) );
+    }
+
+    var style = document.getElementById("inp-style").value;
+    args.push( "style=" + URIEncode(style, enc) );
+    info["style"] = style;
+
+    // let the title and descr be the last arguments
+    var title = document.getElementById("inp-media-title").value, stitle = title;
+    if ( stitle !== "" ) {
+      args.push( "title=" + URIEncode(stitle, enc) );
+      info["title"] = title;
+    }
+    var descr = document.getElementById("inp-media-descr").value, sdescr = descr;
+    if ( sdescr !== "" ) {
+      args.push( "descr=" + URIEncode(sdescr, enc) );
+      info["descr"] = descr;
+    }
+
+    if ( URIEncodingError == 0 ) {
+      break;
+    } else {
+      if ( enc === "3" ) {
+        console.log("Fallback encoding 3 => 2");
+        enc = "2";
+      } else if ( enc === "2" ) {
+        console.log("Fallback encoding 2 => 0");
+        enc = "0";
+      } else {
+        break;
+      }
+      document.getElementById("inp-encoding").value = enc;
+      URIEncodingError = 0;
+    }
   }
 
   var argls = args.join("&");
