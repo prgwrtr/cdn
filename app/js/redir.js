@@ -17,10 +17,6 @@ function flipenc(s) {
   return t;
 }
 
-// https://bing.com/?q=hello
-//var a1 = "http://yahoo.com?hi-lang=b.c_123", a2 = flipenc(a1), a3 = flipenc(a2);
-//alert(a1 + " " + a2 + " " + a3);
-
 function genLink()
 {
   var s = location.href, outurl = s; // address bar
@@ -30,13 +26,15 @@ function genLink()
   // get the input url
   var url = document.getElementById("url").value;
   url = url.split("\n")[0].trim(); // get the first line
-  if ( url.slice(0,7) === "http://" ) { // drop http://
-    url = url.slice(7);
-  } else if (url.slice(0, 8) === "https://" ) {
-    url = "~" + url.slice(8);
+  var ret = URLHead.remove(url);
+  if ( ret.err || ret.url === "" ) {
+    document.getElementById("out-url-wrapper").style.display = "none";
+    var a = document.getElementById("out-url");
+    a.innerHTML = "";
+    a.href = "#";
+    return;
   }
-  url = url.trim();
-  if ( url === "" ) return;
+  url = ret.url;
 
   var args = [];
 
@@ -55,6 +53,8 @@ function genLink()
     args.push("enc=" + enc);
     if ( enc === "1" ) {
       url = flipenc(url);
+    } else if ( enc === "2" ) {
+      url = URIB64.encode(url, "~");
     }
   }
   url = encodeURIComponent(url);
@@ -97,15 +97,11 @@ function handleInputURL(url, mode, enc)
   url = decodeURIComponent(url);
   if ( enc === "1" ) {
     url = flipenc(url);
+  } else if ( enc === "2" ) {
+    url = URIB64.decode(url);
   }
   // prepend "http://" or "https://" if necessary
-  if ( !/(^[a-z]+:)?\/\//i.test(url) ) {
-    if ( url.charAt(0) === "~" ) {
-      url = "https://" + url.slice(1);
-    } else {
-      url = "http://" + url;
-    }
-  }
+  url = URLHead.restore(url);
   document.getElementById("url").value = url;
 
   // check if the browser is Wechat
@@ -129,6 +125,7 @@ function handleInputURL(url, mode, enc)
     document.getElementById("redir-panel").style.display = "";
   } else if ( action === "embed" ) {
     document.getElementById("container").style.display = "none";
+    document.getElementsByTagName("TITLE")[0].innerHTML = ".";
     var ifr = document.getElementById("embed-page");
     ifr.src = url;
     ifr.style.display = "";
@@ -160,7 +157,7 @@ function handleInputURL(url, mode, enc)
         document.getElementById("mode").value = mode;
       }
       if ( kv[0] === "enc" ) {
-        if ( kv.length >= 2 ) {
+        if ( kv.length >= 2 && kv[1] !== "" ) {
           enc = kv[1];
         } else {
           enc = "1";
