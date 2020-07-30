@@ -26,7 +26,7 @@ function genLink()
   // get the input url
   var url = document.getElementById("url").value;
   url = url.split("\n")[0].trim(); // get the first line
-  var ret = URLHead.remove(url);
+  var ret = URLHead.cut(url);
   if ( ret.err || ret.url === "" ) {
     document.getElementById("out-url-wrapper").style.display = "none";
     var a = document.getElementById("out-url");
@@ -101,7 +101,7 @@ function handleInputURL(url, mode, enc)
     url = URIB64.decode(url);
   }
   // prepend "http://" or "https://" if necessary
-  url = URLHead.restore(url);
+  url = URLHead.addBack(url);
   document.getElementById("url").value = url;
 
   // check if the browser is Wechat
