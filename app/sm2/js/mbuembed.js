@@ -3,10 +3,10 @@ MBUEmbed = {
   // NOTE: the JavaScript relative path, e.g., "./sm2/", is relative
   // to the display page, not to this JS file
   // So, do not use relative path for the CDN
-  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.9/app/sm2/",
+  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.0/app/sm2/",
   //root: "https://app.bhffer.com/sm2/",
   //safeRoot: "https://app.bhffer.com/sm2/",
-  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.9/app/sm2/",
+  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.0/app/sm2/",
 
   getfn: function(url) {
     var i = url.lastIndexOf("/");
@@ -97,9 +97,10 @@ MBUEmbed = {
     if ( safeRoot === undefined ) safeRoot = MBUEmbed.safeRoot;
     if ( defBarUICSS === undefined ) defBarUICSS = "Sound/bar-ui.css";
     var min = "", safeMin = "";
+    // temporarily disable minimization to ensure the correctness
     // use minimized css and js file for the cdn version
-    if ( root.indexOf("cdn.") >= 0 ) min = ".min";
-    if ( safeRoot.indexOf("cdn.") >= 0 ) safeMin = ".min";
+    //if ( root.indexOf("cdn.") >= 0 ) min = ".min";
+    //if ( safeRoot.indexOf("cdn.") >= 0 ) safeMin = ".min";
     MBUEmbed.installSwitchCSS(defBarUICSS,
       root + "css/bar-ui" + min + ".css",
       root + "css/bar-ui-patch" + min + ".css");
