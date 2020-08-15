@@ -33,8 +33,11 @@ var sm2BarUITemplates = {
     // if the default bar-ui.css is present, it takes time for mbuembed.min.js to kick in.
     +   'document.styleSheets[0].insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);'
     +   's=document.createElement("SCRIPT");'
-    +   's.src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.1/sm2/js/mbuembed.min.js";'
-    //+   's.src="https://app.bhffer.com/sm2/js/mbuembed.js";'
+    // this CDN version is fastest, but may be out-dated
+    +   's.src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.8/app/sm2/js/mbuembed.min.js";'
+    // this allows the user to load the latest mbuembed.js, but is slower
+    //+   's.src="https://app.bhffer.com/sm2/js/mbuembed.js?v=0.01";'
+    // this is for local testing
     //+   's.src="./sm2/js/mbuembed.js";'
     +   'document.body.append(s);'
     +   'this.parentNode.innerHTML="";'

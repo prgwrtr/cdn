@@ -31,7 +31,7 @@ var URLHead = {
     }
   },
 
-  // restore the protocol part of the url, as removed by cut0() or cut() 
+  // restore the protocol part of the url, as removed by cut0() or cut()
   addBack: function(url) {
     if ( URLHead.hasProtocol(url) ) {
       return url;

@@ -49,3 +49,7 @@
   background-position: center !important;
 }
 
+/* adding .sm2-playlist-bd and important to enforce color */
+.sm2-bar-ui .bd .sm2-playlist-bd a {
+  color: #930a00 !important;
+}

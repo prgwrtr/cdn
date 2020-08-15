@@ -10,9 +10,8 @@ var defMedia = {
 var titleTemplates = {
   'simple': '<p style="color:#222;font-size:20px;font-weight:bold;margin:20px 5%;text-align:center;padding:0 5%">{title}</p>',
 
-  'darkred': '<p style="text-align:center;margin:0px;padding:16px 10%;">'
-    + '<span style="display:block;padding:2px;border:1px solid #b21;border-radius:5px;">'
-    + '<span style="display:block;padding:3px 30px;border-radius:5px;background-color:#b21;color:#fff;font-size:16px;font-weight:bold;text-align:center;letter-spacing:0.1em;">{title}</span></span></p>',
+  'darkred': '<div style="padding:2px;border:1px solid #b21;border-radius:5px;margin:1em auto;width:760px;max-width:80%">'
+    + '<div style="padding:0.5em 1em;border-radius:5px;background-color:#b21;color:#fff;font-size:16px;font-weight:bold;text-align:center;letter-spacing:0.1em">{title}</div></div>',
 
   'pink': '<section style="padding:30px 0px"><p style="margin:0px 5% 20px 5%;padding:15px 2em;border-radius:3px;color:#fff;background-color:rgb(240,120,140);box-shadow:0.1em 0.1em 0.2em #caa;line-height:1.2;font-size:16px;font-weight:bold;text-shadow:1px 1px 5px rgba(80,0,0,0.3);text-align:center;">{title}</p></section>',
 

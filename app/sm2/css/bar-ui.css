@@ -196,6 +196,10 @@
  color: #930a00;
 }
 
+.sm2-bar-ui .bd .sm2-playlist-bd a {
+  color: #930a00 !important;
+}
+
 
 .sm2-bar-ui,
 .sm2-bar-ui .bd3 a {

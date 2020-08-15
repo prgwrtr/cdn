@@ -3,8 +3,9 @@ MBUEmbed = {
   // NOTE: the JavaScript relative path, e.g., "./sm2/", is relative
   // to the display page, not to this JS file
   // So, do not use relative path for the CDN
-  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.1/sm2/",
+  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.8/app/sm2/",
   //root: "https://app.bhffer.com/sm2/",
+  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.8/app/sm2/",
 
   getfn: function(url) {
     var i = url.lastIndexOf("/");
@@ -75,17 +76,39 @@ MBUEmbed = {
     } // otherwise, leave the current version as is
   },
 
-  embed: function(root, defBarUICSS) {
+  // patch XLYS mobile version
+  patchXLYSMobile: function() {
+    if ( null === MBUEmbed.findJS("template/comiis_app/comiis/js/common_u.js?kY8") ) {
+      return;
+    }
+    // cancel common_u.js, line 1329
+    $(document).ready(function() {
+      $(document).off('click', 'a');
+    });
+  },
+
+  // install necessary js and css
+  // root is the directory for the css and js (subject to my modification)
+  // safeRoot is the directory for factory css and js
+  // defBarUICSS is the pattern to search to see if there is a preinstalled bar-ui.css
+  embed: function(root, safeRoot, defBarUICSS) {
     if ( root === undefined ) root = MBUEmbed.root;
+    if ( safeRoot === undefined ) safeRoot = MBUEmbed.safeRoot;
     if ( defBarUICSS === undefined ) defBarUICSS = "Sound/bar-ui.css";
-    var min = "";
+    var min = "", safeMin = "";
     // use minimized css and js file for the cdn version
     if ( root.indexOf("cdn.") >= 0 ) min = ".min";
+    if ( safeRoot.indexOf("cdn.") >= 0 ) safeMin = ".min";
     MBUEmbed.installSwitchCSS(defBarUICSS,
       root + "css/bar-ui" + min + ".css",
       root + "css/bar-ui-patch" + min + ".css");
-    MBUEmbed.installScript(root + "js/soundmanager2" + min + ".js");
-    MBUEmbed.installScript(root + "js/bar-ui" + min + ".js");
+
+    // special patch for XLYS mobile version
+    MBUEmbed.patchXLYSMobile();
+    
+    // we will not change the following two factory js files, set them as safe
+    MBUEmbed.installScript(safeRoot + "js/soundmanager2" + safeMin + ".js");
+    MBUEmbed.installScript(safeRoot + "js/bar-ui" + safeMin + ".js");
   },
 };
 MBUEmbed.embed();
