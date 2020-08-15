@@ -34,11 +34,11 @@ var sm2BarUITemplates = {
     +   'if(document.styleSheets.length>0)document.styleSheets[0].insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);'
     +   's=document.createElement("SCRIPT");'
     // this CDN version is fastest, but may be out-dated
-    +   's.src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.3/app/sm2/js/mbuembed.js";'
+    //+   's.src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.3/app/sm2/js/mbuembed.js";'
     // this allows the user to load the latest mbuembed.js, but is slower
     //+   's.src="https://app.bhffer.com/sm2/js/mbuembed.js?v=0.02";'
     // this is for local testing
-    //+   's.src="./sm2/js/mbuembed.js";'
+    +   's.src="./sm2/js/mbuembed.js";'
     +   'document.body.append(s);'
     +   'this.parentNode.style.display="none";'
     +   '\'>'
