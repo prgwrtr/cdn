@@ -3,10 +3,8 @@ MBUEmbed = {
   // NOTE: the JavaScript relative path, e.g., "./sm2/", is relative
   // to the display page, not to this JS file
   // So, do not use relative path for the CDN
-  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.2/app/sm2/",
+  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.3/app/sm2/",
   //root: "https://app.bhffer.com/sm2/",
-  //safeRoot: "https://app.bhffer.com/sm2/",
-  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.2/app/sm2/",
 
   getfn: function(url) {
     var i = url.lastIndexOf("/");
@@ -30,15 +28,6 @@ MBUEmbed = {
     document.body.append(s);
   },
 
-  // install a script whose src=url
-  installScript: function(url) {
-    var s = MBUEmbed.findJS(url);
-    //console.log("looking for " + url + ", found " + (s?s.src:"null"));
-    if ( s === null ) {
-      MBUEmbed.installJS(url);
-    }
-  },
-
   findCSS: function(url) {
     var x = document.getElementsByTagName("LINK"), i, fn = MBUEmbed.getfn(url);
     for ( i = 0; i < x.length; i++ ) {
@@ -56,10 +45,10 @@ MBUEmbed = {
     document.getElementsByTagName("head")[0].append(s);
   },
 
-  installCSS2: function(url) {
-    var s = '<link rel="stylesheet" href="' + url + '">';
-    document.body.insertAdjacentHTML('beforeend', s);
-  },
+  //installCSS2: function(url) {
+  //  var s = '<link rel="stylesheet" href="' + url + '">';
+  //  document.body.insertAdjacentHTML('beforeend', s);
+  //},
 
   installSwitchCSS: function(search, url, urlPatch) {
     var s = MBUEmbed.findCSS(search);
@@ -67,7 +56,7 @@ MBUEmbed = {
     if ( s === null ) {
       // system doesn't have the CSS, install the external one
       //console.log("installing external CSS ", url);
-      MBUEmbed.installCSS2(url);
+      MBUEmbed.installCSS(url);
     } else if ( s.href.indexOf(search) >= 0 ) {
       // system already has the CSS, install the patch
       //console.log("replacing the CSS", s.href, "by", url);
@@ -77,51 +66,53 @@ MBUEmbed = {
     } // otherwise, leave the current version as is
   },
 
-  // patch XLYS mobile version
-  patchXLYSMobile: function() {
-    if ( null === MBUEmbed.findJS("template/comiis_app/comiis/js/common_u.js?kY8") ) {
-      return;
-    }
-    // cancel common_u.js, line 1329
-    $(document).ready(function() {
-      $(document).off('click', 'a');
-    });
-  },
-
   // install necessary js and css
   // root is the directory for the css and js (subject to my modification)
-  // safeRoot is the directory for factory css and js
   // defBarUICSS is the pattern to search to see if there is a preinstalled bar-ui.css
-  embed: function(root, safeRoot, defBarUICSS) {
+  embed: function(root, defBarUICSS) {
+    // special patch for XLYS mobile version to disable link redirection
+    if ( MBUEmbed.findJS("template/comiis_app/comiis/js/common_u.js") !== null ) {
+      // undo common_u.js, line 1329
+      $(document).ready(function() {
+        $(document).off('click', 'a');
+      });
+    }
+
     if ( root === undefined ) root = MBUEmbed.root;
-    if ( safeRoot === undefined ) safeRoot = MBUEmbed.safeRoot;
     if ( defBarUICSS === undefined ) defBarUICSS = "Sound/bar-ui.css";
-    var min = "", safeMin = "";
+    var min = "";
     // temporarily disable minimization to ensure the correctness
     // use minimized css and js file for the cdn version
     //if ( root.indexOf("cdn.") >= 0 ) min = ".min";
-    //if ( safeRoot.indexOf("cdn.") >= 0 ) safeMin = ".min";
     MBUEmbed.installSwitchCSS(defBarUICSS,
       root + "css/bar-ui" + min + ".css",
       root + "css/bar-ui-patch" + min + ".css");
 
-    // special patch for XLYS mobile version
-    MBUEmbed.patchXLYSMobile();
-    
     // we will not change the following two factory js files
     // they can be updated less frequently
     var SM2 = MBUEmbed.findJS("soundmanager2.js"),
         BarUI = MBUEmbed.findJS("bar-ui.js");
-    if ( SM2 === null && BarUI === null ) {
-      MBUEmbed.installJS(safeRoot + "js/sm2-bar-ui.js");
-    } else if ( SM2 === null ) {
-      MBUEmbed.installJS(safeRoot + "js/soundmanager2" + safeMin + ".js");
-    } else if ( BarUI === null ) {
-      // somehow minimized bar-ui.js breaks the pause/play toggle button
-      MBUEmbed.installScript(safeRoot + "js/bar-ui" + ".js");
+    if ( SM2 === null || BarUI === null ) {
+      // somehow minimized bar-ui.js breaks the pause/play
+      // toggle button, so we don't minimize it
+      MBUEmbed.installJS(root + "js/sm2-bar-ui.js");
+      // monitor when the script is ready, at the end of bar-ui.js window.SM2BarPlayer is defined
+      var x = document.getElementsByClassName("sm2-main-controls"), i, rid;
+      // initially hide the control bar(s)
+      for ( i = 0; i < x.length; i++ )
+        x[i].style.display = "none";
+      rid = setInterval(function() {
+        if ( window.SM2BarPlayer !== undefined ) {
+          clearInterval(rid);
+          //console.log("sm2-bar-ui.js is ready");
+          // show the control bar(s)
+          for ( i = 0; i < x.length; i++ )
+            x[i].style.display = "";
+        }
+      }, 1000); // check every 1s
     }
   },
 };
 MBUEmbed.embed();
 // for local testing
-//MBUEmbed.embed("./sm2/", "./sm2/");
+//MBUEmbed.embed("./sm2/");
