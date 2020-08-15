@@ -3,10 +3,10 @@ MBUEmbed = {
   // NOTE: the JavaScript relative path, e.g., "./sm2/", is relative
   // to the display page, not to this JS file
   // So, do not use relative path for the CDN
-  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.0/app/sm2/",
+  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.1/app/sm2/",
   //root: "https://app.bhffer.com/sm2/",
   //safeRoot: "https://app.bhffer.com/sm2/",
-  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.0/app/sm2/",
+  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.1/app/sm2/",
 
   getfn: function(url) {
     var i = url.lastIndexOf("/");
@@ -110,9 +110,16 @@ MBUEmbed = {
     
     // we will not change the following two factory js files
     // they can be updated less frequently
-    MBUEmbed.installScript(safeRoot + "js/soundmanager2" + safeMin + ".js");
-    // somehow minimized bar-ui.js breaks the pause/play toggle button
-    MBUEmbed.installScript(safeRoot + "js/bar-ui" + ".js");
+    var SM2 = MBUEmbed.findJS("soundmanager2.js"),
+        BarUI = MBUEmbed.findJS("bar-ui.js");
+    if ( SM2 === null && BarUI === null ) {
+      MBUEmbed.installJS(safeRoot + "js/sm2-bar-ui.js");
+    } else if ( SM2 === null ) {
+      MBUEmbed.installJS(safeRoot + "js/soundmanager2" + safeMin + ".js");
+    } else if ( BarUI === null ) {
+      // somehow minimized bar-ui.js breaks the pause/play toggle button
+      MBUEmbed.installScript(safeRoot + "js/bar-ui" + ".js");
+    }
   },
 };
 MBUEmbed.embed();
