@@ -3,9 +3,10 @@ MBUEmbed = {
   // NOTE: the JavaScript relative path, e.g., "./sm2/", is relative
   // to the display page, not to this JS file
   // So, do not use relative path for the CDN
-  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.8/app/sm2/",
+  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.9/app/sm2/",
   //root: "https://app.bhffer.com/sm2/",
-  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.8/app/sm2/",
+  //safeRoot: "https://app.bhffer.com/sm2/",
+  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.9/app/sm2/",
 
   getfn: function(url) {
     var i = url.lastIndexOf("/");
@@ -106,10 +107,13 @@ MBUEmbed = {
     // special patch for XLYS mobile version
     MBUEmbed.patchXLYSMobile();
     
-    // we will not change the following two factory js files, set them as safe
+    // we will not change the following two factory js files
+    // they can be updated less frequently
     MBUEmbed.installScript(safeRoot + "js/soundmanager2" + safeMin + ".js");
-    MBUEmbed.installScript(safeRoot + "js/bar-ui" + safeMin + ".js");
+    // somehow minimized bar-ui.js breaks the pause/play toggle button
+    MBUEmbed.installScript(safeRoot + "js/bar-ui" + ".js");
   },
 };
 MBUEmbed.embed();
-//MBUEmbed.embed("./sm2/");
+// for local testing
+//MBUEmbed.embed("./sm2/", "./sm2/");
