@@ -3,10 +3,10 @@ MBUEmbed = {
   // NOTE: the JavaScript relative path, e.g., "./sm2/", is relative
   // to the display page, not to this JS file
   // So, do not use relative path for the CDN
-  root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.2/app/sm2/",
-  //root: "https://app.bhffer.com/sm2/",
-  //safeRoot: "https://app.bhffer.com/sm2/",
-  safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.2/app/sm2/",
+  //root: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.9/app/sm2/",
+  root: "https://app.bhffer.com/sm2/",
+  safeRoot: "https://app.bhffer.com/sm2/",
+  //safeRoot: "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.0.9/app/sm2/",
 
   getfn: function(url) {
     var i = url.lastIndexOf("/");
@@ -96,30 +96,18 @@ MBUEmbed = {
     if ( root === undefined ) root = MBUEmbed.root;
     if ( safeRoot === undefined ) safeRoot = MBUEmbed.safeRoot;
     if ( defBarUICSS === undefined ) defBarUICSS = "Sound/bar-ui.css";
-    var min = "", safeMin = "";
-    // temporarily disable minimization to ensure the correctness
-    // use minimized css and js file for the cdn version
-    //if ( root.indexOf("cdn.") >= 0 ) min = ".min";
-    //if ( safeRoot.indexOf("cdn.") >= 0 ) safeMin = ".min";
     MBUEmbed.installSwitchCSS(defBarUICSS,
-      root + "css/bar-ui" + min + ".css",
-      root + "css/bar-ui-patch" + min + ".css");
+      root + "css/bar-ui.css",
+      root + "css/bar-ui-patch.css");
 
     // special patch for XLYS mobile version
     MBUEmbed.patchXLYSMobile();
     
     // we will not change the following two factory js files
     // they can be updated less frequently
-    var SM2 = MBUEmbed.findJS("soundmanager2.js"),
-        BarUI = MBUEmbed.findJS("bar-ui.js");
-    if ( SM2 === null && BarUI === null ) {
-      MBUEmbed.installJS(safeRoot + "js/sm2-bar-ui.js");
-    } else if ( SM2 === null ) {
-      MBUEmbed.installJS(safeRoot + "js/soundmanager2" + safeMin + ".js");
-    } else if ( BarUI === null ) {
-      // somehow minimized bar-ui.js breaks the pause/play toggle button
-      MBUEmbed.installScript(safeRoot + "js/bar-ui" + ".js");
-    }
+    MBUEmbed.installScript(safeRoot + "js/soundmanager2.js");
+    // somehow minimized bar-ui.js breaks the pause/play toggle button
+    MBUEmbed.installScript(safeRoot + "js/bar-ui.js");
   },
 };
 MBUEmbed.embed();

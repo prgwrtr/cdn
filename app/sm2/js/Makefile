@@ -1,0 +1,2 @@
+merger::
+	python merger.py
