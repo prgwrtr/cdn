@@ -63,17 +63,27 @@ button:active {
   transform: translate(1px, 1px);
 }
 
-#out-url-wrapper {
+.url-wrapper {
   margin: 0.5em 1em;
-  padding: 0.4em 1em 0.6em 1em;
-  background-color: #f9fffa;
+  padding: 0.8em 1em 0.8em 1em;
   border-radius: 4px;
+  word-wrap: break-word;
+  overflow: auto;
+  line-height: 1.5;
+  font-size: 14px;
+  color: #37c;
+  background-color: #fbfdff;
+  border: 1px solid #f5faff;
+}
+
+#out-url-wrapper {
+  background-color: #f9fffa;
   border: 1px solid rgba(180,220,180,0.7);
 }
 
 #out-url {
   font-family: Arial, sans-serif;
-  font-size: 70%;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   color: rgba(0,80,30,0.9);

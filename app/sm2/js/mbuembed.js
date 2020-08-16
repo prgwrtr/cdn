@@ -1,7 +1,7 @@
 (function(root){
   // root path for sm2 css and js
   if ( root === undefined ) {
-    root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.3/app/sm2/";
+    root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/sm2/";
     //root = "https://app.bhffer.com/sm2/";
   }
 
@@ -105,6 +105,6 @@
     }
   };
   embed();
-}());
+//}());
 // for local testing
-//}("./sm2/"));
+}("./sm2/"));

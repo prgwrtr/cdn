@@ -14,8 +14,8 @@ def my_trim(s):
         s[i] = ln
     return s
 
-s1 = io.open("soundmanager2.js", encoding="UTF-8").readlines()
+s1 = io.open("soundmanager2-nodebug-jsmin.js", encoding="UTF-8").readlines()
 s2 = io.open("bar-ui.js", encoding="UTF-8").readlines()
+s2 = my_trim(s2)
 s = s1 + s2
-s = my_trim(s)
 io.open("sm2-bar-ui.js", "w", encoding="UTF-8").writelines(s)

@@ -12,7 +12,7 @@ sync::
 	rsync -avz ../../bhffer/public_html/app/sm2/Sound ./sm2/
 	$(MAKE) merger -C sm2/js
 	$(MAKE) clean
-	git add js/* css/* img/* fonts/*
+	git add js/* css/* img/* fonts/* sm2
 
 clean::
 	find . -name "*~" | xargs rm -f

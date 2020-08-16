@@ -23,8 +23,8 @@ function genLink()
   var q = s.indexOf("?"); // look for "?"
   if ( q >= 0 ) outurl = s.slice(0, q);
 
-  // get the input url
-  var url = document.getElementById("url").value;
+  // remove "http://" and "https://" from the input url
+  var url = document.getElementById("inp-url").value;
   url = url.split("\n")[0].trim(); // get the first line
   var ret = URLHead.cut(url);
   if ( ret.err || ret.url === "" ) {
@@ -49,15 +49,17 @@ function genLink()
   }
 
   var enc = document.getElementById("enc").value;
-  if ( enc !== "0" ) {
+  if ( enc !== "0" ) { // "0" is the encoding
     args.push("enc=" + enc);
-    if ( enc === "1" ) {
-      url = flipenc(url);
-    } else if ( enc === "2" ) {
-      url = URIB64.encode(url, "~");
-    }
   }
-  url = encodeURIComponent(url);
+  if ( enc === "1" ) {
+    url = flipenc(url);
+  } else if ( enc === "2" ) {
+    url = URIB64.encode(url, "~");
+  }
+  if ( enc !== "none" ) {
+    url = encodeURIComponent(url);
+  }
   args.push("url=" + url);
 
   // form the final link
@@ -94,15 +96,17 @@ function copyLink(cpbtn) {
 function handleInputURL(url, mode, enc)
 {
   // decode the url
-  url = decodeURIComponent(url);
-  if ( enc === "1" ) {
-    url = flipenc(url);
-  } else if ( enc === "2" ) {
-    url = URIB64.decode(url);
+  if ( enc !== "none" ) {
+    url = decodeURIComponent(url);
+    if ( enc === "1" ) {
+      url = flipenc(url);
+    } else if ( enc === "2" ) {
+      url = URIB64.decode(url);
+    }
   }
   // prepend "http://" or "https://" if necessary
   url = URLHead.addBack(url);
-  document.getElementById("url").value = url;
+  document.getElementById("url").innerHTML = url;
 
   // check if the browser is Wechat
   var isWechat = !!navigator.userAgent.match(/MicroMessenger/i), action;
@@ -117,6 +121,8 @@ function handleInputURL(url, mode, enc)
     else action = "go";
   } else if ( mode === "3" ) {
     action = "embed";
+  } else if ( mode === "go" ) {
+    action = "go";
   }
 
   if ( action === "go" ) {
@@ -152,12 +158,16 @@ function handleInputURL(url, mode, enc)
     args = args.split("&");
     for ( i = 0; i < args.length; i++ ) {
       kv = args[i].split("=");
-      if ( kv[0] === "mode" && kv.length >= 2 ) {
-        mode = kv[1];
+      if ( kv[0] === "mode" ) {
+        if ( kv[1] !== undefined && kv[1] !== "" ) {
+          mode = kv[1];
+        } else {
+          mode = "0";
+        }
         document.getElementById("mode").value = mode;
       }
       if ( kv[0] === "enc" ) {
-        if ( kv.length >= 2 && kv[1] !== "" ) {
+        if ( kv[1] !== undefined && kv[1] !== "" ) {
           enc = kv[1];
         } else {
           enc = "1";

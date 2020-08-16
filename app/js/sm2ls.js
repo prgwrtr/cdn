@@ -30,17 +30,18 @@ var sm2BarUITemplates = {
     + '<div><img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" '
     +   'alt="正在加载代码..." onload=\''
     // the following rule is important to avoid the indentation problem of the lianhua icon
-    // if the default bar-ui.css is present, it takes time for mbuembed.min.js to kick in.
-    +   'if(document.styleSheets.length>0)document.styleSheets[0].insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);'
+    // if the default bar-ui.css is present, it takes time for mbuembed.js to kick in.
+    +   'if((s=document.styleSheets[0]))s.insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);'
     +   's=document.createElement("SCRIPT");'
     // this CDN version is fastest, but may be out-dated
-    //+   's.src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.3/app/sm2/js/mbuembed.js";'
+    //+   's.src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.3/app/sm2/js/mbuembed.min.js";'
     // this allows the user to load the latest mbuembed.js, but is slower
     //+   's.src="https://app.bhffer.com/sm2/js/mbuembed.js?v=0.02";'
     // this is for local testing
     +   's.src="./sm2/js/mbuembed.js";'
     +   'document.body.append(s);'
-    +   'this.parentNode.style.display="none";'
+    +   'this.parentNode.innerHTML="";'
+    //+   'this.parentNode.style.display="none";'
     +   '\'>'
     + '</div>\n',
 
