@@ -1,7 +1,11 @@
 (function(root){
   // root path for sm2 css and js
   if ( root === undefined ) {
-    root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/sm2/";
+    // Note the version don't need to be changed aggressively
+    // unless bar-ui(-patch).css, sm2-bar-ui.js are modified
+    // so we simply use the latest version
+    //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.5/app/sm2/";
+    root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
     //root = "https://app.bhffer.com/sm2/";
   }
 
@@ -74,15 +78,14 @@
       root + "css/bar-ui.css",
       root + "css/bar-ui-patch.css");
 
-    // we will not change the following two factory js files
-    // they can be updated less frequently
     var SM2 = findJS("soundmanager2.js"),
         BarUI = findJS("bar-ui.js");
     if ( SM2 === null || BarUI === null ) {
+      // load the combined JS file (already minified)
       installJS(root + "js/sm2-bar-ui.js");
       // monitor when the script is ready, at the end of bar-ui.js window.SM2BarPlayer is defined
-      var x = document.getElementsByClassName("sm2-main-controls"), i, rid;
-      // initially hide the control bar(s)
+      var x = document.getElementsByClassName("sm2-bar-ui"), i, rid;
+      // initially hide bar-ui, until the script is fully loaded
       for ( i = 0; i < x.length; i++ )
         x[i].style.visibility = "hidden";
       rid = setInterval(function() {

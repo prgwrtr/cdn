@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.4";
+var latestCDNVersion = "0.1.5";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -177,9 +177,6 @@ function getInstallationScriptSelection()
 {
   var s = "", fn = "sm2/js/mbuembed.js", path,
     ver = document.getElementById("inp-plugin-version").value, v;
-  var updateTemplate = ''
-    + 't=Math.floor(new Date()/36e5);' // get the time of hour;
-    + 's.src="{path}?t="+t;';
 
   v = ver.split("-");
   if ( v[0] === "local" ) {
@@ -193,7 +190,7 @@ function getInstallationScriptSelection()
     if ( (/^[0-9.]+$/.exec(v[1]) !== null) || v[1] === "latest" ) { // e.g., ver: "cdn-0.1.3" or "cdn-latest"
       path += "@" + v[1] + "/app/" + fn.replace("\.js", ".min.js");
       if ( v[2] === "force" ) {
-        s = subKeys(updateTemplate, {"path":path});
+        s = 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
       } else {
         s = 's.src="' + path + '";';
       }
@@ -203,7 +200,7 @@ function getInstallationScriptSelection()
   } else if ( v[0] === "web" ) {
     path = "https://app.bhffer.com/" + fn;
     if ( v[2] === "force" ) {
-      s = subKeys(updateTemplate, {"path":path});
+      s = 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
     } else {
       s = 's.src="' + path + '";';
     }

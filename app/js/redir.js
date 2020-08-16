@@ -138,6 +138,19 @@ function handleInputURL(url, mode, enc, title, mobile)
     action = "go";
   }
 
+  if ( action === "embed" ) {
+    // change viewport
+    if ( mobile === "0" ) {
+      // remove the viewport setting for desktop pages
+      x = document.getElementsByTagName("META");
+      for ( i = 0; i < x.length; i++ ) {
+        if ( x[i].name === "viewport" ) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+  }
+
   if ( action === "go" ) {
     location.href = url;
   } else if ( action === "prompt-redir" ) {
@@ -158,18 +171,6 @@ function handleInputURL(url, mode, enc, title, mobile)
     }
   }
 
-  if ( action === "embed" ) {
-    // change viewport
-    if ( mobile === "0" ) {
-      // remove the viewport setting for desktop pages
-      x = document.getElementsByTagName("META");
-      for ( i = 0; i < x.length; i++ ) {
-        if ( x[i].name === "viewport" ) {
-          x[i].parentNode.removeChild(x[i]);
-        }
-      }
-    }
-  }
 }
 
 (function(){
