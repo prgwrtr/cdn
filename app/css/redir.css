@@ -21,6 +21,13 @@ body {
   letter-spacing: 0.1em;
 }
 
+h1 {
+  font-size: 22px;
+  color: #fff;
+  padding: 1em;
+  background-color: #59d;
+}
+
 textarea {
   display: block;
   font-size: 95%;

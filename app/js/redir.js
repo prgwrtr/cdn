@@ -48,10 +48,23 @@ function genLink()
     outurl = outurl.replace(/^https:\/\//g, "http://");
   }
 
+  var mobile = document.getElementById("mobile").value;
+  if ( mobile !== "1" ) {
+    args.push("mobile=" + mobile);
+  }
+
   var enc = document.getElementById("enc").value;
   if ( enc !== "0" ) { // "0" is the encoding
     args.push("enc=" + enc);
   }
+
+  var title = document.getElementById("inp-title").value;
+  if ( title.trim() !== "" ) {
+    // for Chinese titles, URIB64 can hide the content while being coding efficient
+    title = URIB64.encode(title, "~");
+    args.push("title=" + title);
+  }
+
   if ( enc === "1" ) {
     url = flipenc(url);
   } else if ( enc === "2" ) {
@@ -93,7 +106,7 @@ function copyLink(cpbtn) {
   animateShow("out-url", [1.0, 1000, 1.0, 700, 0.4, 500, 0.4, 800, 1.0]);
 }
 
-function handleInputURL(url, mode, enc)
+function handleInputURL(url, mode, enc, title, mobile)
 {
   // decode the url
   if ( enc !== "none" ) {
@@ -131,16 +144,37 @@ function handleInputURL(url, mode, enc)
     document.getElementById("redir-panel").style.display = "";
   } else if ( action === "embed" ) {
     document.getElementById("container").style.display = "none";
-    document.getElementsByTagName("TITLE")[0].innerHTML = ".";
     var ifr = document.getElementById("embed-page");
     ifr.src = url;
     ifr.style.display = "";
+  }
+
+  var x, i;
+  if ( action !== "go" ) {
+    // reset the page title
+    x = document.getElementsByTagName("TITLE")[0];
+    if ( x ) {
+      x.innerHTML = ( title !== "" ?  title : "." );
+    }
+  }
+
+  if ( action === "embed" ) {
+    // change viewport
+    if ( mobile === "0" ) {
+      // remove the viewport setting for desktop pages
+      x = document.getElementsByTagName("META");
+      for ( i = 0; i < x.length; i++ ) {
+        if ( x[i].name === "viewport" ) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
   }
 }
 
 (function(){
   // main function
-  var s, p, q, args, url = undefined, mode = "0", enc = "0", i, kv;
+  var s, p, q, args, url = undefined, mode = "0", enc = "0", title = "", mobile = "1", i, kv;
   s = location.href; // address bar
   q = s.indexOf("?"); // look for "?"
   if ( q >= 0 ) {
@@ -158,6 +192,7 @@ function handleInputURL(url, mode, enc)
     args = args.split("&");
     for ( i = 0; i < args.length; i++ ) {
       kv = args[i].split("=");
+
       if ( kv[0] === "mode" ) {
         if ( kv[1] !== undefined && kv[1] !== "" ) {
           mode = kv[1];
@@ -165,14 +200,29 @@ function handleInputURL(url, mode, enc)
           mode = "0";
         }
         document.getElementById("mode").value = mode;
-      }
-      if ( kv[0] === "enc" ) {
+
+      } else if ( kv[0] === "enc" ) {
         if ( kv[1] !== undefined && kv[1] !== "" ) {
           enc = kv[1];
         } else {
-          enc = "1";
+          enc = "1"; // this is the default when parameter "enc" exists
         }
         document.getElementById("enc").value = enc;
+
+      } if ( kv[0] === "title" ) {
+        if ( kv[1] !== undefined && kv[1] !== "" ) {
+          title = URIB64.decode(kv[1]);
+        } else {
+          title = "";
+        }
+        document.getElementById("title").innerHTML = title;
+
+      } if ( kv[0] === "mobile" ) {
+        if ( kv[1] !== undefined && kv[1] !== "" ) {
+          mobile = kv[1];
+        } else {
+          mobile = "1";
+        }
       }
     }
   }
@@ -181,6 +231,6 @@ function handleInputURL(url, mode, enc)
     // no url in address bar, show the generation panel
     document.getElementById("gen-panel").style.display = "";
   } else { // open the link
-    handleInputURL(url, mode, enc);
+    handleInputURL(url, mode, enc, title, mobile);
   }
 })();

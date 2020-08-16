@@ -1,5 +1,7 @@
 "use strict";
 
+var latestCDNVersion = "0.1.4";
+
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
  + '{player-code}'
@@ -38,7 +40,7 @@ var sm2BarUITemplates = {
     // this allows the user to load the latest mbuembed.js, but is slower
     //+   's.src="https://app.bhffer.com/sm2/js/mbuembed.js?v=0.02";'
     // this is for local testing
-    +   's.src="./sm2/js/mbuembed.js";'
+    +   '{installation-script-selection}'
     +   'document.body.append(s);'
     +   'this.parentNode.innerHTML="";'
     //+   'this.parentNode.style.display="none";'
@@ -171,6 +173,46 @@ function renderTitle(info)
 }
 
 
+function getInstallationScriptSelection()
+{
+  var s = "", fn = "sm2/js/mbuembed.js", path,
+    ver = document.getElementById("inp-plugin-version").value, v;
+  var updateTemplate = ''
+    + 't=Math.floor(new Date()/36e5);' // get the time of hour;
+    + 's.src="{path}?t="+t;';
+
+  v = ver.split("-");
+  if ( v[0] === "local" ) {
+    path = "./" + fn;
+    s = 's.src="' + path + '";';
+  } else if ( v[0] === "cdn" ) {
+    path = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn";
+    if ( v[1] === "this" ) { // ver: "cdn-latest" => "cdn-0.1.4"
+      v[1] = latestCDNVersion;
+    }
+    if ( (/^[0-9.]+$/.exec(v[1]) !== null) || v[1] === "latest" ) { // e.g., ver: "cdn-0.1.3" or "cdn-latest"
+      path += "@" + v[1] + "/app/" + fn.replace("\.js", ".min.js");
+      if ( v[2] === "force" ) {
+        s = subKeys(updateTemplate, {"path":path});
+      } else {
+        s = 's.src="' + path + '";';
+      }
+    } else {
+      alert("unknown CDN version " + ver + " " +  v[1]);
+    }
+  } else if ( v[0] === "web" ) {
+    path = "https://app.bhffer.com/" + fn;
+    if ( v[2] === "force" ) {
+      s = subKeys(updateTemplate, {"path":path});
+    } else {
+      s = 's.src="' + path + '";';
+    }
+  } else {
+    alert("unknown plugin version " + ver);
+  }
+  return s;
+}
+
 function writeSM2PlayerCode(info)
 {
   var sprev = sm2BarUITemplates["prev-button"];
@@ -236,10 +278,13 @@ function writeSM2PlayerCode(info)
   info["list"] = list;
 
   var sPlayer = sm2BarUITemplates["player"];
-  var s = "";
+  var s = "", sinstall = "";
   s += subKeys(sPlayer, info);
   if ( autoInstall ) {
-    s += sm2BarUITemplates["installation-code"];
+    sinstall = sm2BarUITemplates["installation-code"];
+    info["installation-script-selection"] = getInstallationScriptSelection();
+    sinstall = subKeys(sinstall, info);
+    s += sinstall;
   }
   return s;
 }
@@ -330,6 +375,7 @@ window.onload = function() {
   var obj = document.getElementById("preview-iframe");
   obj.onload = resizeIframe;
 
+  document.getElementById("inp-plugin-version-this").innerHTML += "v" + latestCDNVersion;
   //document.getElementById("header-code").value = sm2BarUITemplates["header"];
 };
 

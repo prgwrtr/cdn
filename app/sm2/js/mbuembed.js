@@ -61,50 +61,42 @@
   },
 
   // install necessary js and css
-  // root is the directory for the css and js (subject to my modification)
-  // barUICSS is the pattern to search to see if there is a preinstalled bar-ui.css
   embed = function() {
     // special patch for XLYS mobile version to disable link redirection
-    if ( findJS("template/comiis_app/comiis/js/common_u.js") !== null ) {
+    if ( findJS("comiis_app/comiis/js/common_u.js") !== null ) {
       // undo common_u.js, line 1329
       $(document).ready(function() {
         $(document).off('click', 'a');
       });
     }
 
-    var min = "";
-    // temporarily disable minimization to ensure the correctness
-    // use minimized css and js file for the cdn version
-    //if ( root.indexOf("cdn.") >= 0 ) min = ".min";
     installSwitchCSS("Sound/bar-ui.css",
-      root + "css/bar-ui" + min + ".css",
-      root + "css/bar-ui-patch" + min + ".css");
+      root + "css/bar-ui.css",
+      root + "css/bar-ui-patch.css");
 
     // we will not change the following two factory js files
     // they can be updated less frequently
     var SM2 = findJS("soundmanager2.js"),
         BarUI = findJS("bar-ui.js");
     if ( SM2 === null || BarUI === null ) {
-      // somehow minimized bar-ui.js breaks the pause/play
-      // toggle button, so we don't minimize it
       installJS(root + "js/sm2-bar-ui.js");
       // monitor when the script is ready, at the end of bar-ui.js window.SM2BarPlayer is defined
       var x = document.getElementsByClassName("sm2-main-controls"), i, rid;
       // initially hide the control bar(s)
       for ( i = 0; i < x.length; i++ )
-        x[i].style.display = "none";
+        x[i].style.visibility = "hidden";
       rid = setInterval(function() {
         if ( window.SM2BarPlayer !== undefined ) {
           clearInterval(rid);
           //console.log("sm2-bar-ui.js is ready");
           // show the control bar(s)
           for ( i = 0; i < x.length; i++ )
-            x[i].style.display = "";
+            x[i].style.visibility = "visible";
         }
       }, 1000); // check every 1s
     }
   };
   embed();
-//}());
+}());
 // for local testing
-}("./sm2/"));
+//}("./sm2/"));
