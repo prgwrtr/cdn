@@ -4,7 +4,7 @@
     // Note the version don't need to be changed aggressively
     // unless bar-ui(-patch).css, sm2-bar-ui.js are modified
     // so we simply use the latest version
-    //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.5/app/sm2/";
+    //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.6/app/sm2/";
     root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
     //root = "https://app.bhffer.com/sm2/";
   }
@@ -99,7 +99,31 @@
       }, 1000); // check every 1s
     }
   };
-  embed();
+
+  // call embed() when the DOM tree is ready, i.e., when $(document).ready(...);
+  // https://stackoverflow.com/a/1795167/13612859
+  // https://www.sitepoint.com/jquery-document-ready-plain-javascript/
+  // https://github.com/ded/domready/blob/v0.3.0/ready.js
+  if ( document.readyState === "complete" ||
+      (document.readyState !== "loading" && !document.documentElement.doScroll) ) {
+    // DOMContentLoaded is already fired
+    embed();
+  } else if ( document.addEventListener ) {
+    document.addEventListener( "DOMContentLoaded", function(){
+      // about arguments.callee:
+      // https://developer.mozilla.org/en-US/docs/web/javascript/reference/functions/arguments/callee
+      document.removeEventListener( "DOMContentLoaded", arguments.callee, false);
+      embed();
+    }, false );
+  } else if ( document.attachEvent ) {
+    // ensure firing before onload
+    document.attachEvent("onreadystatechange", function(){
+      if ( document.readyState === "complete" ) {
+        document.detachEvent( "onreadystatechange", arguments.callee );
+        embed();
+      }
+    });
+  }
 }());
 // for local testing
 //}("./sm2/"));

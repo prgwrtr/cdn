@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.5";
+var latestCDNVersion = "0.1.6";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
