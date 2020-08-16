@@ -4,6 +4,8 @@
     // Note the version don't need to be changed aggressively
     // unless bar-ui(-patch).css, sm2-bar-ui.js are modified
     // so we simply use the latest version
+    // but then don't use minified css or js,
+    // otherwise, the jsdelivr caching will mess the version up
     //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.6/app/sm2/";
     root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
     //root = "https://app.bhffer.com/sm2/";
@@ -66,14 +68,6 @@
 
   // install necessary js and css
   embed = function() {
-    // special patch for XLYS mobile version to disable link redirection
-    if ( findJS("comiis_app/comiis/js/common_u.js") !== null ) {
-      // undo common_u.js, line 1329
-      $(document).ready(function() {
-        $(document).off('click', 'a');
-      });
-    }
-
     installSwitchCSS("Sound/bar-ui.css",
       root + "css/bar-ui.css",
       root + "css/bar-ui-patch.css");
@@ -100,29 +94,44 @@
     }
   };
 
-  // call embed() when the DOM tree is ready, i.e., when $(document).ready(...);
-  // https://stackoverflow.com/a/1795167/13612859
-  // https://www.sitepoint.com/jquery-document-ready-plain-javascript/
-  // https://github.com/ded/domready/blob/v0.3.0/ready.js
-  if ( document.readyState === "complete" ||
-      (document.readyState !== "loading" && !document.documentElement.doScroll) ) {
-    // DOMContentLoaded is already fired
-    embed();
-  } else if ( document.addEventListener ) {
-    document.addEventListener( "DOMContentLoaded", function(){
-      // about arguments.callee:
-      // https://developer.mozilla.org/en-US/docs/web/javascript/reference/functions/arguments/callee
-      document.removeEventListener( "DOMContentLoaded", arguments.callee, false);
-      embed();
-    }, false );
-  } else if ( document.attachEvent ) {
-    // ensure firing before onload
-    document.attachEvent("onreadystatechange", function(){
-      if ( document.readyState === "complete" ) {
-        document.detachEvent( "onreadystatechange", arguments.callee );
-        embed();
-      }
+  // special patch for XLYS mobile version to disable link redirection
+  // since common_u.js is in the header, we can and should do this as soon as possible
+  if ( findJS("comiis_app/comiis/js/common_u.js") !== null ) {
+    // undo common_u.js, line 1329
+    $(document).ready(function() {
+      $(document).off('click', 'a');
     });
+    // in this case, the plugin is not installed, we can also embed() now
+    embed();
+  } else {
+    // in other cases, we embed() only after the DOM is ready,
+    // i.e., when $(document).ready(...);
+    // because the soundmanager2.js bar-ui.js is positioned after the post html
+
+    // detect when the DOM tree is ready, see
+    // https://stackoverflow.com/a/1795167/13612859
+    // https://www.sitepoint.com/jquery-document-ready-plain-javascript/
+    // https://github.com/ded/domready/blob/v0.3.0/ready.js
+    if ( document.readyState === "complete" ||
+        (document.readyState !== "loading" && !document.documentElement.doScroll) ) {
+      // DOMContentLoaded is already fired
+      embed();
+    } else if ( document.addEventListener ) {
+      document.addEventListener( "DOMContentLoaded", function(){
+        // about arguments.callee:
+        // https://developer.mozilla.org/en-US/docs/web/javascript/reference/functions/arguments/callee
+        document.removeEventListener( "DOMContentLoaded", arguments.callee, false);
+        embed();
+      }, false );
+    } else if ( document.attachEvent ) {
+      // ensure firing before onload
+      document.attachEvent("onreadystatechange", function(){
+        if ( document.readyState === "complete" ) {
+          document.detachEvent( "onreadystatechange", arguments.callee );
+          embed();
+        }
+      });
+    }
   }
 }());
 // for local testing
