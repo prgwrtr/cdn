@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>网页制作小工具</title>
+<style>
+body {
+  margin: auto;
+  max-width: 800px;
+  color: #444;
+  font-size: 20px;
+  font-family: Verdana, Helvetica, "Microsoft YaHei", "微软雅黑", "Droid Sans", "YouYuan", sans-serif;
+  line-height: 200%;
+  letter-spacing: 0.07em;
+  background-color: #def;
+}
+
+#container {
+  background-color: #fff;
+  padding: 0px 0px 50px 0px;
+}
+
+.com-heading1 {
+  font-size: 22px;
+  line-height: 200%;
+  color:#fff;
+  background-color: #79c;
+  text-shadow: 1px 1px 5px rgba(0,0,50,0.7);
+  padding: 50px 50px;
+  margin: 0px;
+}
+
+.com-heading1-sub {
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 180%;
+  color: #357;
+  background-color: #eef7ff;
+  padding: 40px 30px 60px 30px;
+  margin: 0px;
+}
+
+.com-content {
+  padding: 30px 30px 30px 30px;
+}
+
+ul {
+  padding-left: 70px;
+}
+
+li {
+  line-height: 2.5;
+}
+
+.dev {
+  font-size: 80%;
+}
+
+a {
+  color: #468;
+  text-decoration: none;
+}
+
+a:hover {
+  font-weight: bold;
+}
+
+input {
+  font-size: 100%;
+  line-height: 1.5;
+  padding: 0.1em 0.5em 0.2em 0.5em;
+  border-radius: 4px;
+  color: #555;
+}
+
+button {
+  font-size: 90%;
+  line-height: 1.5;
+  padding: 0.1em 0.5em 0.2em 0.5em;
+}
+
+#toolbar {
+  padding: 20px;
+}
+
+#toggle-dev {
+  float: right;
+  font-size: 14px;
+  color: #888;
+}
+</style>
+</head>
+<body>
+<div id="container">
+  <h1 class="com-heading1">网页制作小工具</h1>
+  <ul>
+    <li><a href="./ed.html">网页编辑器</a></li>
+    <li class="dev"><a href="./wgen.html">视频网页生成器</a></li>
+    <li><a href="./addsp.html">文本空格添加器</a></li>
+    <li class="dev"><a href="./showsp.html">显示隐藏空格</a></li>
+    <li><a href="./mkmedia.html">媒体链接生成器</a></li>
+    <li class="dev"><a href="./sm2ls.html">SM2 音频列表生成器</a></li>
+    <li><a href="./redir.html">链接转向/网页内嵌生成器</a></li>
+    <li class="dev">网页内嵌
+      <input id="frame-url" size=16 placeholder="http://your.web.site">
+      <button onclick="makeFrame()">去</button>
+    </li>
+  </ul>
+  <div id="toolbar">
+    <a id="toggle-dev" onclick='btnToggle(".dev",this)'>隐藏开发中的工具</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/com1.js"></script>
+<script>
+document.getElementById("toggle-dev").click();
+function makeFrame() {
+  s = document.getElementById("frame-url").value.replace(/^\s+|\s+$/g, "");
+  // some browsers don't like "http(s)://" as an argument
+  if ( s.slice(0, 8) === "https://" ) {
+    s = "~" + s.slice(8);
+  } else if ( s.slice(0, 7) === "http://" ) {
+    s = s.slice(7);
+  }
+  if ( s === "" ) return;
+  h = location.href;
+  // to avoid the mixed content error, the hosting page must be http
+  // if the target url (`s`) is so; but we don't know if the target
+  // url is an https disguised as an http, so always use http for the page
+  h = h.replace("https://", "http://");
+  p = h.indexOf("index.html");
+  if ( p >= 0 ) {
+    h = h.slice(0, p);
+  }
+  window.open( h + "frame.html?url=" + s, "_blank" );
+}
+</script>
+
+</body>
+</html>

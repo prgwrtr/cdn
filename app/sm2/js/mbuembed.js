@@ -6,7 +6,7 @@
     // so we simply use the latest version
     // but then don't use minified css or js,
     // otherwise, the jsdelivr caching will mess the version up
-    //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.6/app/sm2/";
+    //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.8/app/sm2/";
     root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
     //root = "https://app.bhffer.com/sm2/";
   }

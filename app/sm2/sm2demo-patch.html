@@ -1,0 +1,143 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SM2音频列表补丁版</title>
+  <link rel="stylesheet" href="./Sound/bar-ui.css"/>
+  <script type="text/javascript" src="./Sound/js/soundmanager2.js"></script>
+  <script type="text/javascript" src="./Sound/js/bar-ui.js"></script>
+  <!-- comment out the next line to enable dynamic patching -->
+<!--
+  <link rel="stylesheet" href="./sm2/css/bar-ui-patch.css"/>
+-->
+<style>
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+}
+a {
+  color: #0af;
+  font-weight: bold;
+  text-decoration: none;
+}
+a:hover {
+  color: #08c;
+}
+.code, code {
+  font-family: monospace;
+  font-weight: normal;
+  letter-spacing: 0px;
+}
+h3 {
+  color: #05a;
+}
+ul.change li {
+  line-height: 2;
+}
+s {
+  color: #900;
+}
+</style>
+</head>
+<body>
+<h2>SM2音频列表补丁版测试</h2>
+
+<p style="margin:0px 0px 20px 0px;display:flex">
+<label for="inp-font-size">字体大小：
+<input id="inp-font-size" type="range" size="6"
+  value="16" min="12" max="36"
+  style="transform:translateY(0.4em)"
+  onchange='updateFontSize()'>
+<span id="font-size-display"></span>
+</label>
+</p>
+
+<script>
+function updateFontSize() {
+  var fs = document.getElementById("inp-font-size").value;
+  document.getElementById("font-size-display").innerHTML = fs + "px";
+  var x = document.getElementsByClassName("sm2-bar-ui"), i;
+  for ( i = 0; i < x.length; i++ ) {
+    x[i].style.fontSize = fs + "px";
+  }
+}
+updateFontSize();
+</script>
+<div class="sm2-bar-ui playlist-open no-volume full-width flat" style="font-size: 16px;">
+  <div class="bd sm2-main-controls" style="background-color: rgba(218, 52, 52, 0.92);">
+    <div class="sm2-inline-texture" style="background: transparent;"></div>
+    <div class="sm2-inline-gradient"></div>
+    <div class="sm2-inline-element sm2-button-element">
+      <div class="sm2-button-bd">
+        <a href="#play" class="sm2-inline-button sm2-icon-play-pause">Play / pause</a>
+      </div>
+    </div>
+    <div class="sm2-inline-element sm2-inline-status">
+      <div class="sm2-playlist">
+        <div class="sm2-playlist-target">
+          <ul class="sm2-playlist-bd">
+            <li><b>慈悲喜舍</b> <span class="label"></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sm2-progress">
+        <div class="sm2-row">
+          <div class="sm2-inline-time">0:00</div>
+          <div class="sm2-progress-bd">
+            <div class="sm2-progress-track">
+              <div class="sm2-progress-bar" style="width: 0px;"></div>
+              <div class="sm2-progress-ball" style="left: 0px;"><div class="icon-overlay"></div></div>
+            </div>
+          </div>
+          <div class="sm2-inline-duration">0:00</div>
+        </div>
+      </div>
+    </div>
+    <div class="sm2-inline-element sm2-button-element sm2-volume">
+      <div class="sm2-button-bd">
+        <span class="sm2-inline-button sm2-volume-control volume-shade"></span>
+        <a href="#volume" class="sm2-inline-button sm2-volume-control" style="clip: rect(0px, 45px, 64px, 14.3px);">volume</a>
+      </div>
+    </div>
+    <div class="sm2-inline-element sm2-button-element">
+      <div class="sm2-button-bd">
+        <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
+      </div>
+    </div>
+    <div class="sm2-inline-element sm2-button-element sm2-menu">
+      <div class="sm2-button-bd">
+        <a href="#menu" class="sm2-inline-button sm2-icon-menu">menu</a>
+      </div>
+    </div>
+  </div>
+  <div class="bd sm2-playlist-drawer sm2-element" style="background-color: #fff5d1;">
+    <div class="sm2-inline-texture" style="background: transparent;">
+      <div class="sm2-box-shadow"></div>
+    </div>
+    <div class="sm2-playlist-wrapper">
+      <ul class="sm2-playlist-bd">
+<!-- 播放列表 -->
+<li><span class="lianhua"></span> <a href="https://i3.vzan.cc/upload/video/mp4/20200705/89562b2307c044978d30c8f81dc7d822.mp4"> 88-白话-佛法的无生无灭</a></li>
+<li><span class="lianhua"></span> <a href="http://note.cdn.xldhplay.com/video/baihuafofa/baihuafofa-live87.mp3"> 87-白话-知无我 即放下</a></li>
+<li><span class="lianhua"></span> <a href="http://note.cdn.xldhplay.com/video/baihuafofa/baihuafofa-live86.mp3"> 86-白话-精进是成佛的根</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div><img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" alt="正在加载代码..." onload='if((s=document.styleSheets[0]))s.insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);s=document.createElement("SCRIPT");s.src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/js/mbuembed.min.js?t="+Math.floor((new Date())/36e5);document.body.append(s);this.parentNode.innerHTML="";'></div>
+
+<h2>下载补丁</h2>
+
+<p>
+下载：
+<ul>
+<li><a href="./css/bar-ui-patch.css">bar-ui-patch.css</a></li>
+<li><a href="./css/bar-ui.css">更改过的 bar-ui.css</a></li>
+</ul>
+</p>
+
+
+</body>
+</html>
+

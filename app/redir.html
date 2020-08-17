@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>链接转向</title>
+<!--
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/css/redir.css">
+-->
+  <link rel="stylesheet" href="./css/redir.css?v=0.0.8">
+</head>
+<body>
+
+<div id="container">
+<div id="redir-panel" style="display:none">
+  <div class="inp-group">
+    <label for="url">您将要访问<span id="title" style="font-weight:bold"></span>：</label>
+    <div id="url" class="url-wrapper"></div>
+  </div>
+  <ul style="line-height:2.5">
+    <li>请点击右上角
+    <span class="three-dots">···</span>
+    菜单
+    <li>选择
+    <img src="https://i.niupic.com/images/2020/07/20/8qXI.png" alt="Browser" style="height:2em;vertical-align:middle">
+    “在浏览器打开”<br>
+    <span style="font-size:80%">（英文版：“Open with Browser”）</span>
+  </ul>
+</div>
+
+<div id="gen-panel" style="display:none">
+  <h1>链接转向生成器</h1>
+
+  <div class="inp-group">
+    <label for="inp-url">输入网址：</label>
+    <textarea id="inp-url" rows="5" placeholder="https://bing.com"></textarea>
+  </div>
+
+  <div class="inp-group">
+    <label for="inp-title">网站标题（可选）：</label>
+    <textarea id="inp-title" rows="2"></textarea>
+  </div>
+
+  <div class="inp-group">
+    <label>链接模式：</label><br>
+    <select id="mode" onchange="genLink()">
+      <option value="0" selected>微信内提示转跳</option>
+      <option value="2">微信内网页内嵌</option>
+      <option value="3">始终网页内嵌</option>
+      <option value="go">直接转跳</option>
+      <option value="1">始终提示转跳（用于测试）</option>
+    </select>
+  </div>
+
+  <div class="inp-group">
+    <label for="enc">网址编码：</label><br>
+    <select id="enc" onchange="genLink()">
+      <option value="0" selected>默认</option>
+      <option value="1">倒序+字母对换</option>
+      <option value="2">64进制文本</option>
+      <option value="none">不编码</option>
+    </select>
+  </div>
+
+  <div class="inp-group">
+    <label for="mobile">内嵌网页类型：</label><br>
+    <select id="mobile" onchange="genLink()">
+      <option value="0">电脑</option>
+      <option value="1" selected>移动设备</option>
+    </select>
+  </div>
+
+  <div id="out-url-wrapper" class="url-wrapper" style="display:none">
+    <a id="out-url" href="#" target="_blank" rel="noopener noreferrer"></a>
+  </div>
+
+  <div class="inp-group">
+    <button id="gen-link" class="a-btn" onclick="genLink()">生成</button>
+    <!-- <button id="shorten-link" class="a-btn" onclick="shortenLink()">缩短</button> -->
+    <button id="copy-link" class="a-btn" onclick="copyLink(this)">复制</button>
+  </div>
+</div>
+</div> <!-- container -->
+
+<iframe id="embed-page" src="about:blank"
+  style="display:none;z-index:100"
+  frameborder="0" scrolling="yes" marginheight="0" marginwidth="0">
+</iframe>
+
+<!--
+<script src="./js/com1.js?v=0.27"></script>
+<script src="./js/urlhead.js?v=0.03"></script>
+<script src="./js/urib64.js?v=0.02"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/redir.js"></script>
+-->
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/com1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/urlhead.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/urib64.min.js"></script>
+<script src="./js/redir.js?v=0.08"></script>
+
+</body>
+</html>

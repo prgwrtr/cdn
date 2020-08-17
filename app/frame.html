@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>.</title>
+<script>
+window.onload = function() {
+  s = location.href;
+  p = s.indexOf("?");
+  if (p < 0) return;
+  s = s.slice(p+1);
+  p = s.indexOf("url="); // find "url="
+  if (p < 0) return;
+  url = s.slice(p+4); // what is after "url="
+  if ( url !== "" && !/^([a-z]+:)?\/\//i.test(url) ) { // url without protocol
+    if ( url.charAt(0) === "~" )
+      url = "https://" + url.slice(1);
+    else
+      url = "http://" + url;
+    document.getElementById("page").src = url;
+  }
+};
+</script>
+</head>
+<body style="margin:0">
+<iframe id="page" src="about:blank"
+  frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"
+  style="position:absolute;top:0;left:0;margin:0;width:100%;height:101.5%">
+</iframe>
+</body>
+</html>

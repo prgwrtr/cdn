@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.7";
+var latestCDNVersion = "0.1.8";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -183,11 +183,8 @@ function getInstallationScriptSelection()
       v[1] = latestCDNVersion;
     }
     if ( (/^[0-9.]+$/.exec(v[1]) !== null) || v[1] === "latest" ) { // e.g., ver: "cdn-0.1.3" or "cdn-latest"
-      if ( v[1] !== "latest" ) {
-        // with a specific version, we can safely use the minified version
-        // with latest, the jsdelivr cache will mess it up
-        fn = fn.replace("\.js", ".min.js");
-      }
+      // jsdelivr provides automatically minified js
+      fn = fn.replace("\.js", ".min.js");
       path += "@" + v[1] + "/app/" + fn;
       if ( v[2] === "force" ) {
         s = 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
