@@ -1,6 +1,6 @@
 "use strict";
 
-// encode a string
+// encode a string by 1. flipping and 2. randomly swapping some letters
 // calling this function twice gives the original back
 function flipenc(s) {
   var i, n = s.length, t = "", c, p;

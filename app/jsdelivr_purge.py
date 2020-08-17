@@ -33,7 +33,7 @@ def jsdelivr_purge(user, repo, vers, fns, verbose = False):
                     print (f.read() + "\n")
     
 jsdelivr_purge("prgwrtr", "cdn",
-    ["0.1.9"], # ["0","0.1"],
+    [], # ["0","0.1"],
     [
         "app/js/domainmap.js",
         "app/sm2/js/mbuembed.js",
