@@ -7,7 +7,7 @@
 <!--
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/css/redir.css">
 -->
-  <link rel="stylesheet" href="./css/redir.css?v=0.0.9">
+  <link rel="stylesheet" href="./css/redir.css?v=0.10">
 </head>
 <body>
 
@@ -16,6 +16,7 @@
   <div class="inp-group">
     <label for="url">您将要访问<span id="title" style="font-weight:bold"></span>：</label>
     <div id="url" class="url-wrapper"></div>
+    <button id="copy-url" class="a-btn" onclick="copyURL(this)">复制地址</button>
   </div>
   <ul style="line-height:2.5">
     <li>请点击右上角
@@ -33,41 +34,46 @@
 
   <div class="inp-group">
     <label for="inp-url">输入网址：</label>
-    <textarea id="inp-url" rows="5" placeholder="https://bing.com"></textarea>
-  </div>
-
-  <div class="inp-group">
-    <label for="inp-title">网站标题（可选）：</label>
-    <textarea id="inp-title" rows="2"></textarea>
+    <textarea id="inp-url" rows="5" placeholder="https://bing.com"
+      onchange="genLink()"></textarea>
   </div>
 
   <div class="inp-group">
     <label>链接模式：</label><br>
     <select id="mode" onchange="genLink()">
+      <option value="go">直接转跳</option>
       <option value="0" selected>微信内提示转跳</option>
+      <option value="1">始终提示转跳（测试用）</option>
       <option value="2">微信内网页内嵌</option>
       <option value="3">始终网页内嵌</option>
-      <option value="go">直接转跳</option>
-      <option value="1">始终提示转跳（用于测试）</option>
     </select>
   </div>
 
-  <div class="inp-group">
-    <label for="enc">网址编码：</label><br>
-    <select id="enc" onchange="genLink()">
-      <option value="0" selected>默认</option>
-      <option value="1">倒序+字母对换</option>
-      <option value="2">64进制文本</option>
-      <option value="none">不编码</option>
-    </select>
-  </div>
+  <div id="advanced-options" style="display:none">
+    <div class="inp-group">
+      <label for="inp-title">网站标题（可选）：</label>
+      <textarea id="inp-title" rows="2" onchange="genLink()"></textarea>
+    </div>
 
-  <div class="inp-group">
-    <label for="mobile">内嵌网页类型：</label><br>
-    <select id="mobile" onchange="genLink()">
-      <option value="0">电脑</option>
-      <option value="1" selected>移动设备</option>
-    </select>
+    <div class="inp-group">
+      <label for="enc">网址编码：</label><br>
+      <select id="enc" onchange="genLink()">
+        <option value="0" selected>默认</option>
+        <option value="1">倒序+字母对换</option>
+        <option value="2">64进制文本</option>
+        <option value="none">不编码</option>
+      </select>
+    </div>
+
+    <div class="inp-group">
+      <label for="server">服务器：</label><br>
+      <select id="server" onchange="genLink()">
+        <option value="" selected>当前</option>
+        <option value="http://app.bhffer.com/redir.html">app.bhffer.com</option>
+        <option value="http://output.jsbin.com/gayacob">JSBin</option>
+        <option value="https://prgwrtr.github.io/cdn/app/redir.html">GitHub（仅https）</option>
+      </select>
+    </div>
   </div>
 
   <div id="out-url-wrapper" class="url-wrapper" style="display:none">
@@ -78,6 +84,7 @@
     <button id="gen-link" class="a-btn" onclick="genLink()">生成</button>
     <!-- <button id="shorten-link" class="a-btn" onclick="shortenLink()">缩短</button> -->
     <button id="copy-link" class="a-btn" onclick="copyLink(this)">复制</button>
+    <button class="a-btn" onclick='btnToggle("#advanced-options",this)'>显示高级选项</button>
   </div>
 </div>
 </div> <!-- container -->
@@ -91,12 +98,14 @@
 <script src="./js/com1.js?v=0.27"></script>
 <script src="./js/urlhead.js?v=0.03"></script>
 <script src="./js/urib64.js?v=0.02"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.8/app/js/redir.js"></script>
+<script src="./js/domainmap.js?v=0.01"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/js/redir.js"></script>
 -->
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/com1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/urlhead.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/urib64.min.js"></script>
-<script src="./js/redir.js?v=0.09"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/js/domainmap.js"></script>
+<script src="./js/redir.js?v=0.10"></script>
 
 </body>
 </html>
