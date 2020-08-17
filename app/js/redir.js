@@ -1,6 +1,5 @@
 "use strict";
 
-
 // encode a string
 // calling this function twice gives the original back
 function flipenc(s) {
@@ -20,9 +19,15 @@ function flipenc(s) {
 
 function genLink()
 {
-  var s = location.href, outurl = s; // address bar
-  var q = s.indexOf("?"); // look for "?"
-  if ( q >= 0 ) outurl = s.slice(0, q);
+  var server = document.getElementById("server").value,
+      outurl = server;
+
+  if ( server === "" ) { // use the current page as redir server
+    var s = location.href;
+    outurl = s; // address bar
+    var q = s.indexOf("?"); // look for "?"
+    if ( q >= 0 ) outurl = s.slice(0, q);
+  }
 
   // remove "http://" and "https://" from the input url
   var url = document.getElementById("inp-url").value;
@@ -47,11 +52,6 @@ function genLink()
   // change https to http to avoid the mix content error
   if ( mode === "2" || mode === "3" ) {
     outurl = outurl.replace(/^https:\/\//g, "http://");
-  }
-
-  var mobile = document.getElementById("mobile").value;
-  if ( mobile !== "1" ) {
-    args.push("mobile=" + mobile);
   }
 
   var enc = document.getElementById("enc").value;
@@ -107,7 +107,19 @@ function copyLink(cpbtn) {
   animateShow("out-url", [1.0, 1000, 1.0, 700, 0.4, 500, 0.4, 800, 1.0]);
 }
 
-function handleInputURL(url, mode, enc, title, mobile)
+function copyURL(cpbtn) {
+  var s = document.getElementById("url").innerHTML;
+  copyTextToClipboard(s, cpbtn);
+  animateShow("url", [1.0, 300, 0.5, 200, 0.5, 500, 1.0]);
+}
+
+function setMobileViewport() {
+  var x = document.getElementById("viewport");
+  x.name = "viewport";
+  x.content = "width=device-width,initial-scale=1";
+}
+
+function handleInputURL(url, mode, enc, title)
 {
   var x, i;
 
@@ -122,6 +134,16 @@ function handleInputURL(url, mode, enc, title, mobile)
   }
   // prepend "http://" or "https://" if necessary
   url = URLHead.addBack(url);
+
+  // replace dead domain names
+  if ( window.DomainMap ) {
+    var url1 = DomainMap.sub(url,
+      {"randomPick": false, "findAll": false, "replaceAll": false});
+    if ( url1 !== url ) {
+      console.log("url: ", url, " => ", url1);
+      url = url1;
+    }
+  }
   document.getElementById("url").innerHTML = url;
 
   // check if the browser is Wechat
@@ -141,22 +163,10 @@ function handleInputURL(url, mode, enc, title, mobile)
     action = "go";
   }
 
-  var mobileViewport = 1;
-  if ( action === "embed" ) {
-    // change viewport
-    if ( mobile === "0" ) {
-      mobileViewport = 0;
-    }
-  }
-  if ( mobileViewport ) {
-    x = document.getElementById("viewport");
-    x.name = "viewport";
-    x.content="width=device-width,initial-scale=1";
-  }
-
   if ( action === "go" ) {
     location.href = url;
   } else if ( action === "prompt-redir" ) {
+    setMobileViewport();
     document.getElementById("redir-panel").style.display = "";
   } else if ( action === "embed" ) {
     document.getElementById("container").style.display = "none";
@@ -177,7 +187,7 @@ function handleInputURL(url, mode, enc, title, mobile)
 
 (function(){
   // main function
-  var s, p, q, args, url = undefined, mode = "0", enc = "0", title = "", mobile = "1", i, kv;
+  var s, p, q, args, url = undefined, mode = "0", enc = "0", title = "", i, kv;
   s = location.href; // address bar
   q = s.indexOf("?"); // look for "?"
   if ( q >= 0 ) {
@@ -220,20 +230,15 @@ function handleInputURL(url, mode, enc, title, mobile)
         }
         document.getElementById("title").innerHTML = title;
 
-      } if ( kv[0] === "mobile" ) {
-        if ( kv[1] !== undefined && kv[1] !== "" ) {
-          mobile = kv[1];
-        } else {
-          mobile = "1";
-        }
       }
     }
   }
 
   if ( url === undefined ) {
     // no url in address bar, show the generation panel
+    setMobileViewport();
     document.getElementById("gen-panel").style.display = "";
   } else { // open the link
-    handleInputURL(url, mode, enc, title, mobile);
+    handleInputURL(url, mode, enc, title);
   }
 })();
