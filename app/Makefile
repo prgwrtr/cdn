@@ -19,8 +19,8 @@ sync::
 	$(MAKE) clean
 	git add *.html *.py js/* css/* img/* fonts/* sm2
 
-push_ready:
-	$(MAKE) sync
+# run this after git push
+purge::
 	python jsdelivr_purge.py
 
 

@@ -1,5 +1,6 @@
 "use strict";
 
+
 // encode a string
 // calling this function twice gives the original back
 function flipenc(s) {
@@ -108,6 +109,8 @@ function copyLink(cpbtn) {
 
 function handleInputURL(url, mode, enc, title, mobile)
 {
+  var x, i;
+
   // decode the url
   if ( enc !== "none" ) {
     url = decodeURIComponent(url);
@@ -138,17 +141,17 @@ function handleInputURL(url, mode, enc, title, mobile)
     action = "go";
   }
 
+  var mobileViewport = 1;
   if ( action === "embed" ) {
     // change viewport
     if ( mobile === "0" ) {
-      // remove the viewport setting for desktop pages
-      x = document.getElementsByTagName("META");
-      for ( i = 0; i < x.length; i++ ) {
-        if ( x[i].name === "viewport" ) {
-          x[i].parentNode.removeChild(x[i]);
-        }
-      }
+      mobileViewport = 0;
     }
+  }
+  if ( mobileViewport ) {
+    x = document.getElementById("viewport");
+    x.name = "viewport";
+    x.content="width=device-width,initial-scale=1";
   }
 
   if ( action === "go" ) {
@@ -162,7 +165,6 @@ function handleInputURL(url, mode, enc, title, mobile)
     ifr.style.display = "";
   }
 
-  var x, i;
   if ( action !== "go" ) {
     // reset the page title
     x = document.getElementsByTagName("TITLE")[0];
