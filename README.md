@@ -7,6 +7,12 @@ git commit -a
 git tag -a "v1.0.0" -m "version v1.0.0"
 git push --follow-tags
 ```
+For jsdelivr to delivr the latest version,
+edit the file and version lists in `jsdelivr_purge.py`
+and then run
+```
+python jsdelivr_purge.py
+```
 
 ## jsDelivr
 

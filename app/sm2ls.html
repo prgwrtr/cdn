@@ -84,7 +84,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
       <div class="inp-group">
         <label for="inp-font-size">字体大小：
         <input id="inp-font-size" type="range" size="6"
-          value="18" min="12" max="28" class="shift-down"
+          value="16" min="12" max="28" class="shift-down"
           onchange='writeCode()'>
         <span id="font-size-display"></span> px </label>
       </div>
@@ -166,7 +166,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
       <div class="inp-group">
         <label for="inp-env">模拟环境：</label>
         <select id="inp-env" onchange="updatePreview()">
-          <option value="forum">标准论坛（已安装 SM2 Bar-UI）</option>
+          <option value="forum">标准论坛（已安装插件）</option>
           <option value="none">空（无插件）</option>
         </select>
       </div>
@@ -210,10 +210,10 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
           <select id="inp-plugin-version" onchange="writeCode()">
             <option value="cdn-0.1.4">CDN稳定固定v0.1.4</option>
             <option value="cdn-0.1.7">CDN稳定固定v0.1.7</option>
-            <option value="cdn-this" id="inp-plugin-version-this" selected>CDN当前固定</option>
+            <option value="cdn-this" id="inp-plugin-version-this">CDN当前固定</option>
             <option value="cdn-latest">CDN最新</option>
             <option value="web-latest">本地最新</option>
-            <option value="cdn-latest-force">CDN强制最新</option>
+            <option value="cdn-latest-force" selected>CDN强制最新</option>
             <option value="web-latest-force">本地强制最新</option>
             <option value="local">测试</option>
           </select>

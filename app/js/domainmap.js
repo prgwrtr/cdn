@@ -122,6 +122,7 @@
   {
     "name": "xlys",
     "live": [
+      "www.ifeng.xlfmw.cloud",
       "www.baidu.xlfmw.cloud",
       "www.baidu.xly2.cloud"
     ],

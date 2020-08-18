@@ -18,6 +18,7 @@ sync::
 	$(MAKE) merger -C sm2/js
 	$(MAKE) clean
 	git add *.html *.py js/* css/* img/* fonts/* sm2
+	echo "After git push a new version, remember to run jsdelivr_purge.py as instructed in ../README.md"
 
 # run this after git push
 purge::
