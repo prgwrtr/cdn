@@ -53,3 +53,8 @@
 .sm2-bar-ui .bd .sm2-playlist-bd a {
   color: #930a00 !important;
 }
+
+/* enforced the selected item to be bold */
+.sm2-playlist-wrapper ul li.selected a {
+ font-weight: bold !important;
+}

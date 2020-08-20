@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.8";
+var latestCDNVersion = "0.1.11";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -29,17 +29,22 @@ var sm2BarUITemplates = {
     + '<script type="text/javascript" src="./sm2/Sound/js/bar-ui.js"></script>\n',
 
   "installation-code": ''
-    + '<div><img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" '
-    +   'alt="正在加载代码..." onload=\''
+    + '<div style="display:none">'
+    //+ '<img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" '
+    //+ '<img src="data:image/bmp;base64,Qk0eAAAAAAAAABoAAAAMAAAAAQABAAEAGAD///8A" '
+    + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" '
+    +   'alt="..." onload=\''
     // the following rule is important to avoid the indentation problem of the lianhua icon
     // if the default bar-ui.css is present, it takes time for mbuembed.js to kick in.
-    +   'if((s=document.styleSheets[0]))s.insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);'
+    +   '(function(){'
+    +   'if(s=document.styleSheets[0])'
+    +   's.insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);'
     +   's=document.createElement("SCRIPT");'
     +   '{installation-script-selection}'
-    +   'document.body.append(s);'
-    +   'this.parentNode.innerHTML="";'
+    +   'document.body.append(s)'
+    //+   'this.parentNode.innerHTML="";'
     //+   'this.parentNode.style.display="none";'
-    +   '\'>'
+    +   '})()\'>'
     + '</div>\n',
 
   "player": ''
@@ -176,7 +181,7 @@ function getInstallationScriptSelection()
   v = ver.split("-");
   if ( v[0] === "local" ) {
     path = "./" + fn;
-    s = 's.src="' + path + '";';
+    s = 'window.sm2root="./sm2/";s.src="' + path + '";';
   } else if ( v[0] === "cdn" ) {
     path = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn";
     if ( v[1] === "this" ) { // ver: "cdn-latest" => "cdn-0.1.4"

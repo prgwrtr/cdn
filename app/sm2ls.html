@@ -8,7 +8,7 @@
 // check the version of the address bar,
 // if it is missing or different from the current one
 // redirect the page to avoid browser caching
-h=location.href,V=0,v="v=0.25";
+h=location.href,V=0,v="v=0.26";
 if((r=h.match(/[\?\&](v=[^\&]+)/i))!==null)V=r[1];
 if((p=h.indexOf("?"))<0)location.href=h+"?"+v;
 else if(V===0)location.href=h.slice(0,p+1)+v+"&"+h.slice(p+1);
@@ -17,7 +17,7 @@ else if(V!==v)location.href=h.replace(V,v);
 <!--
   <link rel="stylesheet" href="./css/mkmedia.css">
 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/css/mkmedia.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css">
 <style>
 .shift-down {
   transform:translateY(0.4em);
@@ -209,13 +209,13 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
           </label>
           <select id="inp-plugin-version" onchange="writeCode()">
             <option value="cdn-0.1.4">CDN稳定固定v0.1.4</option>
-            <option value="cdn-0.1.7">CDN稳定固定v0.1.7</option>
+            <option value="cdn-0.1.8">CDN稳定固定v0.1.8</option>
             <option value="cdn-this" id="inp-plugin-version-this">CDN当前固定</option>
             <option value="cdn-latest">CDN最新</option>
             <option value="web-latest">本地最新</option>
             <option value="cdn-latest-force" selected>CDN强制最新</option>
             <option value="web-latest-force">本地强制最新</option>
-            <option value="local">测试</option>
+            <option value="local">内部测试用</option>
           </select>
           <div class="inp-note">
             插件加载脚本 <code>mbuembed(.min).js</code> 是一段很短的脚本（一般小于10K），会根据论坛设置加载的完整的插件，或如果论坛已经安装插件的话，仅加载一小段样式修改文件。
@@ -236,10 +236,10 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 
 <!--
 <script src="./js/com1.js?v=0.27"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/sm2ls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js"></script>
 -->
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.4/app/js/com1.min.js"></script>
-<script src="./js/sm2ls.js?v=0.25"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js"></script>
+<script src="./js/sm2ls.js?v=0.26"></script>
 
 </body>
 </html>

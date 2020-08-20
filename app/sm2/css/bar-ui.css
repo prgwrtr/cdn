@@ -200,6 +200,9 @@
   color: #930a00 !important;
 }
 
+.sm2-playlist-wrapper ul li.selected a {
+  font-weight: bold !important;
+}
 
 .sm2-bar-ui,
 .sm2-bar-ui .bd3 a {

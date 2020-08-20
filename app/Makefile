@@ -6,13 +6,14 @@ sync::
 	ln -f ../../bhffer/public_html/app/css/*.css ./css/
 	ln -f ../../bhffer/public_html/app/css/*.map ./css/
 	ln -f ../../bhffer/public_html/app/fonts/* ./fonts/
-	ln -f ../../bhffer/public_html/app/img/* ./img/
+	rsync -avz ../../bhffer/public_html/app/img ./
 	ln -f ../../bhffer/public_html/app/sm2/*.html ./sm2/
 	ln -f ../../bhffer/public_html/app/sm2/README.md ./sm2/
 	ln -f ../../bhffer/public_html/app/sm2/js/*.js ./sm2/js/
 	ln -f ../../bhffer/public_html/app/sm2/js/*.py ./sm2/js/
 	ln -f ../../bhffer/public_html/app/sm2/js/Makefile ./sm2/js/
 	ln -f ../../bhffer/public_html/app/sm2/css/*.css ./sm2/css/
+	ln -f ../../bhffer/public_html/app/sm2/swf/*.swf ./sm2/swf/
 	rsync -avz ../../bhffer/public_html/app/sm2/image ./sm2/
 	rsync -avz ../../bhffer/public_html/app/sm2/Sound ./sm2/
 	$(MAKE) merger -C sm2/js
