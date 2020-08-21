@@ -9,7 +9,7 @@
       // so we simply use the latest version
       // but then don't use minified css or js,
       // otherwise, the jsdelivr caching will mess the version up
-      //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.11/app/sm2/";
+      //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.12/app/sm2/";
       root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
       //root = "https://app.bhffer.com/sm2/";
     }
@@ -91,12 +91,16 @@
   // initially, hide all players
   // show them only after soundManager and bar-ui are ready
   (function() {
-    var players = getPlayers();
-    for ( var i = 0; i < players.length; i++ ) {
-      // we hide players by visibility because display = "none"
-      // somehow makes it difficult to update the correct height
-      //players[i].style.display = "none";
-      players[i].style.visibility = "hidden";
+    var players = getPlayers(), i, p, d;
+    for ( i = 0; i < players.length; i++ ) {
+      p = players[i];
+      p.style.display = "none";
+      d = document.createElement("DIV");
+      d.className = "player-info";
+      d.innerHTML = "加载中……";
+      d.style.textAlign = "center";
+      d.style.color = "#620";
+      p.parentNode.insertBefore(d, p);
     }
   })();
 
@@ -113,10 +117,18 @@
       && window.sm2BarPlayers.length >= players.length ) {
       clearInterval(showPlayerChecker);
       //console.log("soundManager and sm2Players are ready");
-      var players = getPlayers();
-      for ( var i = 0; i < players.length; i++ ) {
-        //players[i].style.display = "";
-        players[i].style.visibility = "visible";
+      var players = getPlayers(), i, p, d;
+      for ( i = 0; i < players.length; i++ ) {
+        p = players[i];
+        p.style.display = "";
+        d = p.previousSibling;
+        if ( d.className === "player-info") {
+          d.style.display = "none";
+        }
+      }
+      // open the playlists, emulate clicking the menu
+      for ( i = 0; i < sm2BarPlayers.length; i++ ) {
+        sm2BarPlayers[i].actions.menu(true);
       }
     }
   }, 1000); // check every 1s

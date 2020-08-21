@@ -8,7 +8,7 @@
 // check the version of the address bar,
 // if it is missing or different from the current one
 // redirect the page to avoid browser caching
-h=location.href,V=0,v="v=0.26";
+h=location.href,V=0,v="v=0.27";
 if((r=h.match(/[\?\&](v=[^\&]+)/i))!==null)V=r[1];
 if((p=h.indexOf("?"))<0)location.href=h+"?"+v;
 else if(V===0)location.href=h.slice(0,p+1)+v+"&"+h.slice(p+1);
@@ -210,6 +210,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
           <select id="inp-plugin-version" onchange="writeCode()">
             <option value="cdn-0.1.4">CDN稳定固定v0.1.4</option>
             <option value="cdn-0.1.8">CDN稳定固定v0.1.8</option>
+            <option value="cdn-0.1.11">CDN稳定固定v0.1.11</option>
             <option value="cdn-this" id="inp-plugin-version-this">CDN当前固定</option>
             <option value="cdn-latest">CDN最新</option>
             <option value="web-latest">本地最新</option>
@@ -235,11 +236,11 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 </div> <!-- gen-page -->
 
 <!--
-<script src="./js/com1.js?v=0.27"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js"></script>
 -->
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js"></script>
-<script src="./js/sm2ls.js?v=0.26"></script>
+<script src="./js/com1.js?v=0.28"></script>
+<script src="./js/sm2ls.js?v=0.27"></script>
 
 </body>
 </html>

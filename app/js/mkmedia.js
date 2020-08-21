@@ -211,8 +211,7 @@ function subKeys(template, tab)
 }
 
 
-// equivalent to PHP htmlspecicalchars()
-function txt2html(text) {
+function escapeHTML(s) {
   var map = {
     '&': '&amp;',
     '<': '&lt;',
@@ -221,14 +220,17 @@ function txt2html(text) {
     "'": '&#039;'
   };
 
-  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+  // equivalent to PHP htmlspecicalchars()
+  s = s.replace(/[&<>"'\n]/g, function(m) { return map[m]; });
+  s = s.replace(/\n/g, "<br/>");
+  return s;
 }
 
 function modifyPageTitle(info)
 {
   var title = info["title"];
   if ( title === undefined ) return;
-  title = txt2html(title);
+  title = escapeHTML(title);
   var x = document.getElementsByTagName("TITLE"), i;
   for ( i = 0; i < x.length; i++ ) {
     x[i].innerHTML = title;
@@ -247,17 +249,6 @@ function renderTemplate(temp, info)
   return s;
 }
 
-
-
-function escapeHTML(s) {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;")
-    .replace(/\n/g, "<br/>");
- }
 
 
 function renderTextComponent(info, key, templates)

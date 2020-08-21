@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.11";
+var latestCDNVersion = "0.1.12";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -247,7 +247,7 @@ function writeSM2PlayerCode(info)
   for ( i = 0; i < slist.length; i++ ) {
     x = slist[i].replace(/^\s+|\s+$/g, "").split("\n");
     if ( x.length >= 2 ) {
-      title = x[0];
+      title = escapeHTML(x[0]);
       url = x[1];
     } else if ( x[0].slice(0,4) === "http" || x[0].slice(0,2) === "//" ) {
       title = "";
@@ -363,16 +363,14 @@ function writeCode()
 function resizeIframe() {
   var obj = document.getElementById("preview-iframe");
   obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
-  //setInterval(resizeIframe, 5000); // readjust height every 5s
 }
 
 window.onload = function() {
   writeCode();
 
-  // allow the preview iframe to dyanmically adjust its height
+  // allow the preview iframe to dynamically adjust its height
   //  https://stackoverflow.com/questions/9975810/make-iframe-automatically-adjust-height-according-to-the-contents-without-using
-  var obj = document.getElementById("preview-iframe");
-  obj.onload = resizeIframe;
+  setInterval(resizeIframe, 500); // readjust height every 0.5s
 
   document.getElementById("inp-plugin-version-this").innerHTML += "v" + latestCDNVersion;
   //document.getElementById("header-code").value = sm2BarUITemplates["header"];
