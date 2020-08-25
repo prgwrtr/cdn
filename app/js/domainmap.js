@@ -39,10 +39,11 @@
   {
     "name": "wgw",
     "live": [
-      "xlch39.com"
+      "xlch40.com"
     ],
     "dead": [
       "xlch.org",
+      "xlch39.com"
       "xlch38.com",
       "xlch37.com",
       "xlch36.com",

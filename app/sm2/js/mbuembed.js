@@ -1,18 +1,18 @@
-(function(root){
+(function(){
+  var root, ver = null;
+
   // root path for sm2 css and js
-  if ( root === undefined ) {
-    if ( window.sm2root !== undefined ) {
-      root = window.sm2root;
-    } else {
-      // Note the version don't need to be changed aggressively
-      // unless bar-ui(-patch).css, sm2-bar-ui.js are modified
-      // so we simply use the latest version
-      // but then don't use minified css or js,
-      // otherwise, the jsdelivr caching will mess the version up
-      //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.12/app/sm2/";
-      root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
-      //root = "https://app.bhffer.com/sm2/";
-    }
+  if ( window.sm2root !== undefined ) {
+    root = window.sm2root;
+  } else {
+    //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.14/app/sm2/";
+    root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
+    //root = "https://app.bhffer.com/sm2/";
+  }
+
+  // version
+  if ( window.sm2cdnver !== undefined ) {
+    ver = window.sm2cdnver;
   }
 
   var getfn = function(url) {
@@ -33,6 +33,11 @@
 
   installJS = function(url) {
     var s = document.createElement("SCRIPT");
+    if ( ver !== null ) {
+      // attach the version number to avoid browser cache
+      // this number will expire once the CDN version updates
+      url += "?v=" + ver;
+    }
     s.src = url;
     document.body.append(s);
   },
@@ -50,24 +55,13 @@
   installCSS = function(url) {
     var s = document.createElement("LINK");
     s.rel = "stylesheet";
+    if ( ver !== null ) {
+      // attach the version number to avoid browser cache
+      // this number will expire once the CDN version updates
+      url += "?v=" + ver;
+    }
     s.href = url;
     document.getElementsByTagName("head")[0].append(s);
-  },
-
-  installSwitchCSS = function(search, url, urlPatch) {
-    var s = findCSS(search);
-    //console.log("looking for " + search + ", found " + (s?s.href:"null"));
-    if ( s === null ) {
-      // system doesn't have the CSS, install the external one
-      //console.log("installing external CSS ", url);
-      installCSS(url);
-    } else if ( s.href.indexOf(search) >= 0 ) {
-      // system already has the CSS, install the patch
-      //console.log("replacing the CSS", s.href, "by", url);
-      //s.href = url;
-      //console.log("installing the patch CSS ", urlPatch);
-      installCSS(urlPatch);
-    } // otherwise, leave the current version as is
   },
 
   getPlayers = function() {
@@ -76,13 +70,20 @@
 
   // install necessary js and css
   embed = function() {
-    installSwitchCSS("Sound/bar-ui.css",
-      root + "css/bar-ui.css",
-      root + "css/bar-ui-patch.css");
+    var barUICSS = findCSS("Sound/bar-ui.css");
+    //console.log("looking for bar-ui.css, found " + (s?s.href:"null"));
+    if ( barUICSS === null ) {
+      // system doesn't have the CSS, install the external one
+      //console.log("installing external CSS ", url);
+      installCSS(root + "css/bar-ui.css");
+    } else {
+      // system already has the CSS, install the patch
+      installCSS(root + "css/bar-ui-patch.css");
+    }
 
-    var SM2 = findJS("soundmanager2.js"),
-        BarUI = findJS("bar-ui.js");
-    if ( SM2 === null || BarUI === null ) {
+    var sm2JS = findJS("soundmanager2.js"),
+        barUIJS = findJS("bar-ui.js");
+    if ( sm2JS === null || barUIJS === null ) {
       // load the combined JS file (already minified)
       installJS(root + "js/sm2-bar-ui.js");
     }
@@ -104,6 +105,7 @@
     }
   })();
 
+  // checking if to show the players
   showPlayerChecker = setInterval(function() {
     if ( window.soundManager !== undefined
       && !window.soundManager.url ) {
@@ -115,6 +117,7 @@
     var players = getPlayers();
     if ( window.sm2BarPlayers !== undefined
       && window.sm2BarPlayers.length >= players.length ) {
+      // all players are ready, clear the timer
       clearInterval(showPlayerChecker);
       //console.log("soundManager and sm2Players are ready");
       var players = getPlayers(), i, p, d;
@@ -130,19 +133,31 @@
       for ( i = 0; i < sm2BarPlayers.length; i++ ) {
         sm2BarPlayers[i].actions.menu(true);
       }
+      // start the marquee
+      for ( i = 0; i < players.length; i++ ) {
+        p = players[i].getElementsByClassName("sm2-playlist-target")[0];
+        if ( !p ) continue;
+        d = p.getElementsByTagName("LI")[0];
+        if ( !d ) continue;
+        if ( d.scrollWidth > p.offsetWidth
+          && d.getElementsByTagName("MARQUEE")[0] === undefined ) {
+          //console.log("adding <marquee>", p.scrollWidth, p.offsetWidth);
+          d.innerHTML = "<marquee>" + d.innerHTML + "</marquee>";
+        }
+      }
     }
   }, 1000); // check every 1s
 
   // special patch for XLYS mobile version to disable link redirection
   // since common_u.js is in the header, we can and should do this as soon as possible
-  if ( findJS("comiis_app/comiis/js/common_u.js") !== null ) {
+  if ( findJS("comiis/js/common_u.js") !== null ) {
     // undo common_u.js, line 1329
     docReady = false;
     $(document).ready(function() {
       docReady = true;
       $(document).off('click', 'a');
     });
-    // we periodically turn off the handler for <a click
+    // we periodically turn off the handler for <a> clicks
     aClickChecker = setInterval(function() {
       $(document).off('click', 'a');
       if ( docReady ) clearInterval(aClickChecker);
@@ -186,5 +201,3 @@
     }
   }
 }());
-// for local testing
-//}("./sm2/"));

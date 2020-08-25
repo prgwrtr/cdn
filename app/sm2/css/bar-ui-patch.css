@@ -6,11 +6,11 @@
 /* adding .sm2-playlist-bd for specificity */
 .sm2-playlist-wrapper ul.sm2-playlist-bd li {
   padding-right: 3em !important; /* for the right buttons, fmplay2.png or fmpause2.png */
-  background-size: contain !important;
+  background-size: 2.5em !important;
 }
 
 .sm2-playlist-wrapper ul.sm2-playlist-bd li a {
-  padding-left: 0.5em;
+  padding-left: 0em !important;
   overflow: auto !important;
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
@@ -25,7 +25,7 @@
   background: url(https://i2.vzan.cc/upload/image/png/20200710/98438cea44454a93bde35d96dd39a823.png) no-repeat,
   -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
   background-position: right 0px center;
-  background-size: contain !important;
+  background-size: 2.5em !important;
 }
 
 .sm2-playlist-wrapper ul.sm2-playlist-bd li.selected a {
@@ -37,14 +37,14 @@
   background: url(https://i2.vzan.cc/upload/image/png/20200710/bbb6105f740944edba48e9108149199a.png) no-repeat,
   -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
   background-position: right 0px center;
-  background-size: contain !important;
+  background-size: 2.5em !important;
 }
 
 /* adding li should win by specificity */
 .sm2-playlist-bd li span.lianhua {
-  margin: 0 0 0 0.5em !important;
-  width: 2.55em !important;
-  height: 2.55em !important;
+  margin: 0.3em 0.5em 0 0.5em !important;
+  width: 2em !important;
+  height: 2em !important;
   background-size: contain !important;
   background-position: center !important;
 }

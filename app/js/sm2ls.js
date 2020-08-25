@@ -39,7 +39,7 @@ var sm2BarUITemplates = {
     // if the default bar-ui.css is present, it takes time for mbuembed.js to kick in.
     +   '(function(){'
     +   'if(s=document.styleSheets[0])'
-    +   's.insertRule("span.lianhua{width:2.55em !important;height:2.55em !important}",0);'
+    +   's.insertRule("span.lianhua{width:2em !important;height:2em !important;background-size:contain !important}",0);'
     +   's=document.createElement("SCRIPT");'
     +   '{installation-script-selection}'
     +   'document.body.append(s)'
@@ -60,7 +60,7 @@ var sm2BarUITemplates = {
     + '  </div>\n'
     + '  <div class="sm2-inline-element sm2-inline-status">\n'
     + '   <div class="sm2-playlist">\n'
-    + '    <div class="sm2-playlist-target" style="font-size:85%">\n'
+    + '    <div class="sm2-playlist-target" style="font-size:90%">\n'
     + '    </div>\n'
     + '   </div>\n'
     + '   <div class="sm2-progress">\n'
@@ -179,10 +179,11 @@ function getInstallationScriptSelection()
   var s = "", fn = "sm2/js/mbuembed.js", path,
     ver = document.getElementById("inp-plugin-version").value, v;
 
+  s += "window.sm2cdnver=\"" + latestCDNVersion + "\";";
   v = ver.split("-");
   if ( v[0] === "local" ) {
     path = "./" + fn;
-    s = 'window.sm2root="./sm2/";s.src="' + path + '";';
+    s += 'window.sm2root="./sm2/";s.src="' + path + '";';
   } else if ( v[0] === "cdn" ) {
     path = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn";
     if ( v[1] === "this" ) { // ver: "cdn-latest" => "cdn-0.1.4"
@@ -193,9 +194,9 @@ function getInstallationScriptSelection()
       fn = fn.replace("\.js", ".min.js");
       path += "@" + v[1] + "/app/" + fn;
       if ( v[2] === "force" ) {
-        s = 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
+        s += 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
       } else {
-        s = 's.src="' + path + '";';
+        s += 's.src="' + path + '";';
       }
     } else {
       alert("unknown CDN version " + ver + " " +  v[1]);
@@ -203,9 +204,9 @@ function getInstallationScriptSelection()
   } else if ( v[0] === "web" ) {
     path = "https://app.bhffer.com/" + fn;
     if ( v[2] === "force" ) {
-      s = 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
+      s += 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
     } else {
-      s = 's.src="' + path + '";';
+      s += 's.src="' + path + '";';
     }
   } else {
     alert("unknown plugin version " + ver);

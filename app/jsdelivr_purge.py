@@ -35,12 +35,12 @@ def jsdelivr_purge(user, repo, vers, fns, verbose = False):
 jsdelivr_purge("prgwrtr", "cdn",
     [], # ["0","0.1"],
     [
-        #"app/js/domainmap.js",
-        #"app/sm2/js/mbuembed.js",
-        #"app/sm2/js/sm2-bar-ui.js",
+        "app/js/domainmap.js",
+        "app/sm2/js/mbuembed.js",
+        "app/sm2/js/sm2-bar-ui.js",
         "app/sm2/css/bar-ui.css",
         "app/sm2/css/bar-ui-patch.css",
-        #"app/js/com1.js",
+        "app/js/com1.js",
     ],
 verbose = True)
 
