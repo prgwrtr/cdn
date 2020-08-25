@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.13";
+var latestCDNVersion = "0.1.14";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -32,7 +32,8 @@ var sm2BarUITemplates = {
     + '<div style="display:none">'
     //+ '<img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" '
     //+ '<img src="data:image/bmp;base64,Qk0eAAAAAAAAABoAAAAMAAAAAQABAAEAGAD///8A" '
-    + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" '
+    + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" ' // transparent gif
+    + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' // transparent gif
     +   'alt="..." onload=\''
     // the following rule is important to avoid the indentation problem of the lianhua icon
     // if the default bar-ui.css is present, it takes time for mbuembed.js to kick in.

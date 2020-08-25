@@ -13,6 +13,7 @@
   padding-left: 0.5em;
   overflow: auto !important;
   white-space: nowrap !important;
+  text-overflow: ellipsis !important;
 }
 
 .sm2-playlist-wrapper ul.sm2-playlist-bd li:hover a {

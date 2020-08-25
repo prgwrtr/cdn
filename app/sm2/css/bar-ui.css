@@ -420,7 +420,8 @@
  /* prevent clipping of characters like "g" */
  height: 1.5em;
  white-space: nowrap;
- overflow: auto;
+ overflow: hidden;
+ text-overflow: ellipsis;
  text-align: center;
 }
 
@@ -891,6 +892,7 @@
  vertical-align: middle;
  overflow: auto;
  white-space: nowrap;
+ text-overflow: ellipsis;
 }
 
 .sm2-playlist-wrapper ul li a.sm2-exclude {
