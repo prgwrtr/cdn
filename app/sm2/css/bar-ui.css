@@ -1054,10 +1054,10 @@
  overflow: hidden;
 }
 
-.sm2-playlist-bd .lianhua{
-  margin: 0.3em 0.5em 0 0.5em;
-  width: 2em;
-  height: 2em;
+.sm2-playlist-bd span.lianhua{
+  margin: 0.3em 0.5em 0 0.5em !important;
+  width: 2em !important;
+  height: 2em !important;
   background: url(https://i2.vzan.cc/upload/image/png/20200710/eb63f0029757475b8e50dc06ae7c1672.png) no-repeat center;
   /* background: url(../image/lianhua.png) no-repeat center; */
   background-size: contain;

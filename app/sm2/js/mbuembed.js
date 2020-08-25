@@ -5,7 +5,6 @@
   if ( window.sm2root !== undefined ) {
     root = window.sm2root;
   } else {
-    //root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.14/app/sm2/";
     root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/sm2/";
     //root = "https://app.bhffer.com/sm2/";
   }
