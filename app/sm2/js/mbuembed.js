@@ -59,6 +59,10 @@
   installCSS = function(url) {
     var s = document.createElement("LINK");
     s.rel = "stylesheet";
+    if ( url.indexOf("jsdelivr") >= 0 ) {
+      // minimize CSS for the CDN version
+      url = url.replace(/[.]css$/, ".min.css");
+    }
     if ( ver !== null ) {
       // attach the version number to avoid browser cache
       // this number will expire once the CDN version updates

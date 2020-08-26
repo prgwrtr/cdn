@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-import urllib
+#import urllib
+import requests
 
 ''' purge the jsDelivr CDN latest version 
     so that they are up to date '''
@@ -28,9 +29,11 @@ def jsdelivr_purge(user, repo, vers, fns, verbose = False):
                 path = "gh/%s/%s%s/%s" % (user, repo, ver1, fn1)
                 url = "https://purge.jsdelivr.net/" + path
                 print ("purging https://cdn.jsdelivr.net/" + path + " ...")
-                f = urllib.urlopen(url)
+                #f = urllib.urlopen(url)
+                r = requests.get(url)
                 if verbose:
-                    print (f.read() + "\n")
+                    #print (f.read() + "\n")
+                    print (r.text + "\n")
     
 jsdelivr_purge("prgwrtr", "cdn",
     [], # ["0","0.1"],

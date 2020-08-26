@@ -892,6 +892,7 @@
  vertical-align: middle;
  overflow: auto;
  white-space: nowrap;
+ text-overflow: clip; /* 2020.8.26: override "ellipsis" in old versions? */
 }
 
 .sm2-playlist-wrapper ul li a.sm2-exclude {

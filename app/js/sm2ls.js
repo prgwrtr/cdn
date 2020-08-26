@@ -197,13 +197,21 @@ function getInstallationScriptSelection()
       // jsdelivr provides automatically minified js
       fn = fn.replace(/[.]js$/, ".min.js");
       path += "@" + v[1] + "/app/" + fn;
-      s += 's.src="' + path + '?v="+sm2cdnver;';
+      if ( v[2] === "force" ) {
+        s += 's.src="' + path + '?t="+Math.floor((new Date())/9e5);';
+      } else {
+        s += 's.src="' + path + '?v="+sm2cdnver;';
+      }
     } else {
       alert("unknown CDN version " + ver + " " +  v[1]);
     }
   } else if ( v[0] === "web" ) {
     path = "https://app.bhffer.com/" + fn;
-    s += 's.src="' + path + '?v="+sm2cdnver;';
+    if ( v[2] === "force" ) {
+      s += 's.src="' + path + '?t="+Math.floor((new Date())/9e5);';
+    } else {
+      s += 's.src="' + path + '?v="+sm2cdnver;';
+    }
   } else {
     alert("unknown plugin version " + ver);
   }
@@ -261,11 +269,11 @@ function writeSM2PlayerCode(info)
       list += '<a href="' + url + '">' + title + '</a></li>\n';
     } else {
       // compatibility code
-      list += '      <li style="background-size:contain;overflow:hidden;white-space:nowrap">';
+      list += '      <li style="background-size:contain;overflow:hidden;white-space:nowrap;background-size:2.5em,contain">';
       if ( needIcon ) list += '<span class="lianhua" style="width:3em;height:2.5em;background-size:contain;background-position:center"></span>';
-      list += '<a href="' + url + '" style="background-size:contain">';
+      list += '<a href="' + url + '" style="background-size:2.5em,contain">';
       if ( truncLongTitle ) {
-        list += '<span style="display:inline-block;width:calc(100% - 4.5em);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">' + title + '</span>';
+        list += '<span style="display:inline-block;width:calc(100% - 4.5em);overflow:auto;white-space:nowrap">' + title + '</span>';
       } else {
         list += title;
       }
@@ -374,7 +382,7 @@ window.onload = function() {
 
   // allow the preview iframe to dynamically adjust its height
   //  https://stackoverflow.com/questions/9975810/make-iframe-automatically-adjust-height-according-to-the-contents-without-using
-  setInterval(resizeIframe, 500); // readjust height every 0.5s
+  setInterval(resizeIframe, 200); // readjust height every 0.2s
 
   document.getElementById("inp-plugin-version-this").innerHTML += "v" + latestCDNVersion;
   //document.getElementById("header-code").value = sm2BarUITemplates["header"];

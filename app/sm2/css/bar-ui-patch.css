@@ -13,6 +13,7 @@
   padding-left: 0em !important;
   overflow: auto !important;
   white-space: nowrap !important;
+  text-overflow: clip !important; /* 2020.8.26 override "ellipsis" in old version? */
 }
 
 .sm2-playlist-wrapper ul.sm2-playlist-bd li:hover a {
