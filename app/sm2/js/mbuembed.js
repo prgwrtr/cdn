@@ -1,4 +1,9 @@
+// install the proper css and js file
 (function(){
+  // this function only needs to be run once
+  if ( window.mbuEmbedOnce ) return;
+  window.mbuEmbedOnce = 1;
+
   var root, ver = null;
 
   // root path for sm2 css and js
@@ -104,8 +109,8 @@
     }
   })();
 
-  // checking if to show the players
-  showPlayerChecker = setInterval(function() {
+  // regularly check whether it is okay to show the players
+  var showPlayerChecker = setInterval(function() {
     if ( window.soundManager !== undefined
       && !window.soundManager.url ) {
       soundManager.setup({url: root + "swf"});
@@ -147,7 +152,7 @@
     }
   }, 1000); // check every 1s
 
-  // special patch for XLYS mobile version to disable link redirection
+  // special patch for XLYS/ZYXL mobile version to disable link redirection
   // since common_u.js is in the header, we can and should do this as soon as possible
   if ( findJS("comiis/js/common_u.js") !== null ) {
     // undo common_u.js, line 1329
@@ -199,4 +204,4 @@
       });
     }
   }
-}());
+})();

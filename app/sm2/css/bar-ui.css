@@ -892,7 +892,6 @@
  vertical-align: middle;
  overflow: auto;
  white-space: nowrap;
- text-overflow: ellipsis;
 }
 
 .sm2-playlist-wrapper ul li a.sm2-exclude {
@@ -916,10 +915,9 @@
  url(../image/playwrap.png) no-repeat,
  */
  url(https://i2.vzan.cc/upload/image/png/20200710/98438cea44454a93bde35d96dd39a823.png) no-repeat,
- -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF000), 
-  color-stop(40%,#FFCD02), color-stop(100%,#FEA404));
- background-size: 2.5em;
- background-position: right 0px center;
+ -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
+ background-size: 2.5em, contain;
+ background-position: right center;
  font-weight: bold;
 }
 
@@ -944,7 +942,7 @@
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
  background-position: right 0px center;
  font-weight: bold;    
- background-size: 2.5em;
+ background-size: 2.5em, contain;
 }
 
 /*.sm2-bar-ui.dark-text ul li.selected a {

@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.15";
+var latestCDNVersion = "0.1.16";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -32,14 +32,18 @@ var sm2BarUITemplates = {
     + '<div style="display:none">'
     //+ '<img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" '
     //+ '<img src="data:image/bmp;base64,Qk0eAAAAAAAAABoAAAAMAAAAAQABAAEAGAD///8A" '
-    + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" ' // transparent gif
-    + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' // transparent gif
+    + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" ' // regular gif
+    //+ '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ' // transparent gif
     +   'alt="..." onload=\''
     // the following rule is important to avoid the indentation problem of the lianhua icon
     // if the default bar-ui.css is present, it takes time for mbuembed.js to kick in.
     +   '(function(){'
-    +   'if(s=document.styleSheets[0])'
-    +   's.insertRule("span.lianhua{width:2em !important;height:2em !important;background-size:contain !important}",0);'
+    +   'try{'
+    +   's=document.createElement("style");'
+    +   'document.head.appendChild(s);'
+    +   's=s.sheet;'
+    +   's.insertRule("span.lianhua{width:2em !important;height:2em !important;background-size:contain !important}",s.cssRules.length);'
+    +   '}catch(e){};'
     +   's=document.createElement("SCRIPT");'
     +   '{installation-script-selection}'
     +   'document.body.append(s)'
@@ -191,23 +195,15 @@ function getInstallationScriptSelection()
     }
     if ( (/^[0-9.]+$/.exec(v[1]) !== null) || v[1] === "latest" ) { // e.g., ver: "cdn-0.1.3" or "cdn-latest"
       // jsdelivr provides automatically minified js
-      fn = fn.replace("\.js", ".min.js");
+      fn = fn.replace(/[.]js$/, ".min.js");
       path += "@" + v[1] + "/app/" + fn;
-      if ( v[2] === "force" ) {
-        s += 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
-      } else {
-        s += 's.src="' + path + '";';
-      }
+      s += 's.src="' + path + '?v="+sm2cdnver;';
     } else {
       alert("unknown CDN version " + ver + " " +  v[1]);
     }
   } else if ( v[0] === "web" ) {
     path = "https://app.bhffer.com/" + fn;
-    if ( v[2] === "force" ) {
-      s += 's.src="' + path + '?t="+Math.floor((new Date())/36e5);';
-    } else {
-      s += 's.src="' + path + '";';
-    }
+    s += 's.src="' + path + '?v="+sm2cdnver;';
   } else {
     alert("unknown plugin version " + ver);
   }
@@ -363,8 +359,14 @@ function writeCode()
 }
 
 function resizeIframe() {
-  var obj = document.getElementById("preview-iframe");
-  obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+  try {
+    var obj = document.getElementById("preview-iframe"),
+      el = obj.contentWindow.document.documentElement;
+    if ( el ) {
+      obj.style.height = el.scrollHeight + 'px';
+    }
+  } catch (e) {
+  }
 }
 
 window.onload = function() {

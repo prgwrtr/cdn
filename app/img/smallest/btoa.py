@@ -75,7 +75,7 @@ def b64decode(fn, sb64):
         binary_file.write( data )
 
 
-#b64decode("my.gif", "R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=")
+#b64decode("my.gif", "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")
 
 def b64encode(fn, verbose = False):
     with open(fn, "rb") as binary_file:
@@ -85,6 +85,7 @@ def b64encode(fn, verbose = False):
         print base64.b64encode(data)
         return sb64
 
+b64encode("gif-transparent.gif", True)
 b64encode("gif-white-dot.gif", True)
 b64encode("gif-white-dot2.gif", True)
 
