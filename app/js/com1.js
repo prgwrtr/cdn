@@ -136,7 +136,7 @@ function copyTextToClipboard(s, btn)
   el.value = s;                                   // Set its value to the string that you want copied
   el.style.position = 'absolute';
   var isRTL = (document.documentElement.getAttribute('dir') == 'rtl');
-  if ( isRTL ) { 
+  if ( isRTL ) {
     el.style.right = '-9999px';                      // Move outside the screen to make it invisible
   } else {
     el.style.left = '-9999px';                      // Move outside the screen to make it invisible

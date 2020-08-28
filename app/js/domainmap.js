@@ -1,181 +1,34 @@
 (function() {
-  var data = [
-  {
-    "name": "tzbk",
-    "live": [
-      "web2orrichardlu.one"
-    ],
-    "dead": [
-      "lujunhong2or.com",
-      "bloglurichardnet.site",
-      "bloglunetmaster.com",
-      "webmaster2orlu.online",
-      "bloglumasterweb.org",
-      "blogjunhonglunet.com",
-      "webrichard2orlu.com",
-      "richardlumaster.info",
-      "blogjunhongmaster.org",
-      "web2orjunhong.com",
-      "webmaster2or.org",
-      "blogweblumaster.org",
-      "lumasterblog.org",
-      "blogweblujunhong.net",
-      "blogjunhongluweb.com",
-      "webmaster2orlu.org",
-      "blogjunhongweb.com",
-      "blogwebrichardlu.org",
-      "web2orrichardlu.com",
-      "bloglunetrichard.com",
-      "www.web2orlujunhong.org",
-      "blogwebrichard.com",
-      "blogjunhonglunet.org",
-      "bloglumasterweb.net",
-      "junhong2or.net",
-      "web2orlujunhong.com",
-      "net2orrichard.online",
-      "bloglumasterweb.net"
-    ]
-  },
-  {
-    "name": "wgw",
-    "live": [
-      "xlch40.com"
-    ],
-    "dead": [
-      "xlch.org",
-      "xlch39.com"
-      "xlch38.com",
-      "xlch37.com",
-      "xlch36.com",
-      "xlch35.com",
-      "xlch34.com",
-      "xlch33.com",
-      "xlch32.com",
-      "xlch31.com",
-      "xlch30.com",
-      "xlch29.com",
-      "xlch28.com",
-      "xlch27.com",
-      "xlch26.com",
-      "xlch25.com",
-      "xlch24.com",
-      "xlch23.com",
-      "xlch22.com",
-      "xlch21.com",
-      "xlch20.com",
-      "xlch19.com",
-      "xlch18.com",
-      "xlch17.com",
-      "xlch16.com",
-      "xlch15.com",
-      "xlch14.com",
-      "xlch13.com",
-      "xlch12.com",
-      "xlch11.com",
-      "xlch10.com",
-      "xlch9.com",
-      "xlch8.com",
-      "xlch7.com",
-      "xlch6.com",
-      "xlch5.com",
-      "xlch4.com",
-      "xlch3.com",
-      "xlch2.com",
-      "xlch1.com",
-      "xlch.com"
-    ]
-  },
-  {
-    "name": "mflh",
-    "live": [
-      "baidu.haiweivipmflotuscibei.cloud/gegsyps/weibo"
-    ],
-    "dead": [
-      "baidu.mfxlianhua.cloud/gegsyps/weibo",
-      "vip.lianhuapureland.cloud/gegsyps/weibo",
-      "vip.tech.mflianhua.cloud/gegsyps/weibo",
-      "baidu.mflianhua.best/gegsyps/weibo",
-      "m.sina.cbxs.mfchyuts.com/baidu/luntan/fofa1",
-      "new.mfchyuts.com/baidu/luntan/fofa1",
-      "m.baidu.mulotus.fabushi.cloud/baidu/luntan/fofa1",
-      "baidu.new.mflotus.com/baidu/luntan/fofa1",
-      "new.mflotus.com/baidu/luntan/fofa1",
-      "mflotus.com/baidu/luntan/fofa1"
-    ]
-  },
-  {
-    "name": "caxl",
-    "live": [
-      "vip.blessedca.cloud/fofa/bbs",
-      "vip.gycciai.cloud/fofa/bbs",
-      "vip.xlpureland.cloud/fofa/bbs",
-      "sina.lotusciai.cloud/fofa/bbs",
-      "sina.meritlotus.cloud/fofa/bbs",
-      "www.sina.caxlotus.com/fofa/bbs",
-      "sina.caxlotus.com/fofa/bbs"
-    ],
-    "dead": [
-      "www.baidu.caxlotus.com/fofa/bbs",
-      "baidu.caxlotus.com/fofa/bbs",
-      "baidu.blisslotus.cloud/fofa/bbs"
-    ]
-  },
-  {
-    "name": "xlys",
-    "live": [
-      "www.ifeng.xlfmw.cloud",
-      "www.baidu.xlfmw.cloud",
-      "www.baidu.xly2.cloud"
-    ],
-    "dead": [
-      "www.baidu.xlys.cloud",
-      "baidu.xlys.cloud",
-      "baidu.app.xlfmwang.org",
-      "baidu.v.xlfmwang.org",
-      "baidu.video.xlfmwang.org",
-      "weibo.yun.xlfmwang.org",
-      "www.xlfmwz.com",
-      "xlfmwz.com"
-    ]
-  },
-  {
-    "name": "jchz",
-    "live": [
-      "www.baidu.wonderfulsummary.com/sinaweb/jchz",
-      "www.baidu.jchz68686568.com/sinaweb/jchz",
-      "www.baidu.lujiajun8.com/sinaweb/jchz"
-    ],
-    "dead": [
-    ]
-  },
-  {
-    "name": "balh",
-    "live": [
-      "www.balh01.com/cn/bbs"
-    ],
-    "dead": [
-    ]
-  },
-  {
-    "name": "xf8",
-    "live": [
-      "xf8.club"
-    ],
-    "dead": [
-      "xfabc.xyz"
-    ]
-  },
-  {
-    "name": "xf123",
-    "live": [
-      "xf123.rf.gd",
-      "xfabc.rf.gd"
-    ],
-    "dead": [
-      "xf8.rf.gd"
-    ]
-  }
-  ];
+  // avoid including this script twice
+  if ( window.domainMapScriptRequested__ ) return;
+  window.domainMapScriptRequested__ = true;
+
+  var loadData = function(path) {
+    var url, min = "", s;
+    if ( path === undefined ) {
+      path = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/"
+    }
+    if ( path.indexOf("jsdelivr") >= 0 ) {
+      min = ".min";
+    }
+    url = path + "js/dmapdata" + min + ".js";
+    // refresh the browser cache every 5 min = 300 s = 3e5 ms
+    url += "?t=" + Math.floor((new Date())/3e5);
+
+    s = document.createElement("SCRIPT");
+    s.src = url;
+    document.body.append(s);
+  };
+
+  // load data now
+  loadData(window.domainMapDataPath__);
+
+  // check if the data is ready
+  var isReady = function() {
+    return ( window.domainMapDataArray__ !== undefined
+          && typeof(window.domainMapDataArray__) === "object"
+          && window.domainMapDataArray__.length > 0 );
+  };
 
   // substitute dead domain occurrences by a live one
   // if opt.randomPick is true, the live alternative is picked up randomly,
@@ -185,6 +38,10 @@
   //    dead domains, and all of them are matched,
   //    otherwise, the function stops at the first match
   var sub = function(url, opt) {
+    var data = [];
+    if ( isReady() ) {
+      data = window.domainMapDataArray__;
+    }
     if ( opt === undefined ) opt = {};
 
     var i, obj, live, j, dead, p0, p, k;
@@ -215,7 +72,8 @@
   };
 
   window.DomainMap = {
-    "sub": sub,
+    "isReady": isReady,
+    "sub": sub
   };
-}());
+})();
 

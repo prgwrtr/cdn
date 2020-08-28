@@ -65,7 +65,7 @@ function genLink()
   }
 
   var dmap = document.getElementById("dmap").value;
-  if ( dmap !== "1" ) { // domain map is enabled by default 
+  if ( dmap !== "1" ) { // domain map is enabled by default
     args.push("dmap=" + dmap);
   }
 
@@ -146,7 +146,7 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
   url = URLHead.addBack(url);
 
   // replace dead domain names
-  if ( window.DomainMap && dmap !== "0" ) {
+  if ( window.DomainMap !== undefined && dmap !== "0" ) {
     var url1 = DomainMap.sub(url,
       {"randomPick": false, "findAll": false, "replaceAll": false});
     if ( url1 !== url ) {
@@ -197,8 +197,24 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
       x.innerHTML = ( title !== "" ?  title : "." );
     }
   }
-
 }
+
+
+// wait till the DomainMap data is loaded and then jump
+function handleInputURLWait(url, mode, enc, title, mobile, dmap)
+{
+  if ( dmap === "0" || window.DomainMap.isReady() ) {
+    handleInputURL(url, mode, enc, title, mobile, dmap);
+  } else {
+    var timer = setInterval(function() {
+      if ( window.DomainMap.isReady() ) {
+        handleInputURL(url, mode, enc, title, mobile, dmap);
+        clearInterval(timer);
+      }
+    }, 200);
+  }
+}
+
 
 (function(){
   // main function
@@ -274,6 +290,6 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
     setMobileViewport();
     document.getElementById("gen-panel").style.display = "";
   } else { // open the link
-    handleInputURL(url, mode, enc, title, mobile, dmap);
+    handleInputURLWait(url, mode, enc, title, mobile, dmap);
   }
 })();
