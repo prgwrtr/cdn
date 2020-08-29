@@ -32,15 +32,31 @@ function genLink()
   // remove "http://" and "https://" from the input url
   var url = document.getElementById("inp-url").value;
   url = url.split("\n")[0].trim(); // get the first line
+
+  // remove the leading "http://" or "https://"
   var ret = URLHead.cut(url);
-  if ( ret.err || ret.url === "" ) {
+  if ( ret.err ) {
+    url = "";
+  } else {
+    url = ret.url;
+  }
+
+  // removing the trailing "/"
+  if ( url.length > 0 ) {
+    var c = url.slice(url.length - 1);
+    if ( c === "/" ) {
+      url = url.slice(0, url.length - 1);
+    }
+  }
+
+  if ( url === "" ) {
+    // hide the output wrapper if url is empty
     document.getElementById("out-url-wrapper").style.display = "none";
     var a = document.getElementById("out-url");
     a.innerHTML = "";
     a.href = "#";
     return;
   }
-  url = ret.url;
 
   var args = [];
 
@@ -133,13 +149,24 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
 {
   var x, i;
 
+  // so we need to avoid that
   // decode the url
   if ( enc !== "none" ) {
+    // 2020.8.28: remove additional parameters after url=
+    // e.g. Wechat would appends "&from=timeline" when shared on Momemts
+    // we can safely remove these parameters if any encoding scheme exists
+    if ( (i=url.indexOf("&")) >= 0 ) {
+      url = url.slice(0, i);
+    }
     url = decodeURIComponent(url);
     if ( enc === "1" ) {
       url = flipenc(url);
     } else if ( enc === "2" ) {
       url = URIB64.decode(url);
+    }
+  } else {
+    if ((i=url.indexOf("&from=")) >= 0 ) {
+      url = url.slice(0, i);
     }
   }
   // prepend "http://" or "https://" if necessary
@@ -151,7 +178,7 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
       {"randomPick": false, "findAll": false, "replaceAll": false});
     if ( url1 !== url ) {
       //alert("DomainMap: " + url + " => " + url1);
-      console.log("DomainMap: " + url + " => " + url1);
+      //console.log("DomainMap: " + url + " => " + url1);
       url = url1;
     }
   }
@@ -286,7 +313,7 @@ function handleInputURLWait(url, mode, enc, title, mobile, dmap)
   }
 
   if ( url === undefined ) {
-    // no url in address bar, show the generation panel
+    // no url in address bar, show the generator panel
     setMobileViewport();
     document.getElementById("gen-panel").style.display = "";
   } else { // open the link

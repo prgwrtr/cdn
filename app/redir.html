@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta id="viewport">
   <title>链接转向</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/redir.css">
--->
   <link rel="stylesheet" href="./css/redir.css?v=0.10">
+-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/redir.css">
 </head>
 <body>
 
@@ -23,7 +24,11 @@
     <span class="three-dots">···</span>
     菜单
     <li>选择
-    <img src="https://i.niupic.com/images/2020/07/20/8qXI.png" alt="Browser" style="height:2em;vertical-align:middle">
+<!--
+      src="https://i.niupic.com/images/2020/07/20/8qXI.png"
+-->
+    <img src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/img/WechatOpenWithBrowser.png"
+      alt="在浏览器打开" style="height:2em;vertical-align:middle">
     “在浏览器打开”<br>
     <span style="font-size:80%">（英文版：“Open with Browser”）</span>
   </ul>
@@ -86,6 +91,7 @@
       <label for="server">服务器：</label><br>
       <select id="server" onchange="genLink()">
         <option value="" selected>当前</option>
+        <option value="http://baidu.xljt.cloud/extra/app/redir.html">心灵净土云盘</option>
         <option value="http://app.bhffer.com/redir.html">app.bhffer.com</option>
 <!--
         <option value="http://output.jsbin.com/gayacob">JSBin</option>
@@ -117,17 +123,17 @@
 <script src="./js/com1.js?v=0.27"></script>
 <script src="./js/urlhead.js?v=0.03"></script>
 <script src="./js/urib64.js?v=0.02"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/redir.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/redir.js?v=0.1.18"></script>
 -->
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urlhead.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urib64.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.17"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urlhead.min.js?v=0.1.17"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urib64.min.js?v=0.1.17"></script>
 <!--
 <script>window.domainMapDataPath__ = "./";</script>
 <script src="./js/domainmap.js?v=0.03"></script>
 -->
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/domainmap.min.js"></script>
-<script src="./js/redir.js?v=0.12"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/domainmap.min.js?v=0.1.17"></script>
+<script src="./js/redir.js?v=0.13"></script>
 
 </body>
 </html>
