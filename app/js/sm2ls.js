@@ -23,9 +23,13 @@ var titleTemplates = {
 var sm2BarUITemplates = {
   // default files installed on forums
   "header": ''
-    + '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/bar-ui.min.css"/>\n'
-    + '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/js/soundmanager2.min.js"></script>\n'
-    + '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/js/bar-ui.min.js"></script>\n',
+    //+ '<link rel="stylesheet" href="./sm2/Sound/bar-ui.css"/>\n'
+    //+ '<script type="text/javascript" src="./sm2/Sound/js/soundmanager2.js"></script>\n'
+    //+ '<script type="text/javascript" src="./sm2/Sound/js/bar-ui.js"></script>\n',
+    // don't use the .min versions, for they will confuse mbuembed.js
+    + '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/bar-ui.css"/>\n'
+    + '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/js/soundmanager2.js"></script>\n'
+    + '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/js/bar-ui.js"></script>\n',
 
   "installation-code": ''
     + '<div style="display:none">'

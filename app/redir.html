@@ -13,7 +13,7 @@ else if(V!==v)location.href=h.replace(V,v);})();
 </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
-  <link rel="stylesheet" href="./css/redir.css?v=0.10">
+  <link rel="stylesheet" href="./css/redir.css?v=0.13">
 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/redir.css?v=0.1.18">
 </head>
@@ -61,14 +61,14 @@ else if(V!==v)location.href=h.replace(V,v);})();
     </select>
   </div>
 
+  <div class="inp-group">
+    <label for="inp-title">网站标题（可选）：</label>
+    <textarea id="inp-title" rows="2" onchange="genLink()"></textarea>
+  </div>
+
   <div id="advanced-options" style="display:none">
     <div class="inp-group">
-      <label for="inp-title">网站标题（可选）：</label>
-      <textarea id="inp-title" rows="2" onchange="genLink()"></textarea>
-    </div>
-
-    <div class="inp-group">
-      <label for="enc">网址编码：</label><br>
+      <label for="enc">网址编码算法：</label><br>
       <select id="enc" onchange="genLink()">
         <option value="0" selected>默认</option>
         <option value="1">倒序+字母对换</option>

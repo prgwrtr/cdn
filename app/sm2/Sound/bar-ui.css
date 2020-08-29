@@ -862,7 +862,7 @@
  border-bottom: 1px solid #eeb03f;
    background:url(../Sound/image/fmplay2.png) no-repeat ;
   background-position: right -1px center;
-  background-size: 55px 55px;}
+  background-size: 55px 55px;
 }
 
 .sm2-playlist-wrapper ul li:nth-child(odd) {

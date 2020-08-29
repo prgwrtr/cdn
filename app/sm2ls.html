@@ -8,7 +8,7 @@
 // check the version of the address bar,
 // if it is missing or different from the current one
 // redirect the page to avoid browser caching
-(function(){h=location.href,V=0,v="v=0.31";
+(function(){h=location.href,V=0,v="v=0.31b";
 if((r=h.match(/[\?\&](v=[^\&]+)/i))!==null)V=r[1];
 if((p=h.indexOf("?"))<0)location.href=h+"?"+v;
 else if(V===0)location.href=h.slice(0,p+1)+v+"&"+h.slice(p+1);
@@ -16,9 +16,9 @@ else if(V===0)location.href=h.slice(0,p+1)+v+"&"+h.slice(p+1);
 </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
-  <link rel="stylesheet" href="./css/mkmedia.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.18">
+  <link rel="stylesheet" href="./css/mkmedia.css?v=0.31b">
 <style>
 .shift-down {
   transform:translateY(0.4em);
@@ -238,10 +238,10 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 
 <!--
 <script src="./js/com1.js?v=0.29"></script>
-<script src="./js/sm2ls.js?v=0.31"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.19"></script>
 -->
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.18"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.18"></script>
+<script src="./js/sm2ls.js?v=0.31b"></script>
 
 </body>
 </html>
