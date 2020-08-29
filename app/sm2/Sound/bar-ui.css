@@ -906,7 +906,7 @@ background:
  -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF000), 
   color-stop(40%,#FFCD02), color-stop(100%,#FEA404));
  background-position: right 0px center;font-weight: bold;    
- background-size: 55px 55px; contain;
+ background-size: 55px 55px, contain;
 }
 
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover a {
@@ -926,7 +926,7 @@ background:
  -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF000), 
   color-stop(40%,#FFCD02), color-stop(100%,#FEA404));
  background-position: right 0px center;font-weight: bold;    
- background-size: 55px 55px; contain;
+ background-size: 55px 55px, contain;
 }
 
 /*.sm2-bar-ui.dark-text ul li.selected a {

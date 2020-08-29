@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.18";
+var latestCDNVersion = "0.1.19";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -58,7 +58,6 @@ var sm2BarUITemplates = {
   "player": ''
     + '<div class="sm2-bar-ui playlist-open full-width {options}" style="font-size:{font-size};line-height:1;letter-spacing:0px">\n'
     + ' <div class="bd sm2-main-controls" style="background-color: {bar-color}">\n'
-    + '  <div class="sm2-inline-texture"></div>\n'
     + '  <div class="sm2-inline-gradient"></div>\n'
     + '  <div class="sm2-inline-element sm2-button-element">\n'
     + '   <div class="sm2-button-bd">\n'
@@ -97,9 +96,6 @@ var sm2BarUITemplates = {
     + '  </div>\n'
     + ' </div>\n'
     + ' <div class="bd sm2-playlist-drawer sm2-element" style="background-color:{bg-color}">\n'
-    + '  <div class="sm2-inline-texture">\n'
-    + '   <div class="sm2-box-shadow"></div>\n'
-    + '  </div>\n'
     + '  <div class="sm2-playlist-wrapper">\n'
     + '    <ul class="sm2-playlist-bd">\n'
     + '{list}'

@@ -125,38 +125,6 @@
  display: none;
 }
 
-.sm2-bar-ui.textured .sm2-inline-texture {
- position: absolute;
- top: 0px;
- left: 0px;
- width: 100%;
- height: 100%;
- /* for example */
- /* background-image: url(../image/wood_pattern_dark.png); */
- /* additional opacity effects can be applied here. */
- opacity: 0.75;
-
-}
-
-.sm2-bar-ui.textured.dark-text .sm2-inline-texture {
- /* dark text + textured case: use light wood background (for example.) */
- /* background-image: url(../image/patterns/wood_pattern.png); */
-}
-
-.sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper {
- /* dark text + textured case: ditch 10% dark on playlist body. */
- background-color: transparent;
-}
-
-.sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li:hover a,
-.sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li.selected a {
- /* dark + textured case: dark highlights */
- background-color: rgba(0,0,0,0.1);
- background-image: url(../image/black-10.png);
- /* modern browsers don't neeed the image */
- background-image: none, none;
-}
-
 .sm2-bar-ui .bd {
  display: table;
  border-bottom: none;
@@ -170,11 +138,6 @@
  background-color: rgba(0,0,0,0.2);
 }
 
-
-.sm2-bar-ui.textured .sm2-extra-controls .bd {
- /* lighten extra color overlays */
- background-color: rgba(0,0,0,0.05);
-}
 
 .sm2-bar-ui .sm2-extra-controls {
  background-color: transparent;
@@ -212,24 +175,6 @@
 
 
 
-
-.sm2-bar-ui.dark-text,
-.sm2-bar-ui.dark-text .bd a {
- color: #000;
-}
-
-.sm2-bar-ui.dark-text .sm2-inline-button {
- /* Warning/disclaimer: SVG might be fuzzy when inverted on Chrome, losing resolution on hi-DPI displays. */
- -webkit-filter: invert(1);
- /* SVG-based invert filter for Firefox */
- filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'invert\'><feColorMatrix in='SourceGraphic' type='matrix' values='-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0'/></filter></svg>#invert");
- /* IE 8 inverse filter, may only match pure black/white */
- /* filter: xray; */
- /* pending W3 standard */
- filter: invert(1);
- /* not you, IE < 10. */
- filter: none\9;
-}
 
 .sm2-bar-ui .bd a {
  text-decoration: none;
@@ -488,12 +433,6 @@
  transition: transform 0.15s ease-in-out;
 }
 
-/*
-.sm2-bar-ui.dark-text .sm2-progress .sm2-progress-ball {
- background-color: #000;
-}
-*/
-
 .sm2-progress .sm2-progress-track {
  background-color: rgba(0,0,0,0.4);
  background-image: url(../image/black-33.png); /* legacy */
@@ -680,36 +619,12 @@
  background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/music.svg);
 }
 
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li .sm2-cart,
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover .sm2-cart,
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li.selected .sm2-cart {
- background-image: url(../image/icomoon/entypo-25px-000000/PNG/cart.png);
- background-image: none, url(../image/icomoon/entypo-25px-000000/SVG/cart.svg);
-}
-
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li .sm2-music,
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover .sm2-music,
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li.selected .sm2-music {
- background-image: url(../image/icomoon/entypo-25px-000000/PNG/music.png);
- background-image: none, url(../image/icomoon/entypo-25px-000000/SVG/music.svg);
-}
-
-
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li .sm2-col {
- border-left-color: rgba(0,0,0,0.15);
-}
-
 .sm2-playlist-wrapper ul li .sm2-icon:hover {
  background-color: rgba(0,0,0,0.33);
 }
 
 .sm2-bar-ui .sm2-playlist-wrapper ul li .sm2-icon:hover {
  background-color: rgba(0,0,0,0.45);
-}
-
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li.selected .sm2-icon:hover {
- background-color: rgba(255,255,255,0.25);
- border-color: rgba(0,0,0,0.125);
 }
 
 .sm2-progress-ball .icon-overlay {
@@ -837,11 +752,6 @@
  transition: -webkit-filter 0.2s ease-in-out;
 }
 
-.sm2-bar-ui .bd.sm2-playlist-drawer .sm2-inline-texture {
- /* negative offset for height of top bar, so background is seamless. */
- background-position: 0px -2.8em;
-}
-
 .sm2-box-shadow {
  position: absolute;
  left: 0px;
@@ -868,9 +778,11 @@
 
 .sm2-playlist-wrapper ul li {
   border-bottom: 1px solid #eeb03f;
+  /*
   background: url(https://i2.vzan.cc/upload/image/png/20200710/0218775c4a214e7da97d961d3114060d.png) no-repeat;
-  /* background:url(../image/fmplay2.png) no-repeat; */
-  background-position: right -1px center;
+  */
+  background:url(../image/fmplay2.png) no-repeat;
+  background-position: right center;
   padding-right: 3em;
   background-size: 2.5em;}
 
@@ -912,21 +824,14 @@
  background-image: none, none;*/
 
  background:
- /*
  url(../image/playwrap.png) no-repeat,
- */
+ /*
  url(https://i2.vzan.cc/upload/image/png/20200710/98438cea44454a93bde35d96dd39a823.png) no-repeat,
+ */
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
  background-size: 2.5em, contain;
  background-position: right center;
  font-weight: bold;
-}
-
-.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover a {
- background-color: rgba(255,255,255,0.1);
- /* background-image: url(../image/playwrap.png); */
- background-image: url(https://i2.vzan.cc/upload/image/png/20200710/98438cea44454a93bde35d96dd39a823.png); 
- background-image: none, none;
 }
 
 
@@ -941,16 +846,10 @@
  */
  url(https://i2.vzan.cc/upload/image/png/20200710/bbb6105f740944edba48e9108149199a.png) no-repeat, 
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
- background-position: right 0px center;
+ background-position: right center;
  font-weight: bold;    
  background-size: 2.5em, contain;
 }
-
-/*.sm2-bar-ui.dark-text ul li.selected a {
- background-color: rgba(255,255,255,0.1);
- background-image: url(../image/black-10.png);
- background-image: none, none;
-}*/
 
 .sm2-bar-ui .disabled {
  filter: alpha(opacity=33); /* <= IE 8 */
@@ -1014,12 +913,6 @@
  box-sizing: padding-box;
 }
 
-.sm2-bar-ui.dark-text .label {
- background-color: rgba(0,0,0,0.1);
- background-image: url(../image/black-10.png);
- background-image: none, none;
-}
-
 .sm2-bar-ui .sm2-playlist-drawer .label {
  font-size: 0.8em;
  padding: 0px 3px;
@@ -1057,8 +950,10 @@
   margin: 0.3em 0.5em 0 0.5em !important;
   width: 2em !important;
   height: 2em !important;
+  /*
   background: url(https://i2.vzan.cc/upload/image/png/20200710/eb63f0029757475b8e50dc06ae7c1672.png) no-repeat center;
-  /* background: url(../image/lianhua.png) no-repeat center; */
+  */
+  background: url(../image/lianhua.png) no-repeat center;
   background-size: contain;
   float: left;
 }
