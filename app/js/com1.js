@@ -195,7 +195,7 @@ function createXMLHttp()
 }
 
 // AJAX URL shortener
-function shortenURL(url, type, callbackFunc)
+function shortenURL(url, type, callbackFunc, phpScriptPath)
 {
   var xmlhttp = createXMLHttp();
   xmlhttp.onreadystatechange = function() {
@@ -206,10 +206,38 @@ function shortenURL(url, type, callbackFunc)
       if ( resp.slice(0, 5).toLowerCase() !== "error" ) {
         var surl = resp; // if no error, response is url
         callbackFunc(resp);
+      } else {
+        console.log("shortenURL() failed\nURL: " + url + "\n"
+          + "Type: " + type + "\n"
+          + "Path: " + phpScriptPath + "\n" + resp);
       }
     }
   };
-  var cmd = 'https://app.bhffer.com/urlshortener.php?', opts = [];
+
+  var cmd = "", opts = [];
+  var knowServers = [/bhffer\.com/, /xl.*\.com/, /localhost:/]
+  var defPhpScriptPath = "https://app.bhffer.com/";
+  if ( phpScriptPath === undefined ) {
+    phpScriptPath = defPhpScriptPath;
+    var m = /^(http.*\/|localhost:.*\/).*?[.](htm|php)/.exec(location.href), p, j;
+    if ( m != null ) {
+      p = m[1]; // tentative server path
+      //console.log("tentative server path "+ p);
+      // check if the path is one that has a PHP server
+      for ( j = 0; j < knowServers.length; j++ ) {
+        if ( knowServers[j].test(p) ) {
+          //console.log("confirmed: " + knowServers[j] + " - " + p);
+          phpScriptPath = p;
+          break;
+        }
+      }
+    }
+  }
+  // append a slash if needed
+  if ( phpScriptPath.charAt(phpScriptPath.length-1) !== "/" ) {
+    phpScriptPath += "/";
+  }
+  var cmd = phpScriptPath + 'urlshortener.php?', opts = [];
   if ( type !== null && type !== undefined ) {
     opts.push( 'type=' + encodeURIComponent(type) );
   }

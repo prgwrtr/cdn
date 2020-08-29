@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SM2 音频列表生成器</title>
-<script>
+  <title>SM2 Bar-UI 音频列表生成器</title>
+<script> // version updater
 // check the version of the address bar,
 // if it is missing or different from the current one
 // redirect the page to avoid browser caching
-h=location.href,V=0,v="v=0.30";
+(function(){h=location.href,V=0,v="v=0.31";
 if((r=h.match(/[\?\&](v=[^\&]+)/i))!==null)V=r[1];
 if((p=h.indexOf("?"))<0)location.href=h+"?"+v;
 else if(V===0)location.href=h.slice(0,p+1)+v+"&"+h.slice(p+1);
-else if(V!==v)location.href=h.replace(V,v);
+  else if(V!==v)location.href=h.replace(V,v);})();
 </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
   <link rel="stylesheet" href="./css/mkmedia.css">
 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.17">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.18">
 <style>
 .shift-down {
   transform:translateY(0.4em);
@@ -28,7 +29,7 @@ else if(V!==v)location.href=h.replace(V,v);
 
 <div id="gen-page">
 <div id="heading">
-  <h1 id="big-heading">SM2 音频列表生成器</h1>
+  <h1 id="big-heading"><span class="badge">SM2 Bar-UI</span> 音频列表生成器</h1>
 
   <p id="lg-descr" class="descr" style="display:none">
     音频列表生成列表
@@ -37,7 +38,7 @@ else if(V!==v)location.href=h.replace(V,v);
 
 <div class="columns-container">
   <div id="gen-box" class="column">
-    <h1 id="little-heading">SM2 音频列表生成器</h1>
+    <h1 id="little-heading"><span class="badge">SM2 Bar-UI</span> 音频列表生成器</h1>
     <div class="container">
 
       <div class="inp-group">
@@ -180,7 +181,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 
     <div class="container" style="padding-top:5px">
       <label for="code">源代码：</label>
-      <textarea id="code" rows="12"
+      <textarea id="code" rows="16"
         onchange='onCodeChange()'></textarea>
 
       <div class="copy-btn-wrapper">
@@ -236,11 +237,11 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 </div> <!-- gen-page -->
 
 <!--
-<script src="./js/com1.js?v=0.28"></script>
-<script src="./js/sm2ls.js?v=0.30"></script>
+<script src="./js/com1.js?v=0.29"></script>
+<script src="./js/sm2ls.js?v=0.31"></script>
 -->
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.17"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.17"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.18"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.18"></script>
 
 </body>
 </html>

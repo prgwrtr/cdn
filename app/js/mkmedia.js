@@ -13,7 +13,7 @@ var titleTemplates = {
   'darkred': '<div style="padding:2px;border:1px solid #b21;border-radius:5px;margin:1em auto;width:760px;max-width:80%">'
     + '<div style="padding:0.5em 1em;border-radius:5px;background-color:#b21;color:#fff;font-size:16px;font-weight:bold;text-align:center;letter-spacing:0.1em">{title}</div></div>',
 
-  'pink': '<section style="padding:30px 0px"><p style="margin:0px 5% 20px 5%;padding:15px 2em;border-radius:3px;color:#fff;background-color:rgb(240,120,140);box-shadow:0.1em 0.1em 0.2em #caa;line-height:1.2;font-size:16px;font-weight:bold;text-shadow:1px 1px 5px rgba(80,0,0,0.3);text-align:center;">{title}</p></section>',
+  'pink': '<section style="padding:25px 0px 5px 0px"><p style="margin:0px 5% 20px 5%;padding:15px 2em;border-radius:3px;color:#fff;background-color:rgb(240,120,140);box-shadow:0.1em 0.1em 0.2em #caa;line-height:1.2;font-size:16px;font-weight:bold;text-shadow:1px 1px 5px rgba(80,0,0,0.3);text-align:center;">{title}</p></section>',
 
   'orange': '<section style="padding:30px 0px"><p style="width:96%;margin:auto;max-width:800px;margin-bottom:20px;padding:10px 5px;color:rgb(128,80,4);background-image:linear-gradient(to bottom,rgb(245,230,164),rgb(240,152,23));text-shadow:3px 4px 5px rgb(255,235,148);border:1px solid rgb(238,220,110);line-height:1.7;font-size:18px;font-weight:bold;text-align:center;">{title}</p></section>',
 
@@ -47,7 +47,9 @@ var descrTemplates = {
 var backgroundTemplates = {
   'simple': 'background-color:#fff',
 
-  'darkred': 'background-image:linear-gradient(160deg,rgba(255,200,200,0.3) 0%,rgba(255,255,250,1.0) 25% 45%,rgba(255,200,200,0.5) 70%,rgba(255,255,235,0.8) 85%,rgba(255,200,200,0.5) 100%)',
+  'darkred': 'background-color:#fff',
+  // disabling gradient b/c margin issue
+  //'background-image:linear-gradient(160deg,rgba(255,200,200,0.3) 0%,rgba(255,255,250,1.0) 25% 45%,rgba(255,200,200,0.5) 70%,rgba(255,255,235,0.8) 85%,rgba(255,200,200,0.5) 100%)',
 
   'pink': 'background-image:radial-gradient(circle,rgba(255,150,150,0.3) 0%,rgba(255,245,245,0.3) 70%,rgba(255,255,255,0.5) 80%,rgba(255,220,200,0.3) 100%)',
 
@@ -530,7 +532,16 @@ function writeCode(enc)
     if ( !ans ) return;
   }
 
-  var url = "https://app.bhffer.com/mkmedia.html"
+  var server = document.getElementById("inp-server").value,
+      url = server;
+
+  if ( server === "" ) { // use the current page as redir server
+    var s = location.href;
+    url = s; // address bar
+    var q = s.indexOf("?"); // look for "?"
+    if ( q >= 0 ) url = s.slice(0, q);
+  }
+
   var args = [], info = {}, tr;
 
   enc = document.getElementById("inp-encoding").value;
@@ -636,8 +647,10 @@ function getShortURL()
   var lurl = document.getElementById('long-url').value;
   if ( lurl === "" ) return 1;
   var type = document.getElementById('inp-surl-type').value;
+
   var btn = document.getElementById('surl-gen-btn');
   btn.disabled = true;
+
   shortenURL(lurl, type, function(surl){
     showShortURL(surl);
     btn.disabled = false;

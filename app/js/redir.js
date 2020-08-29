@@ -43,7 +43,7 @@ function genLink()
 
   // removing the trailing "/"
   if ( url.length > 0 ) {
-    var c = url.slice(url.length - 1);
+    var c = url.charAt(url.length - 1);
     if ( c === "/" ) {
       url = url.slice(0, url.length - 1);
     }
