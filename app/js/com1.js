@@ -194,6 +194,34 @@ function createXMLHttp()
   }
 }
 
+// extract the path from the input `url`,
+// check it against the list of valid server path `patterns`,
+// if it is one of them, choose it, otherwise, use the `defPath`
+// if `https` is given, convert http:// path to https:// ones
+function selectServerPath(url, patterns, defPath, https)
+{
+  var m = /^(http.*\/|localhost:.*\/).*?\.(htm|php)/.exec(url), p, j, path = defPath;
+  if ( m !== null ) {
+    p = m[1]; // tentative server path, e.g. http://abc.com/dir1/dir2/
+    // check against the permissible server patterns
+    for ( j = 0; j < patterns.length; j++ ) {
+      if ( patterns[j].test(p) ) {
+        path = p;
+        break;
+      }
+    }
+    // otherwise, p is not one of the valid server paths
+  }
+  if ( https ) {
+    path = path.replace(/^http:\/\//, "https://");
+  }
+  // append a slash if needed
+  if ( path.charAt(path.length-1) !== "/" ) {
+    path += "/";
+  }
+  return path;
+}
+
 // AJAX URL shortener
 function shortenURL(url, type, callbackFunc, phpScriptPath)
 {
@@ -214,29 +242,16 @@ function shortenURL(url, type, callbackFunc, phpScriptPath)
     }
   };
 
-  var cmd = "", opts = [];
-  var knowServers = [/bhffer\.com/, /xl.*\.com/, /localhost:/]
-  var defPhpScriptPath = "https://app.bhffer.com/";
   if ( phpScriptPath === undefined ) {
-    phpScriptPath = defPhpScriptPath;
-    var m = /^(http.*\/|localhost:.*\/).*?[.](htm|php)/.exec(location.href), p, j;
-    if ( m != null ) {
-      p = m[1]; // tentative server path
-      //console.log("tentative server path "+ p);
-      // check if the path is one that has a PHP server
-      for ( j = 0; j < knowServers.length; j++ ) {
-        if ( knowServers[j].test(p) ) {
-          //console.log("confirmed: " + knowServers[j] + " - " + p);
-          phpScriptPath = p;
-          break;
-        }
-      }
-    }
+    phpScriptPath = selectServerPath(location.href,
+      [/bhffer\.com/, /xljt.cloud/, /localhost:/],
+      "https://app.bhffer.com/");
   }
   // append a slash if needed
   if ( phpScriptPath.charAt(phpScriptPath.length-1) !== "/" ) {
     phpScriptPath += "/";
   }
+
   var cmd = phpScriptPath + 'urlshortener.php?', opts = [];
   if ( type !== null && type !== undefined ) {
     opts.push( 'type=' + encodeURIComponent(type) );

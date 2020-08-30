@@ -8,11 +8,11 @@
 // check the version of the address bar,
 // if it is missing or different from the current one
 // redirect the page to avoid browser caching
-(function(){h=location.href,V=0,v="v=0.32";
+(function(ver){h=location.href,V=0,v="v="+ver;
 if((r=h.match(/[\?\&](v=[^\&]+)/i))!==null)V=r[1];
 if((p=h.indexOf("?"))<0)location.href=h+"?"+v;
 else if(V===0)location.href=h.slice(0,p+1)+v+"&"+h.slice(p+1);
-  else if(V!==v)location.href=h.replace(V,v);})();
+else if(V!==v)location.href=h.replace(V,v);})("0.33");
 </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
@@ -211,6 +211,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
           <select id="inp-plugin-version" onchange="writeCode()">
             <option value="cdn-0.1.4">CDN稳定固定v0.1.4</option>
             <option value="cdn-0.1.16">CDN稳定固定v0.1.16</option>
+            <option value="cdn-0.1.19">CDN稳定固定v0.1.19</option>
             <option value="cdn-this" id="inp-plugin-version-this">CDN当前固定</option>
             <option value="cdn-latest">CDN最新</option>
             <option value="web-latest">本地最新</option>
@@ -223,8 +224,8 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
             前几个<b>固定</b>号的版本比较稳定，但不能自动更新。
             <b>CDN</b>版本比<b>本地</b>版本要快。
             <b>最新</b>或<b>强制最新</b>版本会自动更新这段加载脚本。
-            <b>最新</b>的版本在手机上仍会受到浏览器的缓存而滞后更新；
-            <b>强制最新</b>的版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
+            <b>最新</b>版本在手机上仍会因浏览器的缓存而滞后；
+            <b>强制最新</b>版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
           </div>
         </div>
 
@@ -236,11 +237,11 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 </div> <!-- gen-page -->
 
 <!--
-<script src="./js/com1.js?v=0.29"></script>
-<script src="./js/sm2ls.js?v=0.32"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.20"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.20"></script>
 -->
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.18"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.19"></script>
+<script src="./js/com1.js?v=0.30"></script>
+<script src="./js/sm2ls.js?v=0.33"></script>
 
 </body>
 </html>

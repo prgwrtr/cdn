@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.19";
+var latestCDNVersion = "0.1.20";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -176,7 +176,6 @@ function renderTitle(info)
   return renderTextComponent(info, "title", titleTemplates);
 }
 
-
 function getInstallationScriptSelection()
 {
   var s = "", fn = "sm2/js/mbuembed.js", path,
@@ -205,7 +204,11 @@ function getInstallationScriptSelection()
       alert("unknown CDN version " + ver + " " +  v[1]);
     }
   } else if ( v[0] === "web" ) {
-    path = "https://app.bhffer.com/" + fn;
+    path = selectServerPath(location.href,
+        [/bhffer\.com/, /xljt\.cloud/, /localhost:/],
+        "https://app.bhffer.com/");
+    //console.log("picking up " + path);
+    path += fn;
     if ( v[2] === "force" ) {
       s += 's.src="' + path + '?t="+Math.floor((new Date())/9e5);';
     } else {
