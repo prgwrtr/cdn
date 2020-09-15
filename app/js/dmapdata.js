@@ -110,10 +110,11 @@ window.domainMapDataArray__ = [
       "vip.xlpureland.cloud/fofa/bbs",
       "sina.lotusciai.cloud/fofa/bbs",
       "sina.meritlotus.cloud/fofa/bbs",
-      "www.sina.caxlotus.com/fofa/bbs",
-      "sina.caxlotus.com/fofa/bbs"
+      "vipbaidu.caxlotus.com/fofa/bbs"
     ],
     "dead": [
+      "www.sina.caxlotus.com/fofa/bbs",
+      "sina.caxlotus.com/fofa/bbs",
       "www.baidu.caxlotus.com/fofa/bbs",
       "baidu.caxlotus.com/fofa/bbs",
       "baidu.blisslotus.cloud/fofa/bbs"

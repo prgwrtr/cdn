@@ -134,7 +134,7 @@ function copyLink(cpbtn) {
 }
 
 function copyURL(cpbtn) {
-  var s = document.getElementById("url").innerHTML;
+  var s = document.getElementById("url").dataUrl;
   copyTextToClipboard(s, cpbtn);
   animateShow("url", [1.0, 300, 0.5, 200, 0.5, 500, 1.0]);
 }
@@ -183,6 +183,7 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
     }
   }
   document.getElementById("url").innerHTML = url;
+  document.getElementById("url").dataUrl = url;
 
   // check if the browser is Wechat
   var isWechat = !!navigator.userAgent.match(/MicroMessenger/i), action;
