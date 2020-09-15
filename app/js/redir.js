@@ -123,7 +123,7 @@ function linkShortened(surl)
 function shortenLink()
 {
   var s = document.getElementById("out-url").href;
-  // shortenURL() is defined in com1.js
+  // shortenURL() is defined in shortenurl.js
   shortenURL(s, 'bit.ly', linkShortened);
 }
 
