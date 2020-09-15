@@ -74,7 +74,7 @@ var templates = {
   "": ''
 };
 
-var hideLinkGenerator = false;
+var showLinkGenerator = false;
 
 function isDemoMode() {
   return (document.getElementById("demo-page").style.display !== "none");
@@ -301,7 +301,7 @@ function renderBackground(info)
     var el = document.getElementById("demo-page");
     el.style = bgs;
   } else {
-    if ( !hideLinkGenerator ) {
+    if ( showLinkGenerator ) {
       // apply the background only for link generation
       // because the code doesn't contain the background part
       var el = document.getElementById("preview-wrapper");
@@ -663,21 +663,21 @@ function handleHref()
 {
   var s = location.href; // address bar
   var p = s.indexOf("?");
-  if ( p < 0 ) return ret;
+  if ( p < 0 ) return;
   s = s.slice(p+1);
   var x = s.split("&"), i;
   for ( i = 0; i < x.length; i++ ) {
     var y = x[i].toLowerCase().trim().split("=");
     var key = y[0], val = y[1];
-    if ( key == "hidelg" ) {
-      hideLinkGenerator = ( val !== '0' );
+    if ( key == "showlg" ) {
+      showLinkGenerator = ( val !== '0' );
     }
     if ( key === "style" ) {
       document.getElementById("inp-style").value = val;
     }
   }
-  showOrHide('#link-generator', !hideLinkGenerator);
-  showOrHide('.lg-only', !hideLinkGenerator);
+  showOrHide('#link-generator', showLinkGenerator);
+  showOrHide('.lg-only', showLinkGenerator);
 }
 
 window.onload = function() {
