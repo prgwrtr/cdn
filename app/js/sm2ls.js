@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.20";
+var latestCDNVersion = "0.1.21";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -32,6 +32,17 @@ var sm2BarUITemplates = {
     + '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/js/bar-ui.js"></script>\n',
 
   "installation-code": ''
+    + '<section>\n'
+    + '<style>\n'
+    + 'span.lianhua{width:2em !important;height:2em !important;background-size:contain !important;background-position:center !important;}\n'
+    + '</style>\n'
+    + '<script>\n'
+    + 'var s=document.createElement("SCRIPT");\n'
+    + '{plugin-embed-code}\n'
+    + 'document.body.append(s);\n'
+    + '</script>\n'
+    + '</section>',
+/*
     + '<div style="display:none">'
     //+ '<img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" '
     //+ '<img src="data:image/bmp;base64,Qk0eAAAAAAAAABoAAAAMAAAAAQABAAEAGAD///8A" '
@@ -48,13 +59,13 @@ var sm2BarUITemplates = {
     +   's.insertRule("span.lianhua{width:2em !important;height:2em !important;background-size:contain !important}",s.cssRules.length);'
     +   '}catch(e){};'
     +   's=document.createElement("SCRIPT");'
-    +   '{installation-script-selection}'
+    +   '{plugin-embed-code}'
     +   'document.body.append(s)'
     //+   'this.parentNode.innerHTML="";'
     //+   'this.parentNode.style.display="none";'
     +   '})()\'>'
     + '</div>\n',
-
+*/
   "player": ''
     + '<div class="sm2-bar-ui playlist-open full-width {options}" style="font-size:{font-size};line-height:1;letter-spacing:0px">\n'
     + ' <div class="bd sm2-main-controls" style="background-color: {bar-color}">\n'
@@ -97,7 +108,7 @@ var sm2BarUITemplates = {
     + ' </div>\n'
     + ' <div class="bd sm2-playlist-drawer sm2-element" style="background-color:{bg-color}">\n'
     + '  <div class="sm2-playlist-wrapper">\n'
-    + '    <ul class="sm2-playlist-bd">\n'
+    + '    <ul class="sm2-playlist-bd{scroll-long-title}">\n'
     + '{list}'
     + '    </ul>\n'
     + '  </div>\n'
@@ -176,7 +187,7 @@ function renderTitle(info)
   return renderTextComponent(info, "title", titleTemplates);
 }
 
-function getInstallationScriptSelection()
+function getPluginEmbedCode()
 {
   var s = "", fn = "sm2/js/mbuembed.js", path,
     ver = document.getElementById("inp-plugin-version").value, v;
@@ -185,7 +196,8 @@ function getInstallationScriptSelection()
   v = ver.split("-");
   if ( v[0] === "local" ) {
     path = "./" + fn;
-    s += 'window.sm2root="./sm2/";s.src="' + path + '";';
+    s += 'window.sm2root="./sm2/";\n';
+    s += 's.src="' + path + '";';
   } else if ( v[0] === "cdn" ) {
     path = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn";
     if ( v[1] === "this" ) { // ver: "cdn-latest" => "cdn-0.1.4"
@@ -195,7 +207,7 @@ function getInstallationScriptSelection()
       // jsdelivr provides automatically minified js
       fn = fn.replace(/[.]js$/, ".min.js");
       path += "@" + v[1] + "/app/" + fn;
-      if ( v[2] === "force" ) {
+      if ( v[2] === "forced" ) {
         s += 's.src="' + path + '?t="+Math.floor((new Date())/9e5);';
       } else {
         s += 's.src="' + path + '?v="+sm2cdnver;';
@@ -203,13 +215,18 @@ function getInstallationScriptSelection()
     } else {
       alert("unknown CDN version " + ver + " " +  v[1]);
     }
-  } else if ( v[0] === "web" ) {
-    path = selectServerPath(location.href,
-        [/bhffer\.com/, /xljt\.cloud/, /localhost:/],
-        "https://app.bhffer.com/");
+  } else if ( v[0] === "xljt" || v[0] === "web" ) {
+    if ( v[0] === "xljt" ) {
+      s += 'window.sm2root="./sm2/";\n';
+      path = "http://baidu.xljt.cloud/extra/app/";
+    } else {
+      path = selectServerPath(location.href,
+          [/bhffer\.com/, /xljt\.cloud/, /localhost:/],
+          "https://app.bhffer.com/");
+    }
     //console.log("picking up " + path);
     path += fn;
-    if ( v[2] === "force" ) {
+    if ( v[2] === "forced" ) {
       s += 's.src="' + path + '?t="+Math.floor((new Date())/9e5);';
     } else {
       s += 's.src="' + path + '?v="+sm2cdnver;';
@@ -244,6 +261,9 @@ function writeSM2PlayerCode(info)
   //}
   info["options"] = opts.join(" ");
 
+  var scrollLongTitle = document.getElementById("inp-scroll-long-title").checked;
+  info["scroll-long-title"] = (scrollLongTitle ? " sm2-playlist-bd-scroll" : "");
+
   // compile the media list
   var needIcon = document.getElementById("inp-lianhua").checked;
   var list = "", i, x, title, url;
@@ -251,7 +271,7 @@ function writeSM2PlayerCode(info)
   // replace blank lines with spaces by a single line-break
   slist = slist.replace(/[ \t]+\n/g, "\n");
   slist = slist.split("\n\n");
-  var truncLongTitle = document.getElementById("inp-trunc-long-title").checked;
+  var scrollLongTitle = document.getElementById("inp-scroll-long-title").checked;
   for ( i = 0; i < slist.length; i++ ) {
     x = slist[i].replace(/^\s+|\s+$/g, "").split("\n");
     if ( x.length >= 2 ) {
@@ -274,7 +294,7 @@ function writeSM2PlayerCode(info)
       list += '      <li style="background-size:contain;overflow:hidden;white-space:nowrap;background-size:2.5em,contain">';
       if ( needIcon ) list += '<span class="lianhua" style="width:3em;height:2.5em;background-size:contain;background-position:center"></span>';
       list += '<a href="' + url + '" style="background-size:2.5em,contain">';
-      if ( truncLongTitle ) {
+      if ( scrollLongTitle ) {
         list += '<span style="display:inline-block;width:calc(100% - 4.5em);overflow:auto;white-space:nowrap">' + title + '</span>';
       } else {
         list += title;
@@ -289,7 +309,7 @@ function writeSM2PlayerCode(info)
   s += subKeys(sPlayer, info);
   if ( autoInstall ) {
     sinstall = sm2BarUITemplates["installation-code"];
-    info["installation-script-selection"] = getInstallationScriptSelection();
+    info["plugin-embed-code"] = getPluginEmbedCode();
     sinstall = subKeys(sinstall, info);
     s += sinstall;
   }

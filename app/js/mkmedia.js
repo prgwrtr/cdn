@@ -663,7 +663,7 @@ function handleHref()
 {
   var s = location.href; // address bar
   var p = s.indexOf("?");
-  if ( p < 0 ) return;
+  if ( p < 0 ) return ret;
   s = s.slice(p+1);
   var x = s.split("&"), i;
   for ( i = 0; i < x.length; i++ ) {

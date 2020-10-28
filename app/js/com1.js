@@ -26,27 +26,6 @@ function isWeChat() {
   return ua.match(/micromessenger/i) !== null;
 }
 
-// basic selector
-// `sel` can be '.myclass', '#myid' or 'TAG'
-// return an array of elements compatible with `sel`
-function S_(sel)
-{
-  var x, c = sel.charAt(0);
-  if ( c === '.' ) { // class selector
-    x = document.getElementsByClassName(sel.slice(1));
-  } else if ( c === '#' ) { // id selector
-    x = document.getElementById(sel.slice(1));
-    if ( x ) {
-      return [x,];
-    } else {
-      return [];
-    }
-  } else {
-    x = document.getElementsByTagName(sel.toUpperCase());
-  }
-  return x;
-}
-
 // basic animation: show and hide an element
 // `script` is [0th-opacity, duration, 1st-opacity, duration, 2nd-opacity...]
 function animateShow(el, script) {
@@ -93,7 +72,8 @@ function copyContentToClipboard(el, btn)
 {
   if ( isString(el) ) el = document.getElementById(el);
 
-  if ( el.nodeName === 'INPUT' || el.nodeName === 'TEXTAREA' ) {
+  if ( el.nodeName.toUpperCase() === 'INPUT'
+    || el.nodeName.toUpperCase() === 'TEXTAREA' ) {
     var isReadOnly = el.hasAttribute('readonly');
     if ( !isReadOnly ) {
       el.setAttribute('readonly', '');
@@ -143,7 +123,7 @@ function copyTextToClipboard(s, btn)
   var el = document.createElement('TEXTAREA'); // create a textarea element
   el.style.fontSize = '12pt'; // prevent zooming on iOS
   el.style.position = 'absolute';
-  // Move outside the screen to make it invisible
+  // move outside the screen to make it invisible
   var isRTL = (document.documentElement.getAttribute('dir') == 'rtl');
   if ( isRTL ) {
     el.style.right = '-9999px';
@@ -163,7 +143,7 @@ function copyTextToClipboard(s, btn)
 // `sel` can be '.myclass', '#myid' or 'TAG'
 function showOrHide(sel, show) {
   var x = sel, i, v;
-  if ( isString(sel) ) x = S_(sel);
+  if ( isString(sel) ) x = document.querySelector(sel);
   if ( !x && x.length === 0 ) {
     return;
   }

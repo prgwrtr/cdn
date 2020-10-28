@@ -2,10 +2,11 @@ window.domainMapDataArray__ = [
   {
     "name": "tzbk",
     "live": [
-      "web2orrichardlu.one"
+      "blogwebrichardlu.top",
     ],
     "dead": [
       "lujunhong2or.com",
+      "web2orrichardlu.one"
       "bloglurichardnet.site",
       "bloglunetmaster.com",
       "webmaster2orlu.online",
@@ -36,12 +37,15 @@ window.domainMapDataArray__ = [
     ]
   },
   {
-    "name": "wgw",
+    "name": "xlch",
     "live": [
-      "xlch40.com"
+      "xlch43.com"
     ],
     "dead": [
       "xlch.org",
+      "xlch42.com"
+      "xlch41.com"
+      "xlch40.com"
       "xlch39.com",
       "xlch38.com",
       "xlch37.com",

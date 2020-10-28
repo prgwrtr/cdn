@@ -109,7 +109,7 @@
 
     // prepended to tracks when a sound fails to load/play
     extras = {
-      loadFailedCharacter: '<span title="Failed to load/play." class="load-error">âœ–</span>'
+      loadFailedCharacter: '', // '<span title="Failed to load/play." class="load-error">âœ–</span>'
     };
 
     function stopOtherSounds() {

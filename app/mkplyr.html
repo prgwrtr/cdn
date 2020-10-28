@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Plyr 音频视频生成器</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<!--
+  <link rel="stylesheet" href="./css/mkmedia.css?v=0.32">
+-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
+<style>
+.shift-down {
+  transform:translateY(0.4em);
+}
+</style>
+</head>
+<body>
+
+<div id="gen-page">
+<div id="heading">
+  <h1 id="big-heading"><span class="badge">Plyr</span> 音频视频生成器</h1>
+
+  <p id="lg-descr" class="descr" style="display:none">
+    音频视频生成器
+  </p>
+</div>
+
+<div class="columns-container">
+  <div id="gen-box" class="column">
+    <h1 id="little-heading"><span class="badge">Plyr</span> 音频视频生成器</h1>
+    <div class="container">
+
+      <div class="inp-group">
+        <label for="inp-media-title" class="single-line">标题（可选）：</label>
+        <textarea id="inp-media-title" rows="3"
+          placeholder="【音频或视频的标题】"
+          onchange="writeCode()">【标题】</textarea>
+      </div>
+
+      <div class="inp-group">
+        <label for="inp-style">标题样式：</label>
+        <select id="inp-style" onchange="writeCode()">
+          <option value="simple">简单</option>
+          <option value="darkred" selected>深红</option>
+          <option value="pink">粉红</option>
+          <option value="orange">橘黄</option>
+        </select>
+      </div>
+
+      <div class="inp-group">
+        <label for="inp-media-src" class="single-line">音频或视频网址：</label>
+        <textarea id="inp-media-src" rows="2"
+          placeholder="http://my.web.site/video.mp4"
+          onchange="writeCode()"></textarea>
+      </div>
+
+      <div id="inp-video-poster-wrapper" class="inp-group">
+        <label for="inp-video-poster" class="single-line">视频封面网址：</label>
+        <textarea id="inp-video-poster" rows="2"
+          placeholder="http://my.web.site/video-poster.jpg"
+          onchange="writeCode()"></textarea>
+      </div>
+
+      <div class="inp-group" style="text-align:center;margin:30px 0px;">
+        <button class="big-btn" type="button"
+          onclick='writeCode()'>生成</button>
+      </div>
+
+      <h3 style="background-color:#7af;color:#fff;padding:0.5em 1.5em;margin:0px;">
+        选项
+      </h3>
+      <section style="background-color:#eef;padding:20px 1% 40px 1%;margin:0px;">
+
+        <div class="inp-group">
+          <label for="inp-color-main">主色：
+          <input id="inp-color-main" type="color" value="#00b3ff"
+            onchange="writeCode()">
+          <span id="color-main-display"></span>
+          </label>
+        </div>
+
+        <div class="inp-group">
+          <label for="inp-audio-controls-background">音频背景色：
+          <input id="inp-audio-controls-background" type="text" value="#ffffff"
+            onchange="writeCode()">
+          <span id="audio-controls-background-display"></span>
+          </label>
+        </div>
+
+        <div class="inp-group">
+          <label for="inp-audio-control-color">音频背景色：
+          <input id="inp-audio-control-color" type="color" value="#4a5464"
+            onchange="writeCode()">
+          <span id="audio-control-color-display"></span>
+          </label>
+        </div>
+
+        <div class="inp-group">
+          <label for="inp-volume-btn">
+            <input id="inp-volume-btn" type="checkbox" onchange="writeCode()">
+            音量按钮
+          </label>
+        </div>
+
+      </section>
+    </div> <!-- container -->
+  </div> <!-- column -->
+
+  <div class="column">
+    <h1>预览</h1>
+    <div id="preview-wrapper" class="container">
+      <div id="preview-box">
+        <div style="color:#777;padding:1em;">注：代码预览可能需要一段时间，请稍等；部分效果可能无法在预览中正常显示</div>
+        <!-- <div id="preview-canvas"></div> -->
+        <iframe id="preview-iframe" scrolling="no" style="width:100%;border:1px dotted #cc8;"></iframe>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top:5px">
+      <label for="code">源代码：</label>
+      <textarea id="code" rows="16"
+        onchange='onCodeChange()'></textarea>
+
+      <div class="copy-btn-wrapper">
+        <button id="copy-code-btn" class="copy-btn" type="button"
+          onclick='copyAnimated("code", "copy-code-btn", "code-copied-msg")'
+          >复制</button>
+        <span id="code-copied-msg" class="copied-msg" style="display:none;">
+          已复制代码到剪贴板
+        </span>
+        <div class="inp-group">
+          <label for="inp-pack-code">
+            <input id="inp-pack-code" type="checkbox" onchange="writeCode()">
+            压缩代码
+          </label>
+        </div>
+        <div class="inp-group">
+          <label for="inp-auto-install">
+            <input id="inp-auto-install" type="checkbox" checked onchange="writeCode()">
+            自动安装插件代码
+          </label>
+          <div class="inp-note">需要时自动安装播放器脚本代码及相关样式，避免重复的代码。</div>
+        </div>
+        <div class="inp-group">
+          <label for="inp-plugin-version">
+            插件加载脚本版本
+          </label>
+          <select id="inp-plugin-version" onchange="writeCode()">
+            <option value="cdn-0.1">CDN稳定固定v0.1</option>
+            <option value="cdn-this" id="inp-plugin-version-this">CDN当前固定</option>
+            <option value="cdn-latest">CDN最新</option>
+            <option value="web-latest">本地最新</option>
+            <option value="cdn-latest-force" selected>CDN强制最新</option>
+            <option value="web-latest-force">本地强制最新</option>
+            <option value="local">内部测试用</option>
+          </select>
+          <div class="inp-note">
+            插件加载脚本 <code>mbuembed(.min).js</code> 是一段很短的脚本（一般小于10K），会根据论坛设置加载的完整的插件，或如果论坛已经安装插件的话，仅加载一小段样式修改文件。
+            前几个<b>固定</b>号的版本比较稳定，但不能自动更新。
+            <b>CDN</b>版本比<b>本地</b>版本要快。
+            <b>最新</b>或<b>强制最新</b>版本会自动更新这段加载脚本。
+            <b>最新</b>版本在手机上仍会因浏览器的缓存而滞后；
+            <b>强制最新</b>版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div> <!-- right column -->
+
+</div> <!-- columns-container -->
+</div> <!-- gen-page -->
+
+<!--
+<script src="./js/com1.js?v=0.31"></script>
+-->
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.20"></script>
+<script src="./js/mkplyr.js?v=0.01"></script>
+
+</body>
+</html>

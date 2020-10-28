@@ -102,7 +102,7 @@ MBUEmbed = {
 
     // special patch for XLYS mobile version
     MBUEmbed.patchXLYSMobile();
-    
+
     // we will not change the following two factory js files
     // they can be updated less frequently
     MBUEmbed.installScript(safeRoot + "js/soundmanager2.js");

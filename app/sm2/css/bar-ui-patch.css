@@ -1,58 +1,83 @@
-/* adding .sm2-sm2-progress-bd for specificity */
+/* @Ln489, adding .sm2-sm2-progress-bd for specificity */
 .sm2-progress .sm2-progress-bd .sm2-progress-track {
   background-color: rgba(0,0,0,0.4) !important;
 }
 
-/* adding .sm2-playlist-bd for specificity */
+/* @Ln861, adding .sm2-playlist-bd for specificity */
 .sm2-playlist-wrapper ul.sm2-playlist-bd li {
   padding-right: 3em !important; /* for the right buttons, fmplay2.png or fmpause2.png */
   background-size: 2.5em !important;
+  background-position: right bottom; /* vertically align at the bottom for multi-line title */
 }
 
+.sm2-playlist-wrapper ul.sm2-playlist-bd.sm2-playlist-bd-scroll li {
+  background-position: right top !important;
+}
+
+/* @Ln877, 2020.10.28 use multiple-line instead of auto scroll */
 .sm2-playlist-wrapper ul.sm2-playlist-bd li a {
+  padding-left: 0em !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  text-overflow: clip !important; /* 2020.8.26 override "ellipsis" in old version? */
+}
+
+.sm2-playlist-wrapper ul.sm2-playlist-bd.sm2-playlist-bd-scroll li a {
   padding-left: 0em !important;
   overflow: auto !important;
   white-space: nowrap !important;
   text-overflow: clip !important; /* 2020.8.26 override "ellipsis" in old version? */
 }
 
+/* @Ln899 */
 .sm2-playlist-wrapper ul.sm2-playlist-bd li:hover a {
+  /* move the background-image to li */
   background: none !important;
 }
 
 .sm2-playlist-wrapper ul.sm2-playlist-bd li:hover {
   background: url(../image/playwrap.png) no-repeat,
   -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
-  background-position: right center;
+  background-position: right bottom;
   background-size: 2.5em, contain !important;
 }
 
+.sm2-playlist-wrapper ul.sm2-playlist-bd.sm2-playlist-bd-scroll li:hover {
+  background-position: right top !important;
+}
+
+/* @Ln922 */
 .sm2-playlist-wrapper ul.sm2-playlist-bd li.selected a {
+  /* move the background-image to li */
   background: none !important;
+  font-weight: bold !important;
 }
 
 .sm2-playlist-wrapper ul.sm2-playlist-bd li.selected {
   background: url(../image/fmpause2.png) no-repeat,
   -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
-  background-position: right center;
+  background-position: right bottom;
   background-size: 2.5em, contain !important;
 }
 
-/* adding li should win by specificity */
+.sm2-playlist-wrapper ul.sm2-playlist-bd.sm2-playlist-bd-scroll li.selected {
+  background-position: right top !important;
+}
+
+/* @Ln1039, add li to win by specificity */
 .sm2-playlist-bd li span.lianhua {
-  margin: 0.3em 0.5em 0 0.5em !important;
+  margin: 0.3em 0.5em 0 0.25em !important;
   width: 2em !important;
   height: 2em !important;
   background-size: contain !important;
   background-position: center !important;
 }
 
-/* adding .sm2-playlist-bd and important to enforce color */
+/* @Ln194, adding .sm2-playlist-bd and important to enforce color */
 .sm2-bar-ui .bd .sm2-playlist-bd a {
   color: #930a00 !important;
 }
 
-/* enforced the selected item to be bold */
+/* ensure that the selected item is bold */
 .sm2-playlist-wrapper ul li.selected a {
- font-weight: bold !important;
 }

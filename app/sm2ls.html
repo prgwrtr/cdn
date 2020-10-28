@@ -6,12 +6,17 @@
   <title>SM2 Bar-UI 音频列表生成器</title>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
-  <link rel="stylesheet" href="./css/mkmedia.css?v=0.32">
--->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
+-->
+  <link rel="stylesheet" href="./css/mkmedia.css?v=0.32">
 <style>
 .shift-down {
   transform:translateY(0.4em);
+}
+.help-text {
+  padding: 0 1em;
+  font-size: 80%;
+  color: #555;
 }
 </style>
 </head>
@@ -22,7 +27,7 @@
   <h1 id="big-heading"><span class="badge">SM2 Bar-UI</span> 音频列表生成器</h1>
 
   <p id="lg-descr" class="descr" style="display:none">
-    音频列表生成列表
+    音频列表生成器
   </p>
 </div>
 
@@ -72,81 +77,84 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
       </h3>
       <section style="background-color:#eef;padding:20px 1% 40px 1%;margin:0px;">
 
-      <div class="inp-group">
-        <label for="inp-font-size">字体大小：
-        <input id="inp-font-size" type="range" size="6"
-          value="16" min="12" max="28" class="shift-down"
-          onchange='writeCode()'>
-        <span id="font-size-display"></span> px </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-font-size">字体大小：
+          <input id="inp-font-size" type="range" size="6"
+            value="16" min="12" max="28" class="shift-down"
+            onchange='writeCode()'>
+          <span id="font-size-display"></span> px </label>
+        </div>
 
-      <div class="inp-group">
-        <label for="inp-3d-bar">
-          <input id="inp-3d-bar" type="checkbox" onchange="writeCode()">
-          立体感控制栏
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-3d-bar">
+            <input id="inp-3d-bar" type="checkbox" onchange="writeCode()">
+            立体感控制栏
+          </label>
+        </div>
 
-      <div class="inp-group">
-        <label for="inp-bar-color">控制栏底色：
-        <input id="inp-bar-color" type="color" value="#dd4444"
-          onchange="writeCode()">
-        <span id="bar-color-display"></span>
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-bar-color">控制栏底色：
+          <input id="inp-bar-color" type="color" value="#dd4444"
+            onchange="writeCode()">
+          <span id="bar-color-display"></span>
+          </label>
+        </div>
 
 <!--
-      <div class="inp-group">
-        <label for="inp-volume-btn">
-          <input id="inp-volume-btn" type="checkbox" onchange="writeCode()">
-          音量按钮
-          <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/volume.png"
-            alt="volume" class="shift-down" style="height:1.5em">
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-volume-btn">
+            <input id="inp-volume-btn" type="checkbox" onchange="writeCode()">
+            音量按钮
+            <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/volume.png"
+              alt="volume" class="shift-down" style="height:1.5em">
+          </label>
+        </div>
 -->
 
-      <div class="inp-group">
-        <label for="inp-prev-btn">
-          <input id="inp-prev-btn" type="checkbox" onchange="writeCode()">
-          上一首按钮
-          <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/first.png"
-            alt="prev" class="shift-down" style="height:1.5em">
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-prev-btn">
+            <input id="inp-prev-btn" type="checkbox" onchange="writeCode()">
+            上一首按钮
+            <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/first.png"
+              alt="prev" class="shift-down" style="height:1.5em">
+          </label>
+        </div>
 
-      <div class="inp-group">
-        <label for="inp-next-btn">
-          <input id="inp-next-btn" type="checkbox" checked onchange="writeCode()">
-          下一首按钮
-          <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/last.png"
-            alt="next" class="shift-down" style="height:1.5em">
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-next-btn">
+            <input id="inp-next-btn" type="checkbox" checked onchange="writeCode()">
+            下一首按钮
+            <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/last.png"
+              alt="next" class="shift-down" style="height:1.5em">
+          </label>
+        </div>
 
-      <div class="inp-group">
-        <label for="inp-bg-color">背景颜色：
-        <input id="inp-bg-color" type="color" value="#fff5d1"
-          onchange="writeCode()">
-        <span id="bg-color-display"></span>
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-bg-color">背景颜色：
+          <input id="inp-bg-color" type="color" value="#fff5d1"
+            onchange="writeCode()">
+          <span id="bg-color-display"></span>
+          </label>
+        </div>
 
-      <div class="inp-group">
-        <label for="inp-lianhua">
-          <input id="inp-lianhua" type="checkbox" checked onchange="writeCode()">
-          列表项图标
-          <img src="./sm2/image/lianhua.png" alt="lianhua"
-            class="shift-down" style="height:1.5em">
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-lianhua">
+            <input id="inp-lianhua" type="checkbox" checked onchange="writeCode()">
+            列表项图标
+            <img src="./sm2/image/lianhua.png" alt="lianhua"
+              class="shift-down" style="height:1.5em">
+          </label>
+        </div>
 
-      <div class="inp-group">
-        <label for="inp-trunc-long-title">
-          <input id="inp-trunc-long-title" type="checkbox" onchange="writeCode()">
-          滑动长标题（仅兼容模式）
-        </label>
-      </div>
+        <div class="inp-group">
+          <label for="inp-scroll-long-title">
+            <input id="inp-scroll-long-title" type="checkbox" onchange="writeCode()">
+            长标题下加滚动条
+          </label>
+          <div class="help-text">
+            默认多行显示长标题，选上此选项后在长标题下显示滚动条
+          </div>
+        </div>
       </section>
     </div> <!-- container -->
   </div> <!-- column -->
@@ -204,15 +212,17 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
             <option value="cdn-0.1.19">CDN稳定固定v0.1.19</option>
             <option value="cdn-this" id="inp-plugin-version-this">CDN当前固定</option>
             <option value="cdn-latest">CDN最新</option>
+            <option value="xljt-latest">XLJT最新</option>
             <option value="web-latest">本地最新</option>
-            <option value="cdn-latest-force" selected>CDN强制最新</option>
-            <option value="web-latest-force">本地强制最新</option>
+            <option value="cdn-latest-forced" selected>CDN强制最新</option>
+            <option value="xljt-latest-forced" selected>XLJT强制最新</option>
+            <option value="web-latest-forced">本地强制最新</option>
             <option value="local">内部测试用</option>
           </select>
           <div class="inp-note">
             插件加载脚本 <code>mbuembed(.min).js</code> 是一段很短的脚本（一般小于10K），会根据论坛设置加载的完整的插件，或如果论坛已经安装插件的话，仅加载一小段样式修改文件。
             前几个<b>固定</b>号的版本比较稳定，但不能自动更新。
-            <b>CDN</b>版本比<b>本地</b>版本要快。
+            <b>XLJT</b>和<b>CDN</b>版本比<b>本地</b>版本要快。
             <b>最新</b>或<b>强制最新</b>版本会自动更新这段加载脚本。
             <b>最新</b>版本在手机上仍会因浏览器的缓存而滞后；
             <b>强制最新</b>版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
@@ -227,13 +237,12 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 </div> <!-- gen-page -->
 
 <!--
-<script src="./js/com1.js?v=0.31"></script>
-<script src="./js/shortenurl.js?v=0.01"></script>
-<script src="./js/sm2ls.js?v=0.33"></script>
--->
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.20"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/shortenurl.min.js?v=0.1.20"></script>
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.20"></script>
+-->
+<script src="./js/com1.js?v=0.31"></script>
+<script src="./js/shortenurl.js?v=0.34"></script>
+<script src="./js/sm2ls.js?v=0.34"></script>
 
 </body>
 </html>

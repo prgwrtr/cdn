@@ -163,10 +163,6 @@
   color: #930a00 !important;
 }
 
-.sm2-playlist-wrapper ul li.selected a {
-  font-weight: bold !important;
-}
-
 .sm2-bar-ui,
 .sm2-bar-ui .bd3 a {
  color: #FFF;
@@ -782,10 +778,13 @@
   background: url(https://i2.vzan.cc/upload/image/png/20200710/0218775c4a214e7da97d961d3114060d.png) no-repeat;
   */
   background:url(../image/fmplay2.png) no-repeat;
-  background-position: right center;
+  background-position: right bottom;
   padding-right: 3em;
   background-size: 2.5em;}
 
+.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li {
+  background-position: right top;
+}
 
 .sm2-playlist-wrapper ul li:nth-child(odd) {
  background-color: rgba(0, 0, 0, 0.03);
@@ -798,13 +797,19 @@
 
 .sm2-playlist-wrapper ul li a {
  display: block;
- padding: 0.5em 0.25em 0.5em 0em;
+ padding: 0.5em 0.25em;
  margin-right: 0px;
  font-size: 110%;
  vertical-align: middle;
- overflow: auto;
- white-space: nowrap;
+ overflow: visible;
+ white-space: normal;
  text-overflow: clip; /* 2020.8.26: override "ellipsis" in old versions? */
+}
+
+.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li a {
+  overflow: auto;
+  white-space: nowrap;
+  text-overflow: clip;
 }
 
 .sm2-playlist-wrapper ul li a.sm2-exclude {
@@ -830,25 +835,35 @@
  */
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
  background-size: 2.5em, contain;
- background-position: right center;
+ background-position: right bottom;
  font-weight: bold;
 }
 
+.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li:hover {
+  background-position: right top;
+}
 
-
-
+.sm2-playlist-wrapper ul li.selected a {
+  background: none !important;
+  font-weight: bold !important;
+}
 
 .sm2-playlist-wrapper ul li.selected,
 .sm2-playlist-wrapper ul li.selected:hover {
  background:
  /*
- url(../image/fmpause2.png) no-repeat, 
+ url(https://i2.vzan.cc/upload/image/png/20200710/bbb6105f740944edba48e9108149199a.png) no-repeat,
  */
- url(https://i2.vzan.cc/upload/image/png/20200710/bbb6105f740944edba48e9108149199a.png) no-repeat, 
+ url(../image/fmpause2.png) no-repeat, 
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
- background-position: right center;
+ background-position: right bottom;
  font-weight: bold;    
  background-size: 2.5em, contain;
+}
+
+.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li.selected,
+.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li.selected:hover {
+ background-position: right top;
 }
 
 .sm2-bar-ui .disabled {
@@ -947,7 +962,7 @@
 }
 
 .sm2-playlist-bd span.lianhua{
-  margin: 0.3em 0.5em 0 0.5em !important;
+  margin: 0.3em 0.8em 0 0.25em !important;
   width: 2em !important;
   height: 2em !important;
   /*
