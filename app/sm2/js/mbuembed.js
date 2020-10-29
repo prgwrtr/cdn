@@ -86,7 +86,10 @@
       installCSS(root + "css/bar-ui.css");
     } else {
       // system already has the CSS, install the patch
-      installCSS(root + "css/bar-ui-patch.css");
+      var patchCSS = findCSS("bar-ui-patch.");
+      if ( patchCSS === null ) {
+        installCSS(root + "css/bar-ui-patch.css");
+      }
     }
 
     var sm2JS = findJS("soundmanager2.js"),
@@ -103,6 +106,9 @@
     var players = getPlayers(), i, p, d;
     for ( i = 0; i < players.length; i++ ) {
       p = players[i];
+      if ( p.style.display === "none" ) {
+        continue;
+      }
       p.style.display = "none";
       d = document.createElement("DIV");
       d.className = "player-info";
@@ -172,7 +178,7 @@
     }, 1000);
     // in this case, the plugin is not installed
     // no CSS and JS exists
-    // we can immediately embed()
+    // we can immediately call embed()
     embed();
   } else {
     // in other cases, we embed() only after the DOM is ready,

@@ -6,17 +6,34 @@
   <title>SM2 Bar-UI 音频列表生成器</title>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
--->
   <link rel="stylesheet" href="./css/mkmedia.css?v=0.32">
+-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
 <style>
 .shift-down {
   transform:translateY(0.4em);
 }
-.help-text {
-  padding: 0 1em;
-  font-size: 80%;
-  color: #555;
+.opt-group-heading {
+  background-color: #7ad;
+  color: #fff;
+  font-size: 120%;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  padding: 0.5em 1.5em;
+  margin-bottom: 0px;
+}
+.opt-group-body {
+  background-color:#fcfcfc;
+  padding:20px 1% 40px 1%;
+  margin-top: 0px;
+}
+.opt-group-body .inp-note {
+  border-left: 4px solid #7ad;
+  margin: 0.5em 0.5em 1em 1.5em;
+  padding: 0.2em 1em;
+  background-color: rgba(255,255,255,0.4);
+  max-height: 150px;
+  overflow-y: auto;
 }
 </style>
 </head>
@@ -72,90 +89,92 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
           onclick='writeCode()'>生成</button>
       </div>
 
-      <h3 style="background-color:#7af;color:#fff;padding:0.5em 1.5em;margin:0px;">
-        音频列表选项
-      </h3>
-      <section style="background-color:#eef;padding:20px 1% 40px 1%;margin:0px;">
-
-        <div class="inp-group">
-          <label for="inp-font-size">字体大小：
-          <input id="inp-font-size" type="range" size="6"
-            value="16" min="12" max="28" class="shift-down"
-            onchange='writeCode()'>
-          <span id="font-size-display"></span> px </label>
+      <div class="opt-group">
+        <div class="opt-group-heading">
+          音频列表选项
         </div>
+        <div class="opt-group-body">
 
-        <div class="inp-group">
-          <label for="inp-3d-bar">
-            <input id="inp-3d-bar" type="checkbox" onchange="writeCode()">
-            立体感控制栏
-          </label>
-        </div>
-
-        <div class="inp-group">
-          <label for="inp-bar-color">控制栏底色：
-          <input id="inp-bar-color" type="color" value="#dd4444"
-            onchange="writeCode()">
-          <span id="bar-color-display"></span>
-          </label>
-        </div>
-
-<!--
-        <div class="inp-group">
-          <label for="inp-volume-btn">
-            <input id="inp-volume-btn" type="checkbox" onchange="writeCode()">
-            音量按钮
-            <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/volume.png"
-              alt="volume" class="shift-down" style="height:1.5em">
-          </label>
-        </div>
--->
-
-        <div class="inp-group">
-          <label for="inp-prev-btn">
-            <input id="inp-prev-btn" type="checkbox" onchange="writeCode()">
-            上一首按钮
-            <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/first.png"
-              alt="prev" class="shift-down" style="height:1.5em">
-          </label>
-        </div>
-
-        <div class="inp-group">
-          <label for="inp-next-btn">
-            <input id="inp-next-btn" type="checkbox" checked onchange="writeCode()">
-            下一首按钮
-            <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/last.png"
-              alt="next" class="shift-down" style="height:1.5em">
-          </label>
-        </div>
-
-        <div class="inp-group">
-          <label for="inp-bg-color">背景颜色：
-          <input id="inp-bg-color" type="color" value="#fff5d1"
-            onchange="writeCode()">
-          <span id="bg-color-display"></span>
-          </label>
-        </div>
-
-        <div class="inp-group">
-          <label for="inp-lianhua">
-            <input id="inp-lianhua" type="checkbox" checked onchange="writeCode()">
-            列表项图标
-            <img src="./sm2/image/lianhua.png" alt="lianhua"
-              class="shift-down" style="height:1.5em">
-          </label>
-        </div>
-
-        <div class="inp-group">
-          <label for="inp-scroll-long-title">
-            <input id="inp-scroll-long-title" type="checkbox" onchange="writeCode()">
-            长标题下加滚动条
-          </label>
-          <div class="help-text">
-            默认多行显示长标题，选上此选项后在长标题下显示滚动条
+          <div class="inp-group">
+            <label for="inp-font-size">字体大小：
+            <input id="inp-font-size" type="range" size="6"
+              value="16" min="12" max="28" class="shift-down"
+              onchange='writeCode()'>
+            <span id="font-size-display"></span> px </label>
           </div>
-        </div>
-      </section>
+
+          <div class="inp-group">
+            <label for="inp-3d-bar">
+              <input id="inp-3d-bar" type="checkbox" onchange="writeCode()">
+              立体感控制栏
+            </label>
+          </div>
+
+          <div class="inp-group">
+            <label for="inp-bar-color">控制栏底色：
+            <input id="inp-bar-color" type="color" value="#dd4444"
+              onchange="writeCode()">
+            <span id="bar-color-display"></span>
+            </label>
+          </div>
+
+  <!--
+          <div class="inp-group">
+            <label for="inp-volume-btn">
+              <input id="inp-volume-btn" type="checkbox" onchange="writeCode()">
+              音量按钮
+              <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/volume.png"
+                alt="volume" class="shift-down" style="height:1.5em">
+            </label>
+          </div>
+  -->
+
+          <div class="inp-group">
+            <label for="inp-prev-btn">
+              <input id="inp-prev-btn" type="checkbox" onchange="writeCode()">
+              上一首按钮
+              <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/first.png"
+                alt="prev" class="shift-down" style="height:1.5em">
+            </label>
+          </div>
+
+          <div class="inp-group">
+            <label for="inp-next-btn">
+              <input id="inp-next-btn" type="checkbox" checked onchange="writeCode()">
+              下一首按钮
+              <img src="./sm2/image/icomoon/entypo-25px-000000/PNG/last.png"
+                alt="next" class="shift-down" style="height:1.5em">
+            </label>
+          </div>
+
+          <div class="inp-group">
+            <label for="inp-bg-color">背景颜色：
+            <input id="inp-bg-color" type="color" value="#fff5d1"
+              onchange="writeCode()">
+            <span id="bg-color-display"></span>
+            </label>
+          </div>
+
+          <div class="inp-group">
+            <label for="inp-lianhua">
+              <input id="inp-lianhua" type="checkbox" checked onchange="writeCode()">
+              列表项图标
+              <img src="./sm2/image/lianhua.png" alt="lianhua"
+                class="shift-down" style="height:1.5em">
+            </label>
+          </div>
+
+          <div class="inp-group">
+            <label for="inp-scroll-long-title">
+              <input id="inp-scroll-long-title" type="checkbox" onchange="writeCode()">
+              长标题下加滚动条
+            </label>
+            <div class="inp-note">
+              默认多行显示长标题，选上此选项后在长标题下显示滚动条
+            </div>
+          </div>
+        </div> <!-- opt-group-body -->
+      </div> <!-- opt-group -->
     </div> <!-- container -->
   </div> <!-- column -->
 
@@ -195,41 +214,96 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
             压缩代码
           </label>
         </div>
-        <div class="inp-group">
-          <label for="inp-auto-install">
-            <input id="inp-auto-install" type="checkbox" checked onchange="writeCode()">
-            自动安装插件代码
-          </label>
-          <div class="inp-note">需要时自动安装播放器脚本代码及相关样式，避免重复的代码。</div>
-        </div>
-        <div class="inp-group">
-          <label for="inp-plugin-version">
-            插件加载脚本版本
-          </label>
-          <select id="inp-plugin-version" onchange="writeCode()">
-            <option value="cdn-0.1.4">CDN稳定固定v0.1.4</option>
-            <option value="cdn-0.1.16">CDN稳定固定v0.1.16</option>
-            <option value="cdn-0.1.19">CDN稳定固定v0.1.19</option>
-            <option value="cdn-this" id="inp-plugin-version-this">CDN当前固定</option>
-            <option value="cdn-latest">CDN最新</option>
-            <option value="xljt-latest">XLJT最新</option>
-            <option value="web-latest">本地最新</option>
-            <option value="cdn-latest-forced" selected>CDN强制最新</option>
-            <option value="xljt-latest-forced">XLJT强制最新</option>
-            <option value="web-latest-forced">本地强制最新</option>
-            <option value="local">内部测试用</option>
-          </select>
-          <div class="inp-note">
-            插件加载脚本 <code>mbuembed(.min).js</code> 是一段很短的脚本（一般小于10K），会根据论坛设置加载的完整的插件，或如果论坛已经安装插件的话，仅加载一小段样式修改文件。
-            前几个<b>固定</b>号的版本比较稳定，但不能自动更新。
-            <b>XLJT</b>和<b>CDN</b>版本比<b>本地</b>版本要快。
-            <b>最新</b>或<b>强制最新</b>版本会自动更新这段加载脚本。
-            <b>最新</b>版本在手机上仍会因浏览器的缓存而滞后；
-            <b>强制最新</b>版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
-          </div>
-        </div>
-
       </div>
+
+      <div class="opt-group">
+        <div class="opt-group-heading">
+          插件安装选项
+        </div>
+        <div class="opt-group-body">
+          <div class="inp-group">
+            <label for="inp-install-method">
+              安装模式：
+              <select id="inp-install-method" onchange="writeCode()">
+                <option value="none">兼容</option>
+                <option value="simple">简单</option>
+                <option value="smart" selected>智能</option>
+                <option value="sneaky">隐蔽</option>
+              </select>
+            </label>
+            <div class="inp-note">
+              <ul style="margin: 0;padding:0em 1em 0em 2em">
+                <li>
+                  <b>兼容：</b>
+                  如果宿主论坛已预装了音频列表插件，可以不安装更改过的插件，而生成兼容代码；但外观上会稍有限制，代码也比较冗长。
+                </li>
+                <li>
+                  <b>简单：</b>
+                  直接安装 CSS 样式和 JavaScript 脚本，适用于 <em>没有</em> 预装音频列表插件的宿主论坛。
+                </li>
+                <li>
+                  <b>智能（推荐）：</b>
+                  通过一小段加载脚本
+                  <code>mbuembed(.min).js</code>
+                  选择性加载需要的样式和脚本。
+                  附有代码保护播放器在加载时不被用户点击。
+                </li>
+                <li>
+                  <b>隐蔽：</b>
+                  同智能模式，尽量隐藏加载代码，防止宿主自动清理样式标签。
+                </li>
+            </div>
+          </div>
+
+  <!--
+          <div class="inp-group">
+            <label for="inp-auto-install">
+              <input id="inp-auto-install" type="checkbox" checked onchange="writeCode()">
+              自动安装插件代码
+            </label>
+            <div class="inp-note">
+              通过安装一段很短的脚本（一般小于10K）
+              <code>mbuembed(.min).js</code> 选择性加载需要的样式和脚本。<br>
+
+              如果确认论坛已安装插件，可以不安装，但外观上会稍有限制。<br>
+            </div>
+          </div>
+  -->
+          <div class="inp-group">
+            <label for="inp-plugin-server">
+              插件服务器：
+            </label>
+            <select id="inp-plugin-server" onchange="writeCode()">
+              <option value="cdn" selected>CDN</option>
+              <option value="xljt">XLJT</option>
+              <option value="this">当前网站</option>
+              <option value="local">内部测试用</option>
+            </select>
+            <div class="inp-note">
+              <b>CDN</b> 和 <b>XLJT</b> 较快。
+            </div>
+          </div>
+
+          <div class="inp-group">
+            <label for="inp-plugin-version">
+              插件版本：
+            </label>
+            <select id="inp-plugin-version" onchange="writeCode()">
+              <option value="0.1.4">CDN v0.1.4</option>
+              <option value="0.1.16">CDN v0.1.16</option>
+              <option value="0.1.19">CDN v0.1.19</option>
+              <option value="this" id="inp-plugin-version-this">CDN </option>
+              <option value="latest" selected>最新</option>
+              <option value="latest-forced">强制最新</option>
+            </select>
+            <div class="inp-note">
+              前几个<b>固定</b>版本比较稳定，仅对CDN有效，不更新。
+              <b>最新</b>版本会自动更新加载脚本，但手机上仍会因浏览器的缓存而滞后；
+              <b>强制最新</b>版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
+            </div>
+          </div>
+        </div> <!-- opt-group-body -->
+    </div> <!-- opt-group -->
     </div>
   </div> <!-- right column -->
 
@@ -237,12 +311,13 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 </div> <!-- gen-page -->
 
 <!--
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.20"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.20"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.22"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/shortenurl.min.js?v=0.1.22"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.22"></script>
 -->
-<script src="./js/com1.js?v=0.31"></script>
-<script src="./js/shortenurl.js?v=0.34"></script>
-<script src="./js/sm2ls.js?v=0.34"></script>
+<script src="./js/com1.js?v=0.36"></script>
+<script src="./js/shortenurl.js?v=0.36"></script>
+<script src="./js/sm2ls.js?v=0.36"></script>
 
 </body>
 </html>

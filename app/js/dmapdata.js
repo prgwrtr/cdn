@@ -6,7 +6,7 @@ window.domainMapDataArray__ = [
     ],
     "dead": [
       "lujunhong2or.com",
-      "web2orrichardlu.one"
+      "web2orrichardlu.one",
       "bloglurichardnet.site",
       "bloglunetmaster.com",
       "webmaster2orlu.online",
@@ -39,13 +39,13 @@ window.domainMapDataArray__ = [
   {
     "name": "xlch",
     "live": [
-      "xlch43.com"
+      "xlch43.com",
     ],
     "dead": [
       "xlch.org",
-      "xlch42.com"
-      "xlch41.com"
-      "xlch40.com"
+      "xlch42.com",
+      "xlch41.com",
+      "xlch40.com",
       "xlch39.com",
       "xlch38.com",
       "xlch37.com",
@@ -91,7 +91,7 @@ window.domainMapDataArray__ = [
   {
     "name": "mflh",
     "live": [
-      "baidu.haiweivipmflotuscibei.cloud/gegsyps/weibo"
+      "baidu.haiweivipmflotuscibei.cloud/gegsyps/weibo",
     ],
     "dead": [
       "baidu.mfxlianhua.cloud/gegsyps/weibo",
@@ -103,7 +103,7 @@ window.domainMapDataArray__ = [
       "m.baidu.mulotus.fabushi.cloud/baidu/luntan/fofa1",
       "baidu.new.mflotus.com/baidu/luntan/fofa1",
       "new.mflotus.com/baidu/luntan/fofa1",
-      "mflotus.com/baidu/luntan/fofa1"
+      "mflotus.com/baidu/luntan/fofa1",
     ]
   },
   {
@@ -114,33 +114,34 @@ window.domainMapDataArray__ = [
       "vip.xlpureland.cloud/fofa/bbs",
       "sina.lotusciai.cloud/fofa/bbs",
       "sina.meritlotus.cloud/fofa/bbs",
-      "vipbaidu.caxlotus.com/fofa/bbs"
+      "vipbaidu.caxlotus.com/fofa/bbs",
     ],
     "dead": [
       "www.sina.caxlotus.com/fofa/bbs",
       "sina.caxlotus.com/fofa/bbs",
       "www.baidu.caxlotus.com/fofa/bbs",
       "baidu.caxlotus.com/fofa/bbs",
-      "baidu.blisslotus.cloud/fofa/bbs"
+      "baidu.blisslotus.cloud/fofa/bbs",
     ]
   },
   {
     "name": "xlys",
     "live": [
-      "www.baidu.xly2.cloud",
-      "www.ifeng.xly2.cloud",
-      "www.baidu.xlfmw.cloud",
-      "www.ifeng.xlfmw.cloud"
+      "baidu.xlys.live",
+      "baidu.xlfmw.cloud",
     ],
     "dead": [
-      "www.baidu.xlys.cloud",
+      "baidu.xly2.cloud",
+      "ifeng.xly2.cloud",
+      "ifeng.xlfmw.cloud",
+      "baidu.xlys.cloud",
       "baidu.xlys.cloud",
       "baidu.app.xlfmwang.org",
       "baidu.v.xlfmwang.org",
       "baidu.video.xlfmwang.org",
       "weibo.yun.xlfmwang.org",
       "www.xlfmwz.com",
-      "xlfmwz.com"
+      "xlfmwz.com",
     ]
   },
   {
@@ -148,7 +149,7 @@ window.domainMapDataArray__ = [
     "live": [
       "www.baidu.wonderfulsummary.com/sinaweb/jchz",
       "www.baidu.jchz68686568.com/sinaweb/jchz",
-      "www.baidu.lujiajun8.com/sinaweb/jchz"
+      "www.baidu.lujiajun8.com/sinaweb/jchz",
     ],
     "dead": [
     ]
@@ -156,7 +157,7 @@ window.domainMapDataArray__ = [
   {
     "name": "balh",
     "live": [
-      "www.balh01.com/cn/bbs"
+      "www.balh01.com/cn/bbs",
     ],
     "dead": [
     ]
@@ -164,20 +165,20 @@ window.domainMapDataArray__ = [
   {
     "name": "xf8",
     "live": [
-      "xf8.club"
+      "xf8.club",
     ],
     "dead": [
-      "xfabc.xyz"
+      "xfabc.xyz",
     ]
   },
   {
     "name": "xf123",
     "live": [
       "xf123.rf.gd",
-      "xfabc.rf.gd"
+      "xfabc.rf.gd",
     ],
     "dead": [
-      "xf8.rf.gd"
+      "xf8.rf.gd",
     ]
   }
 ];

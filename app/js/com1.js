@@ -6,6 +6,12 @@ function isString(s) {
   return ( typeof s === 'string' || s instanceof String );
 }
 
+if ( !Array.isArray ) {
+  Array.isArray = function(arg) {
+    return Object.prototype.toString.call(arg) === '[object Array]';
+  };
+}
+
 // add support to string.trim() for old browsers
 if ( typeof String.prototype.trim !== 'function' ) {
   String.prototype.trim = function() {
@@ -143,7 +149,9 @@ function copyTextToClipboard(s, btn)
 // `sel` can be '.myclass', '#myid' or 'TAG'
 function showOrHide(sel, show) {
   var x = sel, i, v;
-  if ( isString(sel) ) x = document.querySelector(sel);
+  if ( isString(sel) ) {
+    x = document.querySelectorAll(sel);
+  }
   if ( !x && x.length === 0 ) {
     return;
   }
