@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.22";
+var latestCDNVersion = "0.1.23";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -185,14 +185,14 @@ function getPluginCode(info)
   }
 
   var server = document.getElementById("inp-plugin-server").value;
-  var loader = "", root = "", sm2Path = "";
+  var root = "", sm2Path = "";
   var cssPatchFn = "css/bar-ui-patch.css", cssPatchPath = "";
   var cssFn = "css/bar-ui.css", cssPath = "";
-  var jsFn = "js/sm2-bar-ui.js", jsPath = "";
-  var embedFn = "js/mbuembed.js", embedPath = "";
+  var jsFn = "js/sm2-bar-ui.js", jsPath = "", jsVar = "j";
+  var embedFn = "js/mbuembed.js", embedPath = "", embedVar = "e", embedCode = "";
 
   // set the CDN version parameter
-  loader += 'window.sm2cdnver="' + latestCDNVersion + '";';
+  embedCode += 'window.sm2cdnver="' + latestCDNVersion + '";';
 
   if ( server === "local" ) {
     root = "./";
@@ -221,7 +221,7 @@ function getPluginCode(info)
   
   sm2Path = root + "sm2/";
   // set the path for loading other scripts
-  loader += 'window.sm2root="' + sm2Path + '";';
+  embedCode += 'window.sm2root="' + sm2Path + '";';
 
   var tail = '?v=' + latestCDNVersion;
 
@@ -239,22 +239,27 @@ function getPluginCode(info)
 
   // write the script of loading the embedder
   if ( forced === "forced" ) {
-    loader += 's.src="' + embedPath + '?t="+Math.floor((new Date())/9e5);';
+    embedCode += embedVar + '.src="' + embedPath + '?t="+Math.floor((new Date())/9e5);';
   } else {
-    loader += 's.src="' + embedPath + tail + '";';
+    embedCode += embedVar + '.src="' + embedPath + tail + '";';
   }
 
-  info["plugin-js-installer"] = writeJSInstaller(jsPath, null);
+  info["plugin-js-installer"] = writeJSInstaller(jsPath + tail, null, jsVar, "sm2baruiOnce");
 
-  info["plugin-embedder-installer"] = writeJSInstaller(null, loader);
-  
-  var qf = 'span.lianhua{width:2em !important;height:2em !important;background-size:contain !important}';
+  info["plugin-embedder-installer"] = writeJSInstaller(null, embedCode, embedVar, "mbuembedOnce");
+
+  // the quick fix css is intended to temporarily
+  // fix the faulty default css until the patch css kicks in
+  // the height value here 2em is wrong (setting it to the right value 100%
+  // will break too many other things). Fortunately it will be overriden by
+  // the value in the patch css or the fixed css with stronger rules (important)
+  var qf = '.sm2-playlist-bd span.lianhua{width:2em;height:2em;background-size:contain}';
   info["plugin-quick-fix-css"] = qf;
   info["plugin-quick-fix-css-installer"] = writeCSSInstaller(qf);
 }
 
 // write the JS code that loads the script at path
-function writeJSInstaller(path, code, varS)
+function writeJSInstaller(path, code, varS, varOnce)
 {
   if ( !varS ) {
     varS = "s";
@@ -262,25 +267,36 @@ function writeJSInstaller(path, code, varS)
   if ( !code ) {
     code = varS + '.src="' + path + '";';
   }
+
   var src = '';
-  src += 'var ' + varS + '=document.createElement("SCRIPT");'
-    + code + 'document.body.append(s);';
+  if ( varOnce ) {
+    src += 'if(window.{vo}){return;}else{window.{vo}=1;'.replace(/{vo}/g, varOnce);
+  }
+  src += 'var {vs}=document.createElement("SCRIPT");'
+  src += code;
+  src += 'document.body.append({vs});';
+  if ( varOnce ) {
+    src += '}';
+  }
+  src = src.replace(/{vs}/g, varS);
   return src;
 }
 
-// write the JS code that loads css
+// write the JS code that loads css rules
 function writeCSSInstaller(css, varS)
 {
   if ( !varS ) {
-    varS = 's';
+    varS = 'S';
   }
   var src = 'try{'
     + 'var {var}=document.createElement("style");'
     + 'document.head.appendChild({var});'
     + '{var}={var}.sheet;';
+
   if ( !Array.isArray(css) ) {
     css = [css,];
   }
+
   for ( var i = 0; i < css.length; i++ ) {
     src += '{var}.insertRule("' + css[i] + '",{var}.cssRules.length);';
   }
@@ -293,7 +309,7 @@ function writeSneakyJSLoader(code)
 {
   var src = '<div style="display:none">'
     + '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" ' // regular gif
-    + 'alt="." onload=\'(function(_ctn){';
+    + 'alt="." onload=\'(function(){';
 
   if ( !Array.isArray(code) ) {
     code = [code,];
@@ -303,10 +319,7 @@ function writeSneakyJSLoader(code)
     src += code[i];
   }
 
-  src += '_ctn.innerHTML="";'
-    + '_ctn.style.display="none";'
-    + '})(this.parentNode)\'>'
-    + '</div>\n';
+  src += '})()\'></div>\n';
   return src;
 }
 
@@ -340,34 +353,27 @@ function writeSM2PlayerCode(info)
 
   // compile the media list
   var needIcon = document.getElementById("inp-lianhua").checked;
-  var list = "", i, x, title, url;
-  var slist = document.getElementById("inp-list").value.replace(/^\s+|\s+$/g, "");
-  // replace blank lines with spaces by a single line-break
-  slist = slist.replace(/[ \t]+\n/g, "\n");
-  slist = slist.split("\n\n");
   var scrollLongTitle = document.getElementById("inp-scroll-long-title").checked;
-  for ( i = 0; i < slist.length; i++ ) {
-    x = slist[i].replace(/^\s+|\s+$/g, "").split("\n");
-    if ( x.length >= 2 ) {
-      title = escapeHTML(x[0]);
-      url = x[1];
-    } else if ( x[0].slice(0,4) === "http" || x[0].slice(0,2) === "//" ) {
-      title = "";
-      url = x[0];
-    } else {
+  var arr = getInputList(), i, list = "";
+  for ( i = 0; i < arr.length; i++ ) {
+    var title = arr[i].title, src = arr[i].src;
+    if ( src === "" ) {
       continue;
     }
+    if ( title === "" ) {
+      title = "&nbsp;"; // placeholder
+    }
 
-    if ( installMethod === "none" ) {
+    if ( installMethod !== "none" ) {
       // standard code, style changes are implemented in the external bar-ui.css or bar-ui-patch.css
       list += '      <li>';
       if ( needIcon ) list += '<span class="lianhua"></span>';
-      list += '<a href="' + url + '">' + title + '</a></li>\n';
+      list += '<a href="' + src + '">' + title + '</a></li>\n';
     } else {
       // compatibility code
       list += '      <li style="background-size:contain;overflow:hidden;white-space:nowrap;background-size:2.5em,contain">';
       if ( needIcon ) list += '<span class="lianhua" style="width:3em;height:2.5em;background-size:contain;background-position:center"></span>';
-      list += '<a href="' + url + '" style="background-size:2.5em,contain">';
+      list += '<a href="' + src + '" style="background-size:2.5em,contain">';
       if ( scrollLongTitle ) {
         list += '<span style="display:inline-block;width:calc(100% - 4.5em);overflow:auto;white-space:nowrap">' + title + '</span>';
       } else {
@@ -473,7 +479,91 @@ function resizeIframe() {
   }
 }
 
+function initListInputMode()
+{
+  switchListInputMode("normal-mode");
+}
+
+function switchListInputMode(mode)
+{
+  var par = document.querySelector("#list-input-mode");
+  par.setAttribute("data-mode", mode);
+  var modes = par.children, i;
+  for ( i = 0; i < modes.length; i++ ) {
+    if ( modes[i].id === mode ) {
+      modes[i].style.display = "";
+    } else {
+      modes[i].style.display = "none";
+    }
+  }
+}
+
+function getInputList()
+{
+  var par = document.querySelector("#list-input-mode");
+  var mode = par.getAttribute("data-mode");
+  console.log("reading input list from mode", mode);
+  if ( mode === "normal-mode" ) {
+    return getInputListNormalMode();
+  } else if ( mode === "itemized-mode" ) {
+    return getInputListItemizedMode();
+  } else {
+    console.log("Error: unknown input-list mode", mode);
+  }
+}
+
+function getInputListNormalMode()
+{
+  var slist = document.getElementById("inp-list").value;
+  slist = slist.replace(/\s+$/g, ""); // remove trailing spaces;
+  var arr = [], i;
+  // replace blank lines with spaces by a single line-break
+  slist = slist.replace(/[ \t]+\n/g, "\n");
+  slist = slist.split("\n\n");
+  for ( i = 0; i < slist.length; i++ ) {
+    var x = slist[i].split("\n"), title, src;
+    for ( var j = 0; j < x.length; j++ ) {
+      x[j] = x[j].trim();
+    }
+    if ( x.length >= 2 ) {
+      title = escapeHTML(x[0]);
+      src = x[1];
+    } else if ( x[0].slice(0,4) === "http" || x[0].slice(0,2) === "//" ) {
+      title = "";
+      src = x[0];
+    } else {
+      continue;
+    }
+    arr.push( { "title": title, "src": src} );
+  }
+  return arr;
+}
+
+function getInputListItemizedMode()
+{
+  var title = document.getElementById("inp-list-title").value;
+  title = title.replace(/\s+$/g, "").split("\n");
+  var src = document.getElementById("inp-list-src").value;
+  src = src.replace(/\s+$/g, "").split("\n");
+  var arr = [], i, n;
+  n = Math.max(title.length, src.length);
+  for ( i = 0; i < n; i++ ) {
+    var t = title[i];
+    if ( t === undefined ) {
+      t = "";
+    }
+    var s = src[i];
+    if ( s === undefined ) {
+      s = "";
+    }
+    arr.push( { "title": t, "src": s } );
+  }
+  return arr;
+}
+
 window.onload = function() {
+  initListInputMode();
+
   writeCode();
 
   // allow the preview iframe to dynamically adjust its height

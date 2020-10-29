@@ -774,17 +774,13 @@
 
 .sm2-playlist-wrapper ul li {
   border-bottom: 1px solid #eeb03f;
+  position: relative;
   /*
   background: url(https://i2.vzan.cc/upload/image/png/20200710/0218775c4a214e7da97d961d3114060d.png) no-repeat;
   */
   background:url(../image/fmplay2.png) no-repeat;
-  background-position: right bottom;
-  padding-right: 3em;
+  background-position: right center;
   background-size: 2.5em;}
-
-.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li {
-  background-position: right top;
-}
 
 .sm2-playlist-wrapper ul li:nth-child(odd) {
  background-color: rgba(0, 0, 0, 0.03);
@@ -797,8 +793,8 @@
 
 .sm2-playlist-wrapper ul li a {
  display: block;
- padding: 0.5em 0.25em;
- margin-right: 0px;
+ padding: 0.5em 0 !important;
+ margin: 0 2.5em !important;
  font-size: 110%;
  vertical-align: middle;
  overflow: visible;
@@ -823,6 +819,10 @@
  padding: 2px 4px;
 }
 
+.sm2-playlist-wrapper ul li:hover a {
+  background: none !important;
+}
+
 .sm2-playlist-wrapper ul li:hover {
  /*background-color: rgba(0,0,0,0.20);
  background-image: url(../image/playwrap.png);
@@ -835,12 +835,8 @@
  */
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
  background-size: 2.5em, contain;
- background-position: right bottom;
+ background-position: right center;
  font-weight: bold;
-}
-
-.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li:hover {
-  background-position: right top;
 }
 
 .sm2-playlist-wrapper ul li.selected a {
@@ -856,14 +852,9 @@
  */
  url(../image/fmpause2.png) no-repeat, 
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
- background-position: right bottom;
+ background-position: right center;
  font-weight: bold;    
  background-size: 2.5em, contain;
-}
-
-.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li.selected,
-.sm2-playlist-wrapper ul.sm2-playlist-bd-scroll li.selected:hover {
- background-position: right top;
 }
 
 .sm2-bar-ui .disabled {
@@ -962,13 +953,16 @@
 }
 
 .sm2-playlist-bd span.lianhua{
-  margin: 0.3em 0.8em 0 0.25em !important;
+  position: absolute;
+  left: 0.25em;
+  margin: 0 !important;
   width: 2em !important;
-  height: 2em !important;
+  height: 100% !important;
   /*
   background: url(https://i2.vzan.cc/upload/image/png/20200710/eb63f0029757475b8e50dc06ae7c1672.png) no-repeat center;
   */
-  background: url(../image/lianhua.png) no-repeat center;
-  background-size: contain;
-  float: left;
+  background: url(../image/lianhua.png) no-repeat !important;
+  background-size: contain !important;
+  background-position: center !important;
+  float: none !important;
 }

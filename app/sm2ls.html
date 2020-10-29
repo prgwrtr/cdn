@@ -4,14 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SM2 Bar-UI 音频列表生成器</title>
+<script>
+(function(){var now=Math.floor(new Date()/1e6),h=location.href,r=h.match(/[\?\&]t=([^\&]+)/i),hv=null,ht;
+if(r){hv=unescape(r[1]);ht=parseInt(hv);}
+if((p=h.indexOf("?"))<0){location.href=h+"?t="+now;}
+else if(hv===null){location.href=h.slice(0, p+1)+"t="+now+"&"+h.slice(p+1);}
+else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
+</script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
-  <link rel="stylesheet" href="./css/mkmedia.css?v=0.32">
--->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
+-->
+  <link rel="stylesheet" href="./css/mkmedia.css?v=0.32">
 <style>
 .shift-down {
   transform:translateY(0.4em);
+}
+.opt-group {
+  margin: 2em 0;
 }
 .opt-group-heading {
   background-color: #7ad;
@@ -23,17 +33,40 @@
   margin-bottom: 0px;
 }
 .opt-group-body {
-  background-color:#fcfcfc;
-  padding:20px 1% 40px 1%;
+  background-color:#fbfdff;
+  padding: 0.5em 0.5em 1em 0.5em;
   margin-top: 0px;
 }
 .opt-group-body .inp-note {
-  border-left: 4px solid #7ad;
+  border-left: 4px solid #69c;
+  box-shadow: 1px 0px 0.5px #ddd;
   margin: 0.5em 0.5em 1em 1.5em;
-  padding: 0.2em 1em;
-  background-color: rgba(255,255,255,0.4);
+  padding: 0.3em 1em;
+  background-color: #fff;
   max-height: 150px;
   overflow-y: auto;
+}
+.mode-switcher {
+  font-size: 16px;
+  color: #fff;
+  background-color: #7ad;
+  padding: 0.3em 0.5em;
+  border-radius: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px #ccc;
+}
+.mode-switcher:hover {
+  background-color: #357;
+  box-shadow: 2px 2px 4px #999;
+}
+.mode-switcher:active,
+.mode-switcher:focus {
+  background-color: #579;
+}
+.fat-textarea {
+  white-space: pre;
+  overflow-x: auto;
 }
 </style>
 </head>
@@ -70,11 +103,23 @@
         </select>
       </div>
 
-      <div class="inp-group">
-        <label for="inp-list" class="single-line">音频列表：</label>
-        <textarea id="inp-list" rows="16"
-          placeholder="标题1&#x0A;http://my.web.site/music1.mp3&#x0A;&#x0A;标题2&#x0A;http://my.web.site/music2.mp3"
-           onchange="writeCode()">音频标题1
+      <div class="opt-group">
+        <div class="opt-group-heading">
+          音频列表
+        </div>
+        <div id="list-input-mode">
+          <div id="normal-mode" class="opt-group-body">
+            <div class="inp-group">
+              现为整体输入模式，切换至
+              <a class="mode-switcher"
+                onclick='switchListInputMode("itemized-mode");writeCode()'
+                >分项输入模式</a>
+            </div>
+            <div class="inp-group">
+              <label for="inp-list" class="single-line">音频列表（所有信息）：</label>
+              <textarea id="inp-list" rows="16"
+                placeholder="标题1&#x0A;http://my.web.site/music1.mp3&#x0A;&#x0A;标题2&#x0A;http://my.web.site/music2.mp3"
+                 onchange="writeCode()">音频标题1
 https://i3.vzan.cc/upload/audio/mp3/20200220/249eee1e46cc46a5864131acf136053c.mp3
 
 音频标题2
@@ -82,7 +127,52 @@ http://i3.vzan.cc/mp3/20190925/2cc455b03b164f40858eca52a6ef8d9d/v.f1010.mp3
 
 音频标题3（一条非常非常非常非常非常非常长的标题）
 https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp3</textarea>
+            </div>
+          </div> <!-- normal-input-panel -->
+
+          <div id="itemized-mode" class="opt-group-body" style="display:none">
+            <div class="inp-group">
+              现为分项输入模式，切换至
+              <a class="mode-switcher"
+                onclick='switchListInputMode("normal-mode");writeCode()'
+                >整体输入模式</a>
+              <br>
+              <div class="inp-note">
+                <b>提示：</b>您可以把音频表格中的内容分项粘贴到以下文本框内。
+              </div>
+            </div>
+
+            <div class="inp-group">
+              <label for="inp-list-title" class="single-line">
+                <span class="badge">1.</span> 标题列表：</label>
+              <div class="inp-note">
+                每个标题一行，中间不要加空行。
+              </div>
+              <textarea id="inp-list-title" rows="8" class="fat-textarea"
+                placeholder="标题1&#x0A;标题2&#x0A;标题3&#x0A;"
+                 onchange="writeCode()">音频标题1
+音频标题2
+音频标题3（一条非常非常非常非常非常非常长的标题）</textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="inp-list-src" class="single-line">
+                <span class="badge">2.</span> 音频链接列表：</label>
+              <div class="inp-note">
+                每个网址一行，中间不要加空行。
+              </div>
+              <textarea id="inp-list-src" rows="8" class="fat-textarea"
+                placeholder="http://my.web.site/music1.mp3&#x0A;http://my.web.site/music2.mp3&#x0A;http://my.web.site/music3.mp3&#x0A;"
+                 onchange="writeCode()">https://i3.vzan.cc/upload/audio/mp3/20200220/249eee1e46cc46a5864131acf136053c.mp3
+http://i3.vzan.cc/mp3/20190925/2cc455b03b164f40858eca52a6ef8d9d/v.f1010.mp3
+https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp3</textarea>
+            </div>
+
+          </div> <!-- itemized-input-panel -->
+        </div> <!-- list-input-modes -->
+
       </div>
+
 
       <div class="inp-group" style="text-align:center;margin:30px 0px;">
         <button class="big-btn" type="button"
@@ -97,8 +187,9 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 
           <div class="inp-group">
             <label for="inp-font-size">字体大小：
-            <input id="inp-font-size" type="range" size="6"
+            <input id="inp-font-size" type="range" size="4"
               value="16" min="12" max="28" class="shift-down"
+              style="width:120px"
               onchange='writeCode()'>
             <span id="font-size-display"></span> px </label>
           </div>
@@ -232,7 +323,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
               </select>
             </label>
             <div class="inp-note">
-              <ul style="margin: 0;padding:0em 1em 0em 2em">
+              <ul style="margin: 0;padding:0em 1em 0em 1em">
                 <li>
                   <b>兼容：</b>
                   如果宿主论坛已预装了音频列表插件，可以不安装更改过的插件，而生成兼容代码；但外观上会稍有限制，代码也比较冗长。
@@ -317,7 +408,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 -->
 <script src="./js/com1.js?v=0.36"></script>
 <script src="./js/shortenurl.js?v=0.36"></script>
-<script src="./js/sm2ls.js?v=0.36"></script>
+<script src="./js/sm2ls.js?v=0.36b"></script>
 
 </body>
 </html>
