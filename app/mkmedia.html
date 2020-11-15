@@ -3,8 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>媒体代码生成器</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <script>
 (function(){var now=Math.floor(new Date()/1e6),h=location.href,r=h.match(/[\?\&]t=([^\&]+)/i),hv=null,ht;
 if(r){hv=unescape(r[1]);ht=parseInt(hv);}
@@ -12,6 +10,8 @@ if((p=h.indexOf("?"))<0){location.href=h+"?t="+now;}
 else if(hv===null){location.href+="&t="+now;}
 else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
 </script>
+  <title>媒体代码生成器</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.18">
 -->
@@ -129,7 +129,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
         onchange='onCodeChange()'></textarea>
       <div class="copy-btn-wrapper">
         <button id="copy-code-btn" class="copy-btn" type="button"
-          onclick='copyAnimated("code", "copy-code-btn", "code-copied-msg")'
+          onclick='copyAnimated("#code", this, "#code-copied-msg")'
           >复制</button>
         <span id="code-copied-msg" class="copied-msg" style="display:none;">
           已复制代码到剪贴板
@@ -168,7 +168,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
         <div id="out-lurl" class="out-url"></div>
         <div class="copy-btn-wrapper">
           <button id="copy-lurl-btn" class="copy-btn" type="button"
-            onclick='copyAnimated("out-lurl-text", "copy-lurl-btn", "lurl-copied-msg", "out-lurl")'
+            onclick='copyAnimated("#out-lurl-text", this, "#lurl-copied-msg", "#out-lurl")'
             >复制</button>
           <div class="copy-btn-note">
             长网址长度：
@@ -210,7 +210,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
           <div id="out-surl" class="out-url"></div>
           <div class="copy-btn-wrapper">
             <button id="copy-surl-btn" class="copy-btn" type="button"
-              onclick='copyAnimated("out-surl-text", "copy-surl-btn", "surl-copied-msg", "out-surl")'
+              onclick='copyAnimated("#out-surl-text", this, "#surl-copied-msg", "#out-surl")'
               style="float:right">复制</button>
             <span id="surl-copied-msg" class="copied-msg" style="display:none;">
               已复制到剪贴板
@@ -244,18 +244,19 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
 </div> <!-- gen-page -->
 
 
-<script src="./js/com1.js?v=0.36"></script>
+<script src="./js/com1.js?v=0.38"></script>
 <script src="./js/shortenurl.js?v=0.01"></script>
 <script src="./js/urib64.js?v=0.02"></script>
 <script src="./js/urlalias.js?v=0.05"></script>
-<script src="./js/mkmedia.js?v=0.36"></script>
+<script src="./js/mediacom.js?v=0.36"></script>
+<script src="./js/mkmedia.js?v=0.38"></script>
 
 <!--
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.22"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urib64.min.js?v=0.1.17"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urlalias.min.js?v=0.1.17"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/shortenurl.min.js?v=0.1.20"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/mkmedia.min.js?v=0.1.22"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/com1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/urib64.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/urlalias.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/shortenurl.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/mkmedia.min.js"></script>
 -->
 </body>
 </html>

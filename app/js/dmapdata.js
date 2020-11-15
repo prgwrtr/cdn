@@ -2,10 +2,11 @@ window.domainMapDataArray__ = [
   {
     "name": "tzbk",
     "live": [
-      "blogwebrichardlu.top",
+      "richardweblu.info",
     ],
     "dead": [
       "lujunhong2or.com",
+      "blogwebrichardlu.top",
       "web2orrichardlu.one",
       "bloglurichardnet.site",
       "bloglunetmaster.com",

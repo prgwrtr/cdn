@@ -128,15 +128,15 @@ function shortenLink()
 }
 
 function copyLink(cpbtn) {
-  var s = document.getElementById("out-url").href;
+  var el = document.getElementById("out-url"), s = el.href;
   copyTextToClipboard(s, cpbtn);
-  animateShow("out-url", [1.0, 1000, 1.0, 700, 0.4, 500, 0.4, 800, 1.0]);
+  animateShow(el, [1.0, 1000, 1.0, 700, 0.4, 500, 0.4, 800, 1.0]);
 }
 
 function copyURL(cpbtn) {
-  var s = document.getElementById("url").dataUrl;
+  var el = document.getElementById("url"), s = el.dataUrl;
   copyTextToClipboard(s, cpbtn);
-  animateShow("url", [1.0, 300, 0.5, 200, 0.5, 500, 1.0]);
+  animateShow(el, [1.0, 300, 0.5, 200, 0.5, 500, 1.0]);
 }
 
 function setMobileViewport() {

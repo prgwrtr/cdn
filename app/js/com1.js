@@ -33,20 +33,21 @@ function isWeChat() {
 }
 
 // basic animation: show and hide an element
-// `script` is [0th-opacity, duration, 1st-opacity, duration, 2nd-opacity...]
-function animateShow(el, script) {
+// `seq` is the action sequence, whose format is
+// [0th-opacity, duration, 1st-opacity, duration, 2nd-opacity...]
+function animateShow(el, seq) {
   if ( isString(el) ) {
-    el = document.getElementById(el);
+    el = document.querySelector(el);
   }
   var animId; // id from setInterval()
   var dt = 10; // time interval for animation in ms
-  var stage = 0, nstages = Math.floor(script.length / 2);
+  var stage = 0, nstages = Math.floor(seq.length / 2);
   var istep = 0, nsteps, op0, op1;
   var setupStage = function() {
     istep = 0;
-    nsteps = Math.floor( script[stage*2+1]/dt );
-    op0 = script[stage*2];
-    op1 = script[stage*2+2];
+    nsteps = Math.floor( seq[stage*2+1]/dt );
+    op0 = seq[stage*2];
+    op1 = seq[stage*2+2];
     el.style.opacity = op0;
   };
   setupStage(stage);
@@ -76,7 +77,9 @@ function animateShow(el, script) {
 // https://github.com/zenorocha/clipboard.js/blob/master/dist/clipboard.js
 function copyContentToClipboard(el, btn)
 {
-  if ( isString(el) ) el = document.getElementById(el);
+  if ( isString(el) ) {
+    el = document.querySelector(el);
+  }
 
   if ( el.nodeName.toUpperCase() === 'INPUT'
     || el.nodeName.toUpperCase() === 'TEXTAREA' ) {
@@ -85,7 +88,10 @@ function copyContentToClipboard(el, btn)
       el.setAttribute('readonly', '');
     }
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/select
-    // In browsers where .select() is not supported, it is possible to replace it with a call to .setSelectionRange() with parameters 0 and the input's value length
+    // In browsers (e.g. in iOS) where .select() is not supported,
+    // it is possible to replace it with a call to .setSelectionRange()
+    // with parameters 0 and the input's value length
+    // cf. https://stackoverflow.com/questions/34045777/
     el.select();
     el.setSelectionRange(0, el.value.length);
     if ( !isReadOnly ) {
@@ -166,11 +172,11 @@ function showOrHide(sel, show) {
 }
 
 // toggle (show or hide) a set of elements selected by `sel`
-// `btn` can be a btton element or its id, whose innerHTML starts with "显示" or "隐藏"
-// `sel` can be '.myclass', '#myid' or 'TAG'
+// `sel` is the selector of the element to show or hide, e.g. '.myclass', '#myid' or 'TAG'
+// `btn` is the controller button or its selector; its innerHTML starts with "显示" or "隐藏"
 function btnToggle(sel, btn) {
   if ( isString(btn) ) {
-    btn = document.getElementById(btn); // from id to element
+    btn = document.querySelector(btn);
   }
   var txt = btn.innerHTML.trim(), t2 = txt.slice(0,2);
   if ( t2 === "显示" ) {

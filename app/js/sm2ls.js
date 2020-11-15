@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.23";
+var latestCDNVersion = "0.1.24";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -129,15 +129,17 @@ function subKeys(template, tab)
   return s;
 }
 
-function copyAnimated(txtId, btnId, msgId, htmlId)
+function copyAnimated(txtSel, btnSel, msgSel, htmlSel)
 {
-  copyTextToClipboard(document.getElementById(txtId).value, btnId);
-  if ( htmlId === undefined )
-    htmlId = txtId;
+  var txt = document.querySelector(txtSel);
+  copyTextToClipboard(txt.value, btnSel);
+  if ( htmlSel === undefined ) {
+    htmlSel = txtSel;
+  }
   // fade out the html div, then fade it back in
-  animateShow(htmlId, [1.0, 700, 0.3, 600, 0.3, 700, 1.0]);
+  animateShow(htmlSel, [1.0, 700, 0.3, 600, 0.3, 700, 1.0]);
   // wait 2000ms (for button animation), then show the notice, then hide it
-  animateShow(msgId, [0.0, 2000, 0.0, 2000, 1.0, 3000, 1.0, 1000, 0.0]);
+  animateShow(msgSel, [0.0, 2000, 0.0, 2000, 1.0, 3000, 1.0, 1000, 0.0]);
 }
 
 

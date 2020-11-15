@@ -1,6 +1,6 @@
 "use strict";
 
-var bswVersion = "V0.33";
+var bswVersion = "V0.35";
 
 var BSW = {
   // given the parent button group with class 'bsw-group'
@@ -97,8 +97,8 @@ var BSW = {
         $(par).children().removeClass(par.offClass).addClass(par.onClass);
       }
       // in mode 2, show active, hide inactive
-      $(par).children('.bsw-active').show();
       $(par).children('.bsw-inactive').hide();
+      $(par).children('.bsw-active').show();
     }
   }
   ,
@@ -209,7 +209,7 @@ $(document).ready(function() {
     if ( ch ) {
       var func = window[ch];
       if ( typeof func === 'function' ) {
-      clickHandler = func;
+        clickHandler = func;
       }
     }
 

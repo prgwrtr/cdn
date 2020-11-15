@@ -1,27 +1,9 @@
 "use strict";
 
-var edVersion = "V0.33";
-
-//var edDefAudioSrc = "https://i3.vzan.cc/video/livevideo/mp3/20190924/70dfc6aa6cd64ea3aaddc1b44d05395b.mp3"; // namo guan-shi-yin pu-sa
-//var edDefAudioSrc = "https://i3.vzan.cc/upload/audio/mp3/20200220/249eee1e46cc46a5864131acf136053c.mp3"; // water-moon-zen-heart
-var edDefAudioSrc = "https://i3.vzan.cc/upload/audio/mp3/20200614/d1c2588412784fa7a2baf8b73242c99a.mp3"; // water-moon-zen-heart 17s exerpt
-var edDefVideoSrc = "https://i3.vzan.cc/upload/video/mp4/20200614/82a09afb5f0548c7a0de4d8d1fd36a65.mp4"; // fyfy 4
-var edDefVideoPoster = "https://i2.vzan.cc/upload/image/jpg/20200614/77e2f7393bde43238cf3304338446ce5.jpg"; // fyfy 4
-//var edDefVideoSrc = "https://i3.vzan.cc/video/livevideo/mp4/20190927/ae344d4e437d46389ba0d7df5bc91179.mp4"; // big rabbit
-//var edDefVideoPoster = "https://i.postimg.cc/28cBJpkx/sampleposter.png"; // big rabbit
-var edDefImgSrc = "https://i.postimg.cc/Kj5t4RyX/lotus1.jpg";
-var edDefQRImgSrc = "https://i.postimg.cc/hPxHZnbk/edqr.png";
-/*
-var edDefAudioSrc = "https://gitee.com/prgcdr2/wgen/raw/master/html/audio/nmgsypsbgl.mp3";
-var edDefVideoSrc = "https://gitee.com/prgcdr2/qr/blob/master/img/samplevideo.mp4";
-var edDefVideoPoster = "https://gitee.com/prgcdr2/qr/raw/master/img/sampleposter.png";
-var edDefImgSrc = "https://gitee.com/prgcdr2/wgen/raw/master/html/img/lotus1.jpg";
-var edDefQRImgSrc = "https://gitee.com/prgcdr2/qr/raw/master/img/edqr.png";
-*/
+var edVersion = "V0.36";
 
 // selection range of the editor as a global variable
 var visEdSelRange = null;
-
 
 // replace glyphicon
 function subGlyphicons(s)
@@ -159,11 +141,11 @@ function setEditorMode(mode)
 // update control appearances according to the editor mode 'mode'
 function showHideFormatTools()
 {
-  var tools = $('#format-tools');
+  var tools = $('.format-tool');
   if ( BSW.isOn('toggle-format-tools') ) {
-    tools.show();
+    tools.show(700);
   } else {
-    tools.hide();
+    tools.hide(700);
   }
 }
 
@@ -216,6 +198,38 @@ function insertHTMLCode(insStart, insEnd)
     } catch(e) {}
   } else {
     insertText('src-editor', insStart, insEnd);
+  }
+}
+
+// insert HTML at the current position
+function insertHTMLCode2(html)
+{
+  var edMode = focusEditor();
+  if ( edMode == 'vis' ) {
+    var sel = window.getSelection();
+    var range = sel.getRangeAt(0);
+    var range2 = document.createRange(), frag;
+    if ( range2.createContextualFragment ) {
+      frag = range2.createContextualFragment( html );
+      //console.log("fragment created by createContextualFragment()");
+    } else {
+      // https://stackoverflow.com/a/25214113
+      var temp = document.createElement("template");
+      temp.innerHTML = html;
+      frag = temp.content;
+      if ( !frag ) {
+        frag = document.createElement("DIV");
+        frag.innerHTML = html;
+      }
+    }
+    range.insertNode(frag);
+    if ( sel.collapseToEnd ) {
+      sel.collapseToEnd();
+    } else {
+      sel.collapse();
+    }
+  } else {
+    insertText('src-editor', insStart);
   }
 }
 
@@ -421,6 +435,12 @@ function insertParagraph()
   }
 }
 
+function insertSeparator()
+{
+  focusEditor();
+  insertHTMLCode2('\n<hr style="margin:1em 0">\n');
+}
+
 function insertUnorderedList()
 {
   var edMode = focusEditor();
@@ -551,50 +571,7 @@ function getSelText(elemId)
   return selText;
 }
 
-function insertImage()
-{
-  var url = prompt("输入图片网址", edDefImgSrc);
-  if ( url == null ) return;
-  var s = '<section><p style="text-align:center;margin:5px 0px">\n'
-    + '  <img src="' + url + '" style="max-width:90%">\n'
-    + '</p></section>\n<p><br></p>\n\n';
-  insertHTMLCode(s);
-}
-
-
-function insertQRCode()
-{
-  var url = prompt("输入二维码图片网址", edDefQRImgSrc);
-  if ( url == null ) return;
-  var s = '<section><p style="text-align:center;font-size:80%;margin-top:10px">更多信息，请扫下图中的二维码</p>\n'
-    + '<p style="text-align:center;margin:5px 0px">\n'
-    + '  <img src="' + url + '" style="max-width:90%">\n'
-    + '</p></section>\n<p><br></p>\n\n';
-  insertHTMLCode(s);
-}
-
-
-function insertAudio()
-{
-  var url = prompt("输入音频网址", edDefAudioSrc);
-  if ( url == null ) return;
-  var template = '<section><p style="font-size:20px;font-weight:bold;margin-bottom:20px;text-align:center">【〔音频〕标题】</p>\n<p style="margin-bottom:30px"><audio src="{src}" controls="" style="width:100%"></audio></p></section>\n<p><br></p>\n\n';
-  var s = subKeys(template, {"src": url});
-  insertHTMLCode(s);
-}
-
-
-function insertVideo()
-{
-  var src = prompt("输入视频网址", edDefVideoSrc);
-  if ( src == null ) return;
-  var poster = prompt("输入封面网址", edDefVideoPoster);
-  if ( poster == null ) return;
-  var template = '<section><p style="font-size:20px;font-weight:bold;margin-bottom:20px;text-align:center">【〔视频〕标题】</p><p style="margin-bottom:30px;text-align:center"><video src="{src}" poster="{poster}" controls="controls" preload="none" loop="loop" webkit-playsinline="" playsinline="" style="width:800px;max-width:100%;"></video></p></section>\n<p><br></p>\n\n';
-  var s = subKeys(template, {"src": src, "poster": poster});
-  insertHTMLCode(s);
-}
-
+// deprecated
 function createLink()
 {
   var url = prompt("输入网址");
@@ -737,7 +714,256 @@ function keepEditorFocused()
   });
 }
 
+function autoToggleEditorModeAlert()
+{
+  var mode = getEditorMode();
+  if ( mode === "vis" ) {
+    $('.edmode-alert').text('为精确定位插入点和更好地保持格式，请尽量切换到源代码编辑模式，选择源代码插入点后，再插入代码').show();
+    //$('.edmode-alert').text('为精确定位插入点和更好地保持格式，请尽量切换到源代码编辑模式，选择源代码插入点后，再插入代码；否则代码会插入在最后').show();
+  } else {
+    $('.edmode-alert').hide();
+  }
+}
+
+// find the options-wrapper modal in this element and its parents
+function findParentModal(el)
+{
+  return $(el).closest('.modal.options-wrapper');
+}
+
+function toggleModalAdvancedOptions(e, changed)
+{
+  var modal = findParentModal(e.target);
+  modal.find('.advanced').toggle(500);
+}
+
+function collectSnippetInfo(modal)
+{
+  var type = modal.data("type"), info;
+  if ( type === "image" ) {
+    info = collectImageInfo();
+  } else if ( type === "qrcode" ) {
+    info = collectQRCodeInfo();
+  } else if ( type === "audio" ) {
+    info = collectAudioInfo();
+  } else if ( type === "video" ) {
+    info = collectVideoInfo();
+  } else if ( type === "link" ) {
+    info = collectLinkInfo();
+  } else {
+    console.log("Error: unknown type", type);
+    info = {"type": type};
+  }
+  return info;
+}
+
+function renderSnippet(info)
+{
+  var code;
+  if ( info.type === "link" ) {
+    code = renderLink(info);
+  } else {
+    code = MediaCom.render(info);
+  }
+  return code;
+}
+
+function updatePreviewer(el, timeout)
+{
+  if ( timeout === undefined ) {
+    timeout = 0;
+  }
+  // if this is called from #image-link-images
+  // the animation requires some time to show or hide elements
+  // info will be affected by if link-options is visible or not
+  // so we wait for a while be before updating
+  setTimeout( function() {
+    var modal = findParentModal(el);
+    var info = collectSnippetInfo(modal);
+    var code = renderSnippet(info);
+    modal.find('.previewer').html(code);
+    modal.find('.src-code').html(code);
+  }, timeout );
+}
+
+// insert the snippet into the editor
+function insertSnippet(el)
+{
+  var modal = findParentModal(el);
+  var info = collectSnippetInfo(modal), code;
+  info["inc-id"] = true;
+  var code = renderSnippet(info);
+  modal.modal('hide');
+  insertHTMLCode2(code);
+}
+
+// copy the source code of the snippet into the clipboard
+function copySnippet(btn)
+{
+  var modal = findParentModal(btn);
+  txt = modal.find(".src-code")[0];
+  copyContentToClipboard(txt, btn);
+  // fade out the html div, then fade it back in
+  animateShow(txt, [1.0, 700, 0.3, 600, 0.3, 700, 1.0]);
+}
+
+function collectImageInfo()
+{
+  var info = {"type": "image"};
+  info["title"] = $('#image-title').val();
+  info["src"] = $('#image-src').val();
+  info["style"] = $('#image-style').val();
+  info["descr"] = $('#image-descr').val();
+  if ( $('#image-link-options').hasClass('in') ) {
+    info["href"] = $('#image-link-href').val();
+    info["open-in-new-page"] = $('#image-link-open-in-new-page').is(':checked');
+  }
+  return info;
+}
+
+function collectQRCodeInfo()
+{
+  var info = {"type": "image"};
+  info["title"] = $('#qrcode-title').val();
+  info["src"] = $('#qrcode-src').val();
+  info["style"] = $('#qrcode-style').val();
+  info["descr"] = $('#qrcode-descr').val();
+  info["href"] = $('#qrcode-link-href').val();
+  info["open-in-new-page"] = $('#qrcode-link-open-in-new-page').is(':checked');
+  return info;
+}
+
+function collectAudioInfo()
+{
+  var info = {"type": "audio"};
+  info["title"] = $('#audio-title').val();
+  info["src"] = $('#audio-src').val();
+  info["style"] = $('#audio-style').val();
+  info["descr"] = $('#audio-descr').val();
+  info["loop"] = $('#audio-loop').is(':checked');
+  info["autoplay"] = $('#audio-autoplay').is(':checked');
+  return info;
+}
+
+function collectVideoInfo()
+{
+  var info = {"type": "video"};
+  info["title"] = $('#video-title').val();
+  info["src"] = $('#video-src').val();
+  info["poster"] = $('#video-poster').val();
+  info["style"] = $('#video-style').val();
+  info["descr"] = $('#video-descr').val();
+  info["loop"] = $('#video-loop').is(':checked');
+  info["autoplay"] = $('#video-autoplay').is(':checked');
+  return info;
+}
+
+function collectLinkInfo()
+{
+  var info = {"type": "link"};
+  info["text"] = $('#link-text').val();
+  info["href"] = $('#link-href').val();
+  info["open-in-new-page"] = $('#link-open-in-new-page').is(':checked');
+  return info;
+}
+
+function renderLink(info, renderf)
+{
+  var text = info["text"];
+  if ( text === undefined || text === "" ) {
+    text = info["href"];
+  }
+  var attrs = '';
+  if ( info["open-in-new-page"] ) {
+    attrs = ' target="_blank" rel="noopener noreferrer"';
+  }
+  var s = '<a href="' + info["href"] + '"' + attrs + '>' + text + '</a>';
+  return s;
+}
+
+function applyMediaDefValues()
+{
+  $('#image-src').val( MediaCom.defMedia['image-src'] );
+  $('#qrcode-src').val( MediaCom.defMedia['qrcode-src'] );
+  $('#audio-src').val( MediaCom.defMedia['audio-src'] );
+  $('#video-src').val( MediaCom.defMedia['video-src'] );
+  $('#video-poster').val( MediaCom.defMedia['video-poster'] );
+}
+
+function initMediaInputs()
+{
+  applyMediaDefValues();
+
+  var modals = $('.modal.options-wrapper');
+  modals.on('show.bs.modal', function(e) {
+    autoToggleEditorModeAlert();
+    updatePreviewer(this);
+  }).on('hide.bs.modal', function(e) {
+    // reset the code and destroy the previewer
+    // for videos and audios, it also stops the previewer from playing
+    $(this).find('.previewer').html('');
+    $(this).find('.src-code').html('');
+  });
+  if ( screen.width < 768 ) {
+    // initially hide the previewer on xs devices
+    modals.find('.previewer-wrapper').hide();
+  }
+  // initially hide advanced options
+  modals.find('.advanced').hide();
+}
+
+function togglePreviewer(el, state)
+{
+  var modal = findParentModal(el);
+  var wrapper = modal.find('.previewer-wrapper');
+  var visible = !wrapper.is(':hidden');
+  //console.log(modal[0].id, visible, state);
+  if ( !visible || state === "on" ) {
+    wrapper.show(500);
+    setTimeout(function(){
+      var previewer = modal.find('.previewer')[0];
+      previewer.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }, 700);
+  } else if ( visible || state === "off" ) {
+    wrapper.hide(500);
+  }
+}
+
+function updateQRGen(el)
+{
+  var modal = findParentModal(el);
+  var url = modal.find("#qrgen-url").val();
+  var size = modal.find("#qrgen-size").val();
+  var margin = modal.find("#qrgen-margin").val();
+  var color = modal.find("#qrgen-color").val();
+  var bgcolor = modal.find("#qrgen-bgcolor").val();
+  if ( color.charAt(0) === "#" ) {
+    color = color.slice(1);
+  }
+  if ( bgcolor.charAt(0) === "#" ) {
+    bgcolor = bgcolor.slice(1);
+  }
+  
+  var cmd = "http://api.qrserver.com/v1/create-qr-code/?", args = [];
+  args.push( "data=" + encodeURIComponent(url) );
+  args.push( "size=" + size + "x" + size );
+  args.push( "margin=" + margin );
+  args.push( "color=" + color );
+  args.push( "bgcolor=" + bgcolor );
+  cmd += args.join("&");
+
+  //console.log(url, size, margin, color, color.slice(1), bgcolor, bgcolor.slice(1), cmd);
+  modal.find("#qrgen-img").prop("src", cmd);
+  modal.find("#qrcode-src").val(cmd);
+  modal.find("#qrcode-link-href").val(url);
+}
+
 $(document).ready(function () {
+  initMediaInputs();
+
   showHideEditor('vis');
 
   showHideFormatTools(); // must come after the BSW is created

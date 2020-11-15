@@ -1,18 +1,20 @@
 #ver-version {
   /* the numeric value is used as the version number of this CSS */
-  letter-spacing: 0.33px;
+  letter-spacing: 0.35px;
 }
 
 /* the div for version */
+.version-btn,
 .version {
   font-family: Arial, sans-serif;
   text-align: center;
   margin: 0px 0px 3px 0px;
-  border-bottom: 1px dotted #ccaaee;
+  transition: 1.5s ease;
 }
 
-.version:first-child {
+.version-btn {
   margin-top: 20px;
+  border-bottom: 1px dotted #8d8;
 }
 
 .version:last-child {
@@ -20,13 +22,14 @@
 }
 
 /* inner span for version */
+.version-btn span,
 .version span {
   font-size: 10px;
   color: #ffffff;
-  background-color: #aaee88;
+  background-color: #8d8;
   letter-spacing: 0.02em;
   padding: 5px 10px 5px 10px;
-  border-radius: 4px 4px 1px 1px;
+  border-radius: 4px;
 }
 
 /* anchors in the version */

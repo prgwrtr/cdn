@@ -643,16 +643,18 @@ function addSpaces()
 
 // add spaces to the input text
 // copy the result to the clipboard
-function addSpacesAndCopy()
+function addSpacesAndCopy(btn)
 {
   // add spaces to the input text,
   // show them in the output boxes
   var s = addSpaces();
-  if ( s === null ) return;
+  if ( s === null ) {
+    return;
+  }
   // copy the text to the clipboard
-  copyTextToClipboard(s, "btnAddSepAndCopy");
+  copyTextToClipboard(s, btn);
   // wait 1000ms (for button animation), then show the notice, then hide it
-  //animateShow('copy-success-alert', [0.0, 1000, 0.0, 1000, 1.0, 5000, 1.0, 1000, 0.0]);
+  //animateShow('#copy-success-alert', [0.0, 1000, 0.0, 1000, 1.0, 5000, 1.0, 1000, 0.0]);
 
   $('#copy-success-alert').delay(1000).slideDown(2000).delay(7000).slideUp(2000);
 

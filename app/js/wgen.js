@@ -9,13 +9,13 @@ var defImgTitle = "样本图片";
 function modifyEdDefValues()
 {
   // set the default video src
-  edDefVideoSrc = "http://dmp4-web0.cdn.xldhplay.com/zhenhan/20170218.mp4";
+  MediaCom.defMedia["video-src"] = "http://dmp4-web0.cdn.xldhplay.com/zhenhan/20170218.mp4";
 
   // set the default video poster
-  edDefVideoPoster = "http://repicweb.com.zbzcdn.com/UploadFiles/2017-03-05/20173525963330.jpg";
+  MediaCom.defMedia["video-poster"] = "http://repicweb.com.zbzcdn.com/UploadFiles/2017-03-05/20173525963330.jpg";
 
   // set the default audio
-  edDefAudioSrc = "https://gitee.com/prgcdr2/wgen/raw/master/html/audio/nmgsypsl.mp3";
+  MediaCom.defMedia["audio-src"] = "http://i3.vzan.cc/mp3/20190925/2cc455b03b164f40858eca52a6ef8d9d/v.f1010.mp3";
   /*
   Standard versions:
     https://gitee.com/prgcdr2/wgen/raw/master/html/audio/nmgsyps.mp3
@@ -24,6 +24,9 @@ function modifyEdDefValues()
     https://gitee.com/prgcdr2/wgen/raw/master/html/audio/nmgsypsl.mp3
     https://i3.vzan.cc/video/livevideo/mp3/20190924/70dfc6aa6cd64ea3aaddc1b44d05395b.mp3
   */
+
+  // to apply the new default values, defined in ed.js
+  applyMediaDefValues();
 }
 
 
@@ -208,6 +211,8 @@ function showHideMediaPreviewInputItems()
   var i;
 
   if ( mediaType === 'video' ) {
+    var edDefVideoSrc = MediaCom.defMedia["video-src"];
+    var edDefVideoPoster = MediaCom.defMedia["video-poster"];
   　$('#input-video-title').val(defVideoTitle).attr('placeholder', defVideoTitle);
     $('#input-video-src').val(edDefVideoSrc).attr('placeholder', edDefVideoSrc);
     $('#input-video-poster').val(edDefVideoPoster).attr('placeholder', edDefVideoPoster);
@@ -219,6 +224,7 @@ function showHideMediaPreviewInputItems()
   }
 
   if ( mediaType === 'audio' ) {
+    var edDefAudioSrc = MediaCom.defMedia["audio-src"];
   　$('#input-audio-title').val(defAudioTitle).attr('placeholder', defAudioTitle);
     $('#input-audio-src').val(edDefAudioSrc).attr('placeholder', edDefAudioSrc);
     $('#audio-input-wrapper').show();
@@ -229,6 +235,7 @@ function showHideMediaPreviewInputItems()
   }
 
   if ( mediaType === 'img' ) {
+    var edDefImgSrc = MediaCom.defMedia["image-src"];
   　$('#input-img-title').val(defImgTitle).attr('placeholder', defImgTitle);
     $('#input-img-src').val(edDefImgSrc).attr('placeholder', edDefImgSrc);
     $('#img-input-wrapper').show();

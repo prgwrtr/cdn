@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>网页制作小工具</title>
+<link rel="stylesheet" href="./css/com1.css">
 <style>
 body {
   margin: auto;
@@ -106,6 +107,23 @@ button {
       <input id="frame-url" size=16 placeholder="http://your.web.site">
       <button onclick="makeFrame()">去</button>
     </li>
+    <li class="dev">二维码生成器
+      <div>
+        <label for="qr-url">网址：</label>
+        <input id="qr-url" size=16 placeholder="https://map.baidu.com" value="https://map.baidu.com">
+      </div>
+      <div>
+        <label for="qr-size">大小：</label>
+        <input id="qr-size" size=16 placeholder="200x200">
+      </div>
+      <button onclick="generateQR()">生成</button>
+      <div>
+        <div style="text-align:center;margin:0 1em 0 0">
+          <img id="qr-img" alt="二维码" src="">
+          <textarea id="qr-cmd" style="display:block"></textarea>
+        </div>
+      </div>
+    </li>
   </ul>
   <div class="toolbar">
     <a id="toggle-dev" onclick='btnToggle(".dev",this)'>隐藏开发中的工具</a>
@@ -123,19 +141,19 @@ button {
     </div>
     <div>
       <input id="test-copy-input" value="input text">
-      <button onclick='copyContentToClipboard("test-copy-input", this)'>Copy</button>
+      <button onclick='copyContentToClipboard("#test-copy-input", this)'>Copy</button>
     </div>
     <div>
       <textarea id="test-copy-textarea">textarea text</textarea>
-      <button onclick='copyContentToClipboard("test-copy-textarea", this)'>Copy</button>
+      <button onclick='copyContentToClipboard("#test-copy-textarea", this)'>Copy</button>
     </div>
     <div>
       <span id="test-copy-span">span text</span>
-      <button onclick='copyContentToClipboard("test-copy-span", this)'>Copy</button>
+      <button onclick='copyContentToClipboard("#test-copy-span", this)'>Copy</button>
     </div>
     <div>
       <span id="test-copy-div" contenteditable>contenteditable div text</span>
-      <button onclick='copyContentToClipboard("test-copy-div", this)'>Copy</button>
+      <button onclick='copyContentToClipboard("#test-copy-div", this)'>Copy</button>
     </div>
   </div>
 
@@ -158,9 +176,9 @@ button {
 </div>
 
 <!--
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.22"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.22/app/js/com1.min.js"></script>
 -->
-<script src="./js/com1.js?v=0.36"></script>
+<script src="./js/com1.js?v=0.38"></script>
 <script>
 document.getElementById("toggle-dev").click();
 function makeFrame() {
@@ -196,6 +214,19 @@ setInterval(function() {
   var d = new Date();
   document.getElementById("time-stamp").innerHTML = "" + d + " " + d*1;
 }, 100);
+
+function generateQR() {
+  var url = document.getElementById("qr-url").value;
+  var size = document.getElementById("qr-size").value;
+  if ( size.trim() === "" ) {
+    size = "200x200";
+  }
+  var cmd = "http://api.qrserver.com/v1/create-qr-code/?"
+  cmd += "size=" + size;
+  cmd += "&data=" + encodeURIComponent(url);
+  document.getElementById("qr-cmd").value = cmd;
+  document.getElementById("qr-img").src = cmd;
+}
 </script>
 
 </body>

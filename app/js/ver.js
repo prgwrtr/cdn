@@ -1,11 +1,25 @@
 "use strict";
 
-var verVersion = "V0.33";
+var verVersion = "V0.35";
 
 // add trim() support to IE < 9.0
 if ( typeof String.prototype.trim !== 'function' ) {
   String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g, '');
+  }
+}
+
+// respond user click
+function toggleVersions()
+{
+  var ver = $('.all-versions');
+  if ( ver.is(':visible') ) {
+    ver.slideUp(500);
+  } else {
+    ver.slideDown(500);
+    setTimeout( function() {
+      $('.all-versions')[0].scrollIntoView({behaviro:"smooth", block: "end", inline: "nearest"})
+    }, 500);
   }
 }
 
@@ -35,7 +49,7 @@ function showVersions()
         if ( html.length > 0 ) html += ', ';
         // remove letters in the version
         cssVer = cssVer.replace(/[a-z]+/gi, '');
-        cssVer = Math.round(cssVer * 100) * 0.01;
+        cssVer = Math.round(cssVer * 100) / 100;
         cssVer = 'V' + cssVer;
         html += '<a href="' + cssPath + '">' + cssFilename + '</a> ' + cssVer;
       }
@@ -58,11 +72,11 @@ function showVersions()
   });
 
   // insert a controlling div before the version group
-  var toggleButtonHTML = '<div class="version" onclick="$(\'#all-versions\').toggle(1000)"><span>版本</span></div>';
+  var toggleButtonHTML = '<div class="version-btn" onclick="toggleVersions()"><span>版本</span></div>';
   var par = $('.version').parent();
-  par.prop('id', 'all-versions');
+  par.addClass('all-versions');
   $( toggleButtonHTML ).insertBefore( par );
-  $('#all-versions').hide(); // initially hide all version information
+  $('.all-versions').hide(); // initially hide all version information
 }
 
 $(document).ready(function(){

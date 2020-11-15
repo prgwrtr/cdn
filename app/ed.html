@@ -4,22 +4,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="version" content="V0.33b">
+<meta name="version" content="V0.36">
+<script>
+// update interval set to 1e8 ~ 1 day 
+(function(){var now=Math.floor(new Date()/1e8),h=location.href,r=h.match(/[\?\&]t=([^\&]+)/i),hv=null,ht;
+if(r){hv=unescape(r[1]);ht=parseInt(hv);}
+if((p=h.indexOf("?"))<0){location.href=h+"?t="+now;}
+else if(hv===null){location.href+="&t="+now;}
+else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
+</script>
 <title>网页编辑器</title>
 <!--
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 -->
-<script src="js/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="css/bootstrap.min.css">
-<script src="js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="css/ver.css?ver=V0.33">
-<script src="js/ver.js?ver=V0.33"></script>
+<link rel="stylesheet" href="css/ver.css?ver=V0.35">
 <link rel="stylesheet" href="css/bsw.css?ver=V0.33">
-<script src="js/bsw.js?ver=V0.33"></script>
-<link rel="stylesheet" href="css/ed.css?ver=V0.33b">
-<script src="js/ed.js?ver=V0.33b"></script>
+<link rel="stylesheet" href="css/ed.css?ver=V0.36">
 <!-- JS Bin
 created by the 3ki5tj github account
 https://jsbin.com/muxiho/edit?html,css,js,output
@@ -63,33 +66,8 @@ https://jsbin.com/muxiho
       </div>
 -->
 
-      <div id="toggle-format-tools" class="bsw-group"
-          data-bsw-on-style="default" data-bsw-off-style=""
-          data-bsw-toggle-mode="2" data-bsw-click-handler="showHideFormatTools">
-        <button id='show-format-tools' type="button" class="btn bsw bsw-on bsw-active">
-          隐藏格式工具
-        </button>
-        <button id='hide-format-tools' type="button" class="btn bsw bsw-off bsw-inactive">
-          显示格式工具
-        </button>
-      </div>
-
-<!--
-      <div id="toggle-format-tools" class="btn-group bsw-group"
-          data-bsw-toggle-mode="1" data-bsw-click-handler="showHideFormatTools">
-        <button id='show-format-tools' type="button" class="btn bsw-active">
-          <span class="glyphicon glyphicon-ok"></span>
-        </button>
-        <button type="button" class="btn bsw-toggle">
-          格式工具
-        </button>
-        <button id='hide-format-tools' type="button" class="btn bsw-inactive">
-          <span class="glyphicon glyphicon-remove"></span>
-        </button>
-      </div>
--->
-      <div id="format-tools" role="group" style="display:inline">
-        <div class="btn-group ed-btn-group-dropdown">
+      <span id="format-tools" role="group">
+        <div class="btn-group ed-btn-group-dropdown format-tool">
           <button type="button" class="btn btn-default"
               onclick="makeBold()">
             <!--
@@ -121,7 +99,7 @@ https://jsbin.com/muxiho
           </ul>
         </div>
 
-        <div class="btn-group ed-btn-group-dropdown">
+        <div class="btn-group ed-btn-group-dropdown format-tool">
           <div id="font-size-sel" class="btn-group" role="group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-text-size" aria-hidden="true"></span>
@@ -191,7 +169,7 @@ https://jsbin.com/muxiho
           </div>
         </div>
 
-        <div class="btn-group ed-btn-group-dropdown">
+        <div class="btn-group ed-btn-group-dropdown format-tool">
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default"
               onclick='insertParagraph()'>
@@ -202,6 +180,7 @@ https://jsbin.com/muxiho
             </button>
             <ul class="dropdown-menu">
               <li><a onclick='insertParagraph()' class="pseudo-button"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> 插入段落</a></li>
+              <li><a onclick='insertSeparator()' class="pseudo-button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> 插入分割线</a></li>
               <li role="separator" class="divider"></li>
               <li><a onclick='insertOrderedList()' class="pseudo-button"><span class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span> 有序列表</a></li>
               <li><a onclick='insertUnorderedList()' class="pseudo-button"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 无序列表</a></li>
@@ -209,7 +188,7 @@ https://jsbin.com/muxiho
           </div>
         </div>
 
-        <div class="btn-group ed-btn-group-dropdown">
+        <div class="btn-group ed-btn-group-dropdown format-tool">
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default"
               onclick='alignCenter()'>
@@ -230,44 +209,54 @@ https://jsbin.com/muxiho
           </div>
         </div>
 
-        <div class="btn-group">
-          <div class="btn-group ed-btn-group-dropdown" role="group">
+        <div class="btn-group format-tool">
+          <div class="btn-group" role="group">
             <button type="button" class="btn btn-default" aria-label="图片"
-                onclick="insertImage()">
+                data-toggle="modal"
+                data-target="#insert-image-modal">
               <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
             </button>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="caret"></span>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" aria-label="二维码"
+              data-toggle="modal" href="#insert-qrcode-modal">
+             <span class="glyphicon glyphicon glyphicon-qrcode" aria-hidden="true"></span>
             </button>
-            <ul class="dropdown-menu">
-              <li><a onclick='insertImage()' class="pseudo-button"><span class="glyphicon glyphicon glyphicon-picture" aria-hidden="true"></span> 插入图片</a></li>
-              <li><a onclick='insertQRCode()' class="pseudo-button"><span class="glyphicon glyphicon glyphicon-qrcode" aria-hidden="true"></span> 插入二维码</a></li>
-            </ul>
           </div>
 
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default" aria-label="音频"
-                onclick="insertAudio()">
+                data-toggle="modal"
+                data-target="#insert-audio-modal">
               <span class="glyphicon glyphicon-music" aria-hidden="true"></span>
             </button>
           </div>
 
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default" aria-label="视频"
-                onclick="insertVideo()">
+                data-toggle="modal"
+                data-target="#insert-video-modal">
               <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
             </button>
+            <!--
+            <button type="button" class="btn btn-default" aria-label="视频"
+                data-toggle="collapse"
+                data-target="#insert-video-collapse">
+              <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+            </button>
+            -->
           </div>
 
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default" aria-label="链接"
-                onclick="createLink()">
+                data-toggle="modal"
+                data-target="#insert-link-modal">
               <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
             </button>
           </div>
         </div>
 
-        <div class="btn-group">
+        <div class="btn-group format-tool">
           <button type="button" class="btn btn-default" aria-label="撤销"
               onclick="undo()">
             撤销
@@ -278,11 +267,67 @@ https://jsbin.com/muxiho
             重做
           </button>
         </div>
-      </div> <!-- format-tools -->
+      </span> <!-- format-tools -->
+
+      <div id="toggle-format-tools" class="bsw-group"
+          data-bsw-on-style="default" data-bsw-off-style=""
+          data-bsw-toggle-mode="2" data-bsw-click-handler="showHideFormatTools">
+        <button type="button" class="btn bsw bsw-on bsw-active">
+          <span class="glyphicon glyphicon-eye-close"></span>
+          格式工具
+        </button>
+        <button type="button" class="btn bsw bsw-off bsw-inactive">
+          <span class="glyphicon glyphicon-eye-open"></span>
+          格式工具
+        </button>
+      </div>
+
+<!--
+      <div id="toggle-format-tools" class="btn-group bsw-group"
+          data-bsw-toggle-mode="1" data-bsw-click-handler="showHideFormatTools">
+        <button id='show-format-tools' type="button" class="btn bsw bsw-active">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button type="button" class="btn bsw-toggle">
+          格式工具
+        </button>
+        <button id='hide-format-tools' type="button" class="btn bsw bsw-inactive">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+-->
     </div>
 
   </div>
-
+  <!-- panel version of the options wrapper -->
+<!--
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="collapse options-wrapper" id="insert-video-collapse">
+        <div class="panel panel-primary">
+          <div class="panel-heading options-header">
+            <button type="button" class="close" aria-label="Close"
+              onclick='$("#insert-video-collapse").collapse("hide")'><span aria-hidden="true">&times;</span></button>
+            插入视频
+          </div>
+          <div class="panel-body options-body">
+            ...
+          </div>
+          <div class="panel-footer options-footer">
+            <button type="button" class="btn btn-default"
+              onclick='$("#insert-video-collapse").collapse("hide")'>
+              取消
+            </button>
+            <button type="button" class="btn btn-primary"
+                onclick='insertVideo()'>
+              插入
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
   <div class="row">
     <div id="vis-editor-wrapper" class="col-sm-12"
         style="margin:auto !important">
@@ -319,10 +364,775 @@ https://jsbin.com/muxiho
       </div>
     </div>
   </div>
-</div>
+</div> <!-- html editor -->
+
+<!-- Modal: insert image -->
+<div class="modal fade options-wrapper" id="insert-image-modal" data-type="image"
+    tabindex="-1" role="dialog" aria-labelledby="insert-image-options">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header options-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="insert-image-options">
+          <span class="glyphicon glyphicon glyphicon-picture" aria-hidden="true"></span>
+          插入图片
+        </h4>
+      </div>
+      <div class="modal-body options-body">
+        <div class="edmode-alert alert alert-warning"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="inp-group">
+              <label for="image-title">
+                图片标题：
+              </label>
+              <textarea id="image-title" rows="2"
+                class="form-control"
+                placeholder="【〔图片〕标题】"
+                onchange="updatePreviewer(this)">【〔图片〕标题】</textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="image-src">
+                图片网址：
+              </label>
+              <textarea id="image-src" rows="2"
+                class="form-control"
+                placeholder="http://my.web.site/image.jpg"
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+
+            <div class="link-options-wrapper advanced">
+              <div class="inp-group">
+                <button type="button" class="btn btn-info"
+                  data-toggle="collapse"
+                  data-target="#image-link-options"
+                  onclick="updatePreviewer(this, 1000)">
+                  <span class="glyphicon glyphicon-link"></span>
+                  加入链接？
+                </button>
+              </div>
+
+              <div class="collapse link-options" id="image-link-options">
+                <div class="inp-group">
+                  <label for="image-link-href">
+                    链接网址：
+                  </label>
+                  <textarea id="image-link-href" rows="2"
+                    class="form-control"
+                    placeholder="http://my.web.site/"
+                    onchange="updatePreviewer(this)"></textarea>
+                </div>
+
+                <div class="inp-group">
+                  <label for="image-link-open-in-new-page" style="display:inline-block">
+                    <input id="image-link-open-in-new-page" type="checkbox" checked
+                      onchange="updatePreviewer(this)">
+                    在新页面打开 
+                  </label>
+                </div>
+              </div> <!-- image-link-options -->
+            </div>
+
+            <div class="inp-group">
+              <label for="image-style">样式：</label>
+              <select id="image-style" onchange="updatePreviewer(this)">
+                <option value="simple">简单</option>
+                <option value="darkred" selected>深红</option>
+                <option value="pink">粉红</option>
+                <option value="orange">橘黄</option>
+                <option value="golden">金黄</option>
+                <option value="red">红色</option>
+                <option value="blue">蓝色</option>
+              </select>
+            </div>
+
+            <div class="inp-group advanced">
+              <label for="image-descr">
+                附加描述（可选）：
+              </label>
+              <textarea id="image-descr" rows="2"
+                class="form-control"
+                placeholder=""
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="inp-group" style="margin:1em 0em;text-align:center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info"
+                  onclick='updatePreviewer(this);togglePreviewer(this, "on");'>
+                  <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+                <button type="button" class="btn btn-info"
+                  onclick='togglePreviewer(this)'>
+                  预览
+                </button>
+              </div>
+            </div>
+            <div class="previewer-wrapper">
+              <div class="previewer"></div>
+              <div class="src-code-wrapper advanced">
+                <div class="inp-group">
+                  <textarea class="src-code" rows="8"
+                    class="form-control"></textarea>
+                </div>
+                <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-success"
+                    onclick='copySnippet(this)'
+                    >复制源代码</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>&nbsp;</div>
+        </div> <!-- row -->
+      </div>
+      <div class="modal-footer options-footer">
+        <div class="bsw-group pull-left"
+            data-bsw-on-style="info" data-bsw-off-style="default"
+            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+          <button type="button" class="btn bsw bsw-on bsw-inactive">
+            <span class="glyphicon glyphicon-eye-close"></span>
+            更多选项
+          </button>
+          <button type="button" class="btn bsw bsw-off bsw-active">
+            <span class="glyphicon glyphicon-eye-open"></span>
+            更多选项
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          取消
+        </button>
+        <button type="button" class="btn btn-primary"
+            onclick='insertSnippet(this)'>
+          插入
+        </button>
+      </div>
+    </div>
+  </div> <!-- modal-dialog -->
+</div> <!-- Modal: insert image -->
+
+
+
+<!-- Modal: insert qrcode -->
+<div class="modal fade options-wrapper" id="insert-qrcode-modal" data-type="qrcode"
+    tabindex="-1" role="dialog" aria-labelledby="insert-qrcode-options">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header options-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="insert-qrcode-options">
+          <span class="glyphicon glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+          插入二维码
+        </h4>
+      </div>
+      <div class="modal-body options-body">
+        <div class="edmode-alert alert alert-warning"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="inp-group">
+              <label for="qrcode-title">
+                二维码标题：
+              </label>
+              <textarea id="qrcode-title" rows="2"
+                class="form-control"
+                placeholder="更多信息，请扫下图中的二维码"
+                onchange="updatePreviewer(this)">更多信息，请扫下图中的二维码</textarea>
+            </div>
+
+            <div class="collapse qrgen-options" id="qrcode-generator">
+              <h4>二维码生成器</h4>
+              <div class="inp-group">
+                <label for="qrgen-url">
+                  网址：
+                </label>
+                <textarea id="qrgen-url" rows="2"
+                  class="form-control"
+                  placeholder="http://my.web.site/"
+                  onchange="updateQRGen(this)">https://map.baidu.com</textarea>
+              </div>
+              <div class="inp-group">
+                <label for="qrgen-size">
+                  大小：
+                <input id="qrgen-size" value="150" placeholder="150"
+                  class="form-control"
+                  onchange="updateQRGen(this)">
+                </label>
+              </div>
+              <div class="inp-group">
+                <label for="qrgen-margin">
+                  边距大小：
+                <input id="qrgen-margin" value="5" placeholder="150"
+                  class="form-control"
+                  onchange="updateQRGen(this)">
+                </label>
+              </div>
+              <div class="inp-group">
+                <label for="qrgen-color">
+                  前景色：
+                <input id="qrgen-color" value="#000000" placeholder="150"
+                  type="color" class="form-control"
+                  onchange="updateQRGen(this)">
+                </label>
+              </div>
+              <div class="inp-group">
+                <label for="qrgen-bgcolor">
+                  背景色：
+                <input id="qrgen-bgcolor" value="#ffffff" placeholder="150"
+                  type="color" class="form-control"
+                  onchange="updateQRGen(this)">
+                </label>
+              </div>
+              <div class="inp-group">
+                <button type="button" class="btn btn-primary"
+                  onclick="updateQRGen(this)">
+                  生成
+                </button>
+              </div>
+              <div class="inp-group">
+              <img id="qrgen-img" alt="" src="" style="max-width:100%">
+              </div>
+            </div>
+
+            <div class="inp-group">
+              <label for="qrcode-src">
+                二维码图片网址：
+              </label>
+              <textarea id="qrcode-src" rows="2"
+                class="form-control"
+                placeholder="http://my.web.site/qrcode.jpg"
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+
+            <div class="inp-group">
+              <div style="margin:1em 0">
+                没有二维码？
+                <button type="button" class="btn btn-info"
+                  data-toggle="collapse"
+                  data-target="#qrcode-generator">
+                  在线生成二维码
+                </button>
+              </div>
+            </div>
+
+            <div class="link-options-wrapper">
+              <div class="inp-group">
+                <button type="button" class="btn btn-info"
+                  data-toggle="collapse"
+                  data-target="#qrcode-link-options"
+                  onclick="updatePreviewer(this, 1000)">
+                  <span class="glyphicon glyphicon-link"></span>
+                  加入链接？
+                </button>
+              </div>
+
+              <div class="collapse link-options" id="qrcode-link-options">
+                <div class="inp-group">
+                  <label for="qrcode-link-href">
+                    链接网址：
+                  </label>
+                  <textarea id="qrcode-link-href" rows="2"
+                    class="form-control"
+                    placeholder="http://my.web.site/"
+                    onchange="updatePreviewer(this)"></textarea>
+                </div>
+
+                <div class="inp-group">
+                  <label for="qrcode-link-open-in-new-page" style="display:inline-block">
+                    <input id="qrcode-link-open-in-new-page" type="checkbox" checked
+                      onchange="updatePreviewer(this)">
+                    在新页面打开 
+                  </label>
+                </div>
+              </div> <!-- qrcode-link-options -->
+            </div>
+
+            <div class="inp-group">
+              <label for="qrcode-style">样式：</label>
+              <select id="qrcode-style" onchange="updatePreviewer(this)">
+                <option value="simple">简单</option>
+                <option value="darkred" selected>深红</option>
+                <option value="pink">粉红</option>
+                <option value="orange">橘黄</option>
+                <option value="golden">金黄</option>
+                <option value="red">红色</option>
+                <option value="blue">蓝色</option>
+              </select>
+            </div>
+
+            <div class="inp-group advanced">
+              <label for="qrcode-descr">
+                附加描述（可选）：
+              </label>
+              <textarea id="qrcode-descr" rows="2"
+                class="form-control"
+                placeholder=""
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="inp-group" style="margin:1em 0em;text-align:center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info"
+                  onclick='updatePreviewer(this);togglePreviewer(this, "on");'>
+                  <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+                <button type="button" class="btn btn-info"
+                  onclick='togglePreviewer(this)'>
+                  预览
+                </button>
+              </div>
+            </div>
+            <div class="previewer-wrapper">
+              <div class="previewer"></div>
+              <div class="src-code-wrapper advanced">
+                <div class="inp-group">
+                  <textarea class="src-code" rows="8"
+                    class="form-control"></textarea>
+                </div>
+                <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-success"
+                    onclick='copySnippet(this)'
+                    >复制源代码</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>&nbsp;</div>
+        </div> <!-- row -->
+      </div>
+      <div class="modal-footer options-footer">
+        <div class="bsw-group pull-left"
+            data-bsw-on-style="info" data-bsw-off-style="default"
+            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+          <button type="button" class="btn bsw bsw-on bsw-inactive">
+            <span class="glyphicon glyphicon-eye-close"></span>
+            更多选项
+          </button>
+          <button type="button" class="btn bsw bsw-off bsw-active">
+            <span class="glyphicon glyphicon-eye-open"></span>
+            更多选项
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          取消
+        </button>
+        <button type="button" class="btn btn-primary"
+            onclick='insertSnippet(this)'>
+          插入
+        </button>
+      </div>
+    </div>
+  </div> <!-- modal-dialog -->
+</div> <!-- Modal: insert qrcode -->
+
+
+
+<!-- Modal: insert audio -->
+<div class="modal fade options-wrapper" id="insert-audio-modal" data-type="audio"
+    tabindex="-1" role="dialog" aria-labelledby="insert-audio-options">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header options-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="insert-audio-options">
+          <span class="glyphicon glyphicon glyphicon-music" aria-hidden="true"></span>
+          插入音频
+        </h4>
+      </div>
+      <div class="modal-body options-body">
+        <div class="edmode-alert alert alert-warning"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="inp-group">
+              <label for="audio-title">
+                音频标题：
+              </label>
+              <textarea id="audio-title" rows="2"
+                class="form-control"
+                placeholder="【〔音频〕标题】"
+                onchange="updatePreviewer(this)">【〔音频〕标题】</textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="audio-src">
+                音频网址：
+              </label>
+              <textarea id="audio-src" rows="2"
+                class="form-control"
+                placeholder="http://my.web.site/audio.mp3"
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+
+            <div class="inp-group advanced">
+              <label for="audio-loop" style="display:inline-block">
+                <input id="audio-loop" type="checkbox"
+                 onchange="updatePreviewer(this)">
+                循环播放
+              </label>
+            </div>
+
+            <div class="inp-group advanced">
+              <label for="audio-autoplay" style="display:inline-block">
+                <input id="audio-autoplay" type="checkbox"
+                onchange="updatePreviewer(this)">
+                自动播放
+              </label>
+            </div>
+
+            <div class="inp-group">
+              <label for="audio-style">样式：</label>
+              <select id="audio-style" onchange="updatePreviewer(this)">
+                <option value="simple">简单</option>
+                <option value="darkred" selected>深红</option>
+                <option value="pink">粉红</option>
+                <option value="orange">橘黄</option>
+                <option value="golden">金黄</option>
+                <option value="red">红色</option>
+                <option value="blue">蓝色</option>
+              </select>
+            </div>
+
+            <div class="inp-group advanced">
+              <label for="audio-descr">
+                附加描述（可选）：
+              </label>
+              <textarea id="audio-descr" rows="2"
+                class="form-control"
+                placeholder=""
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="inp-group" style="margin:1em 0em;text-align:center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info"
+                  onclick='updatePreviewer(this);togglePreviewer(this, "on");'>
+                  <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+                <button type="button" class="btn btn-info"
+                  onclick='togglePreviewer(this)'>
+                  预览
+                </button>
+              </div>
+            </div>
+            <div class="previewer-wrapper">
+              <div class="previewer"></div>
+              <div class="src-code-wrapper advanced">
+                <div class="inp-group">
+                  <textarea class="src-code" rows="8"
+                    class="form-control"></textarea>
+                </div>
+                <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-success"
+                    onclick='copySnippet(this)'
+                    >复制源代码</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>&nbsp;</div>
+        </div> <!-- row -->
+      </div>
+      <div class="modal-footer options-footer">
+        <div class="bsw-group pull-left"
+            data-bsw-on-style="info" data-bsw-off-style="default"
+            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+          <button type="button" class="btn bsw bsw-on bsw-inactive">
+            <span class="glyphicon glyphicon-eye-close"></span>
+            更多选项
+          </button>
+          <button type="button" class="btn bsw bsw-off bsw-active">
+            <span class="glyphicon glyphicon-eye-open"></span>
+            更多选项
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          取消
+        </button>
+        <button type="button" class="btn btn-primary"
+            onclick='insertSnippet(this)'>
+          插入
+        </button>
+      </div>
+    </div>
+  </div> <!-- modal-dialog -->
+</div> <!-- Modal: insert audio -->
+
+
+
+<!-- Modal: insert video -->
+<div class="modal fade options-wrapper" id="insert-video-modal" data-type="video"
+    tabindex="-1" role="dialog" aria-labelledby="insert-video-options">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header options-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="insert-video-options">
+          <span class="glyphicon glyphicon glyphicon-film" aria-hidden="true"></span>
+          插入视频
+        </h4>
+      </div>
+      <div class="modal-body options-body">
+        <div class="edmode-alert alert alert-warning"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="inp-group">
+              <label for="video-title">
+                视频标题：
+              </label>
+              <textarea id="video-title" rows="2"
+                class="form-control"
+                placeholder="【〔视频〕标题】"
+                onchange="updatePreviewer(this)">【〔视频〕标题】</textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="video-src">
+                视频网址：
+              </label>
+              <textarea id="video-src" rows="2"
+                class="form-control"
+                placeholder="http://my.web.site/video.mp4"
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="video-poster">
+                视频封面网址：
+              </label>
+              <textarea id="video-poster" rows="2"
+                class="form-control"
+                placeholder="http://my.web.site/video-poster.jpg"
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="video-loop" style="display:inline-block">
+                <input id="video-loop" type="checkbox" checked
+                 onchange="updatePreviewer(this)">
+                循环播放
+              </label>
+              <div class="help-block">
+                循环播放可以防止微信在视频结尾添加广告
+              </div>
+            </div>
+
+            <div class="inp-group advanced">
+              <label for="video-autoplay" style="display:inline-block">
+                <input id="video-autoplay" type="checkbox"
+                onchange="updatePreviewer(this)">
+                自动播放
+              </label>
+            </div>
+
+            <div class="inp-group">
+              <label for="video-style">样式：</label>
+              <select id="video-style" onchange="updatePreviewer(this)">
+                <option value="simple">简单</option>
+                <option value="darkred" selected>深红</option>
+                <option value="pink">粉红</option>
+                <option value="orange">橘黄</option>
+                <option value="golden">金黄</option>
+                <option value="red">红色</option>
+                <option value="blue">蓝色</option>
+              </select>
+            </div>
+
+            <div class="inp-group advanced">
+              <label for="video-descr">
+                附加描述（可选）：
+              </label>
+              <textarea id="video-descr" rows="2"
+                class="form-control"
+                placeholder=""
+                onchange="updatePreviewer(this)"></textarea>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="inp-group" style="margin:1em 0em;text-align:center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info"
+                  onclick='updatePreviewer(this);togglePreviewer(this, "on");'>
+                  <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+                <button type="button" class="btn btn-info"
+                  onclick='togglePreviewer(this)'>
+                  预览
+                </button>
+              </div>
+            </div>
+            <div class="previewer-wrapper">
+              <div class="previewer"></div>
+              <div class="src-code-wrapper advanced">
+                <div class="inp-group">
+                  <textarea class="src-code" rows="8"
+                    class="form-control"></textarea>
+                </div>
+                <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-success"
+                    onclick='copySnippet(this)'
+                    >复制源代码</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>&nbsp;</div>
+        </div> <!-- row -->
+      </div>
+      <div class="modal-footer options-footer">
+        <div class="bsw-group pull-left"
+            data-bsw-on-style="info" data-bsw-off-style="default"
+            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+          <button type="button" class="btn bsw bsw-on bsw-inactive">
+            <span class="glyphicon glyphicon-eye-close"></span>
+            更多选项
+          </button>
+          <button type="button" class="btn bsw bsw-off bsw-active">
+            <span class="glyphicon glyphicon-eye-open"></span>
+            更多选项
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          取消
+        </button>
+        <button type="button" class="btn btn-primary"
+            onclick='insertSnippet(this)'>
+          插入
+        </button>
+      </div>
+    </div>
+  </div> <!-- modal-dialog -->
+</div> <!-- Modal: insert video -->
+
+
+
+<!-- Modal: insert link -->
+<div class="modal fade options-wrapper" id="insert-link-modal" data-type="link"
+    tabindex="-1" role="dialog" aria-labelledby="insert-link-options">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header options-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="insert-link-options">
+          <span class="glyphicon glyphicon glyphicon-link" aria-hidden="true"></span>
+          插入链接
+        </h4>
+      </div>
+      <div class="modal-body options-body">
+        <div class="edmode-alert alert alert-warning"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="inp-group">
+              <label for="link-href">
+                链接网址：
+              </label>
+              <textarea id="link-href" rows="2"
+                class="form-control"
+                placeholder="http://my.web.site/"
+                onchange="updatePreviewer(this)">https://map.baidu.com/</textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="link-text">
+                链接显示文字（可选）：
+              </label>
+              <textarea id="link-text" rows="2"
+                class="form-control"
+                placeholder="默认和网址相同"
+                onchange="updatePreviewer(this)">百度地图</textarea>
+            </div>
+
+            <div class="inp-group">
+              <label for="link-open-in-new-page" style="display:inline-block">
+                <input id="link-open-in-new-page" type="checkbox" checked
+                  onchange="updatePreviewer(this)">
+                在新页面打开 
+              </label>
+            </div>
+
+          </div>
+
+          <div class="col-sm-6">
+            <div class="inp-group" style="margin:1em 0em;text-align:center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info"
+                  onclick='updatePreviewer(this);togglePreviewer(this, "on");'>
+                  <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+                <button type="button" class="btn btn-info"
+                  onclick='togglePreviewer(this)'>
+                  预览
+                </button>
+              </div>
+            </div>
+            <div class="previewer-wrapper">
+              <div class="previewer"></div>
+              <div class="src-code-wrapper advanced">
+                <div class="inp-group">
+                  <textarea class="src-code" rows="3"
+                    class="form-control"></textarea>
+                </div>
+                <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-success"
+                    onclick='copySnippet(this)'
+                    >复制源代码</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>&nbsp;</div>
+        </div> <!-- row -->
+      </div>
+      <div class="modal-footer options-footer">
+        <div class="bsw-group pull-left"
+            data-bsw-on-style="info" data-bsw-off-style="default"
+            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+          <button type="button" class="btn bsw bsw-on bsw-inactive">
+            <span class="glyphicon glyphicon-eye-close"></span>
+            更多选项
+          </button>
+          <button type="button" class="btn bsw bsw-off bsw-active">
+            <span class="glyphicon glyphicon-eye-open"></span>
+            更多选项
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          取消
+        </button>
+        <button type="button" class="btn btn-primary"
+            onclick='insertSnippet(this)'>
+          插入
+        </button>
+      </div>
+    </div>
+  </div> <!-- modal-dialog -->
+</div> <!-- Modal: insert link -->
+
+
+
 <!-- HTML EDITOR END -->
 
-<div class="note center">如果发现网页底部有广告，是网站自带的。请使用本程序时不要去点这些广告。<br>程序在设计和使用中如有不如理不如法的情况，请大慈大悲观世音菩萨和龙天护法菩萨原谅。</div>
+<div style="display:none">
+<p>
+<a href="https://user.vzan.com/home/Login" target="_blank" rel="noopener noreferrer">微赞直播登录</a>
+</p>
+</div>
 
 <div class="row">
   <div id="ed-version" class="version" data-name="网页编辑器"
@@ -334,6 +1144,16 @@ https://jsbin.com/muxiho
   <div id="ver-version" class="version" data-name="版本控制"
     data-css="ver.css" data-js="ver.js" data-js-var="verVersion"></div>
 </div>
+
+<div class="note center">如果页面底部出现广告，是宿主网站自带的，请不要去点击。程序在设计和使用中如有不如理不如法的情况，请大慈大悲观世音菩萨和龙天护法菩萨原谅。</div>
+
+<script src="js/jquery-1.12.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/ver.js?ver=V0.35"></script>
+<script src="js/bsw.js?ver=V0.35"></script>
+<script src="js/com1.js?ver=V0.38"></script>
+<script src="js/mediacom.js?ver=V0.36"></script>
+<script src="js/ed.js?ver=V0.36a"></script>
 
 </body>
 </html>

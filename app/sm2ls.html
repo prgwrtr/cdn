@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SM2 Bar-UI 音频列表生成器</title>
 <script>
 (function(){var now=Math.floor(new Date()/1e6),h=location.href,r=h.match(/[\?\&]t=([^\&]+)/i),hv=null,ht;
 if(r){hv=unescape(r[1]);ht=parseInt(hv);}
@@ -11,6 +10,7 @@ if((p=h.indexOf("?"))<0){location.href=h+"?t="+now;}
 else if(hv===null){location.href=h.slice(0, p+1)+"t="+now+"&"+h.slice(p+1);}
 else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
 </script>
+  <title>SM2 Bar-UI 音频列表生成器</title>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <!--
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
@@ -105,7 +105,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
 
       <div class="opt-group">
         <div class="opt-group-heading">
-          音频列表
+          输入音频列表
         </div>
         <div id="list-input-mode">
           <div id="normal-mode" class="opt-group-body">
@@ -294,7 +294,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 
       <div class="copy-btn-wrapper">
         <button id="copy-code-btn" class="copy-btn" type="button"
-          onclick='copyAnimated("code", "copy-code-btn", "code-copied-msg")'
+          onclick='copyAnimated("#code", this, "#code-copied-msg")'
           >复制</button>
         <span id="code-copied-msg" class="copied-msg" style="display:none;">
           已复制代码到剪贴板
@@ -402,13 +402,13 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 </div> <!-- gen-page -->
 
 <!--
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/com1.min.js?v=0.1.22"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/shortenurl.min.js?v=0.1.22"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/sm2ls.min.js?v=0.1.22"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/com1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.23/app/js/shortenurl.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/sm2ls.min.js"></script>
 -->
-<script src="./js/com1.js?v=0.36"></script>
+<script src="./js/com1.js?v=0.38"></script>
 <script src="./js/shortenurl.js?v=0.36"></script>
-<script src="./js/sm2ls.js?v=0.36b"></script>
+<script src="./js/sm2ls.js?v=0.38"></script>
 
 </body>
 </html>

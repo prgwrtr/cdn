@@ -793,7 +793,7 @@
 
 .sm2-playlist-wrapper ul li a {
  display: block;
- padding: 0.5em 0 !important;
+ padding: 0.5em 0.25em 0.5em 0.75em;
  margin: 0 2.5em !important;
  font-size: 110%;
  vertical-align: middle;
@@ -954,7 +954,7 @@
 
 .sm2-playlist-bd span.lianhua{
   position: absolute;
-  left: 0.25em;
+  left: 0.5em;
   margin: 0 !important;
   width: 2em !important;
   height: 100% !important;
