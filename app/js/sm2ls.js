@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.24";
+var latestCDNVersion = "0.1.25";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -348,6 +348,9 @@ function writeSM2PlayerCode(info)
   //if ( !document.getElementById("inp-volume-btn").checked ) {
     opts.push("no-volume");
   //}
+  if ( document.getElementById("inp-item-download").checked ) {
+    opts.push("item-download");
+  }
   info["options"] = opts.join(" ");
 
   var scrollLongTitle = document.getElementById("inp-scroll-long-title").checked;

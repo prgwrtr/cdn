@@ -229,7 +229,7 @@ function insertHTMLCode2(html)
       sel.collapse();
     }
   } else {
-    insertText('src-editor', insStart);
+    insertText('src-editor', html);
   }
 }
 
@@ -718,8 +718,8 @@ function autoToggleEditorModeAlert()
 {
   var mode = getEditorMode();
   if ( mode === "vis" ) {
-    $('.edmode-alert').text('为精确定位插入点和更好地保持格式，请尽量切换到源代码编辑模式，选择源代码插入点后，再插入代码').show();
-    //$('.edmode-alert').text('为精确定位插入点和更好地保持格式，请尽量切换到源代码编辑模式，选择源代码插入点后，再插入代码；否则代码会插入在最后').show();
+    //$('.edmode-alert').addClass("alert-info").text('为精确定位插入点和更好地保持格式，请尽量切换到源代码编辑模式，选择源代码插入点后，再插入代码').show();
+    $('.edmode-alert').hide();
   } else {
     $('.edmode-alert').hide();
   }

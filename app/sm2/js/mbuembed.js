@@ -1,6 +1,6 @@
 // install the proper css and js file
 (function(){
-  // this function only needs to be run once
+  // this function only needs to run once
   if ( window.mbuEmbedOnce ) return;
   window.mbuEmbedOnce = 1;
 
@@ -72,6 +72,31 @@
     document.getElementsByTagName("head")[0].append(s);
   },
 
+  initItemDownload = function(player) {
+    var itemDownload = ( player.className.split(" ").indexOf("item-download") >= 0 );
+    if ( itemDownload ) {
+      var ls = player.getElementsByClassName("sm2-playlist-wrapper")[0];
+      if ( !ls ) return;
+      var items = ls.getElementsByTagName("LI"), i;
+      for ( i = 0; i < items.length; i++ ) {
+        var a = items[i].getElementsByTagName("A")[0];
+        if ( !a || !a.href ) continue;
+
+        // add a download link for this item
+        var d = document.createElement("SPAN");
+        d.className = "item-downloader";
+        d.innerHTML = '下载';
+        d.onclick = (function(href){
+          return function() {
+            //var a2 = document.createElement("A"); a2.href = href; a2.download = "audio.mp3"; a2.click();
+            window.open(href, "_blank");
+          };
+        })(a.href);
+        items[i].appendChild(d);
+      }
+    }
+  },
+
   getPlayers = function() {
     return document.getElementsByClassName("sm2-bar-ui");
   },
@@ -137,6 +162,9 @@
       var players = getPlayers(), i, p, d;
       for ( i = 0; i < players.length; i++ ) {
         p = players[i];
+        // add a download link for each item 
+        initItemDownload(p);
+        // unhide the player
         p.style.display = "";
         d = p.previousSibling;
         if ( d.className === "player-info") {
@@ -153,6 +181,7 @@
         if ( !p ) continue;
         d = p.getElementsByTagName("LI")[0];
         if ( !d ) continue;
+        // convert the title of the playing track to a marquee
         if ( d.scrollWidth > p.offsetWidth
           && d.getElementsByTagName("MARQUEE")[0] === undefined ) {
           //console.log("adding <marquee>", p.scrollWidth, p.offsetWidth);
@@ -162,7 +191,7 @@
     }
   }, 1000); // check every 1s
 
-  // special patch for XLYS/ZYXL mobile version to disable link redirection
+  // special patch for XLYS/ZYXL mobile version to disable links
   // since common_u.js is in the header, we can and should do this as soon as possible
   if ( findJS("comiis/js/common_u.js") !== null ) {
     // undo common_u.js, line 1329

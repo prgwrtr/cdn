@@ -40,10 +40,11 @@ window.domainMapDataArray__ = [
   {
     "name": "xlch",
     "live": [
-      "xlch43.com",
+      "xlch44.com",
     ],
     "dead": [
       "xlch.org",
+      "xlch43.com",
       "xlch42.com",
       "xlch41.com",
       "xlch40.com",

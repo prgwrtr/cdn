@@ -966,3 +966,38 @@
   background-position: center !important;
   float: none !important;
 }
+
+.item-downloader {
+  margin: 0em 0.4em 0em 0.2em;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transition: ease 0.1s;
+  transform: translateY(-50%);
+  padding: 0.1em 0.3em;
+  background-color: #a32;
+  border-radius: 4px;
+  box-shadow: .5px .5px 1px #ca6;
+  cursor: pointer;
+}
+
+.item-downloader:hover {
+  background-color: #d30;
+  box-shadow: .5px .5px 2px #a84;
+}
+
+.item-downloader:active,
+.item-downloader:focus {
+  background-color: #910;
+  transform: translateY(-48%);
+}
+
+.sm2-bar-ui.item-download .sm2-playlist-wrapper ul.sm2-playlist-bd li {
+  background-position: right 3.2em center;
+}
+
+.sm2-bar-ui.item-download .sm2-playlist-wrapper ul.sm2-playlist-bd li a {
+  margin-right: 4.8em !important;
+}
+

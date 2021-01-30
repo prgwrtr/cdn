@@ -110,7 +110,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
         <div id="list-input-mode">
           <div id="normal-mode" class="opt-group-body">
             <div class="inp-group">
-              现为整体输入模式，切换至
+              现为整合输入模式，切换至
               <a class="mode-switcher"
                 onclick='switchListInputMode("itemized-mode");writeCode()'
                 >分项输入模式</a>
@@ -135,7 +135,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
               现为分项输入模式，切换至
               <a class="mode-switcher"
                 onclick='switchListInputMode("normal-mode");writeCode()'
-                >整体输入模式</a>
+                >整合输入模式</a>
               <br>
               <div class="inp-note">
                 <b>提示：</b>您可以把音频表格中的内容分项粘贴到以下文本框内。
@@ -252,6 +252,13 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
               列表项图标
               <img src="./sm2/image/lianhua.png" alt="lianhua"
                 class="shift-down" style="height:1.5em">
+            </label>
+          </div>
+
+          <div class="inp-group">
+            <label for="inp-item-download">
+              <input id="inp-item-download" type="checkbox" onchange="writeCode()">
+              列表项最右下载音频链接 
             </label>
           </div>
 
@@ -404,11 +411,11 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 <!--
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/com1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.23/app/js/shortenurl.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/sm2ls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.25/app/js/sm2ls.min.js"></script>
 -->
 <script src="./js/com1.js?v=0.38"></script>
 <script src="./js/shortenurl.js?v=0.36"></script>
-<script src="./js/sm2ls.js?v=0.38"></script>
+<script src="./js/sm2ls.js?v=0.39"></script>
 
 </body>
 </html>
