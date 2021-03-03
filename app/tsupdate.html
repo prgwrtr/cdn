@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+<script type="text/javascript">
+String.prototype.queryString=function(name){var reg=new RegExp("[?&]"+name+"=([^&]+)","i"),r=this.match(reg);return r!==null?unescape(r[1]):null};
+var last=location.href.queryString("tim");
+if(location.href.indexOf("?")==-1){location.href=location.href+"?tim="+(new Date().getTime())}
+else{var now=new Date().getTime();if(!last){location.href=location.href+"&tim="+(new Date().getTime()) + "&"}
+else if(parseInt(last)>(now+30000)){location.href=location.href.replace("tim="+last,"tim="+(new Date().getTime()))}
+else if(parseInt(last)<(now-5000)){location.href=location.href.replace("tim="+last,"tim="+(new Date().getTime()))}}
+</script>
+<!--
+<script type="text/javascript">
+(function(){n=Math.floor(new Date()/3e4).toString(36),h=location.href,r=h.match(/[\?\&]t=([^\&]+)/i),v=(r?unescape(r[1]):0);
+if((p=h.indexOf("?"))<0)location.href=h+"?t="+n;
+else if(!v)location.href+="&t="+n;
+else if(v!=n)location.href=h.replace("t="+v,"t="+n)})();
+</script>
+-->
+  <title>URL auto updater</title>
+</head>
+<body>
+
+<h1>URL auto updater</h1>
+
+<textarea id="url" rows=5 style="width:100%"></textarea>
+<script>
+document.getElementById("url").value = location.href;
+</script>
+
+<!--
+<script type="text/javascript">
+String.prototype.queryString=function(name){var reg=new RegExp("[?&]"+name+"=([^&]+)","i"),r=this.match(reg);return r!==null?unescape(r[1]):null};
+var last=location.href.queryString("tim");
+if(location.href.indexOf("?")==-1){location.href=location.href+"?tim="+(new Date().getTime())}
+else{var now=new Date().getTime();if(!last){location.href=location.href+"&tim="+(new Date().getTime()) + "&"}
+else if(parseInt(last)>(now+30000)){location.href=location.href.replace("tim="+last,"tim="+(new Date().getTime()))}
+else if(parseInt(last)<(now-5000)){location.href=location.href.replace("tim="+last,"tim="+(new Date().getTime()))}}
+</script>
+-->
+</body>
+</html>
+

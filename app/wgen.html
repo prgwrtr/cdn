@@ -6,12 +6,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="version" content="V0.35">
 <script>
-// update interval set to 1e8 ~ 1 day 
-(function(){var now=Math.floor(new Date()/1e8),h=location.href,r=h.match(/[\?\&]t=([^\&]+)/i),hv=null,ht;
-if(r){hv=unescape(r[1]);ht=parseInt(hv);}
-if((p=h.indexOf("?"))<0){location.href=h+"?t="+now;}
-else if(hv===null){location.href+="&t="+now;}
-else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
+// update the timestamp in the address bar
+(function(){
+var now=Math.floor((new Date()).getTime()/1e6).toString(36),
+href=location.href,r=href.match(/[\?\&]t=([^\?\&#]+)/i),hv=null;
+if(r!==null)hv=unescape(r[1]);
+var p=href.indexOf("?"),q=href.indexOf("#"),hash="";
+if(q>=0){href=href.slice(0, q);hash=href.slice(q);}
+if(p<0){location.href=href+"?t="+now+hash;}
+else if(hv===null){if(href.slice(-1)!=="&")href+="&";location.href=href+"t="+now+hash;}
+else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
+})();
 </script>
 <title>视频网页生成器</title>
 <!--
@@ -819,7 +824,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
                   <label for="image-link-open-in-new-page" style="display:inline-block">
                     <input id="image-link-open-in-new-page" type="checkbox" checked
                       onchange="updatePreviewer(this)">
-                    在新页面打开 
+                    在新页面打开
                   </label>
                 </div>
               </div> <!-- image-link-options -->
@@ -1036,7 +1041,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
                   <label for="qrcode-link-open-in-new-page" style="display:inline-block">
                     <input id="qrcode-link-open-in-new-page" type="checkbox" checked
                       onchange="updatePreviewer(this)">
-                    在新页面打开 
+                    在新页面打开
                   </label>
                 </div>
               </div> <!-- qrcode-link-options -->
@@ -1451,7 +1456,7 @@ else if(ht!==ht||ht!=now){location.href=h.replace("t="+hv,"t="+now);}})();
               <label for="link-open-in-new-page" style="display:inline-block">
                 <input id="link-open-in-new-page" type="checkbox" checked
                   onchange="updatePreviewer(this)">
-                在新页面打开 
+                在新页面打开
               </label>
             </div>
 

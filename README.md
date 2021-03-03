@@ -1,4 +1,6 @@
-Github username: prgwrtr
+Github
+Username: prgwrtr
+Token: (see the secret.md in the parent directory)
 
 ## Common use
 ```
