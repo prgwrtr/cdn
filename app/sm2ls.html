@@ -20,7 +20,7 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 <!--
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.19">
 -->
-  <link rel="stylesheet" href="./css/mkmedia.css?v=0.32">
+  <link rel="stylesheet" href="./css/mkmedia.css?v=0.33">
 <style>
 .shift-down {
   transform:translateY(0.4em);
@@ -72,6 +72,15 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 .fat-textarea {
   white-space: pre;
   overflow-x: auto;
+}
+.item-downloader {
+  color: #fff;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 0.1em 0.3em;
+  background-color: #a32;
+  border-radius: 4px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -264,6 +273,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
             <label for="inp-item-download">
               <input id="inp-item-download" type="checkbox" checked onchange="writeCode()">
               列表项右侧添加下载链接
+              <span class="item-downloader">下载</span>
             </label>
           </div>
 
@@ -418,7 +428,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.23/app/js/shortenurl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.25/app/js/sm2ls.min.js"></script>
 -->
-<script src="./js/com1.js?v=0.38"></script>
+<script src="./js/common1.js?v=0.38"></script>
 <script src="./js/shortenurl.js?v=0.36"></script>
 <script src="./js/sm2ls.js?v=0.39"></script>
 

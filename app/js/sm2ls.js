@@ -41,14 +41,14 @@ var sm2BarUITemplates = {
     + '<link rel="stylesheet" href="{plugin-css-patch}"/>\n'
     + writeSneakyJSLoader('{plugin-js-installer}')
     + '</section>',
-  
+
   "smart-installation-code": ''
     + '<section>\n'
     + '<style>{plugin-quick-fix-css}</style>\n'
     + '<link rel="stylesheet" href="{plugin-css-patch}"/>\n'
     + writeSneakyJSLoader('{plugin-embedder-installer}')
     + '</section>',
-  
+
   "sneaky-installation-code": ''
     + writeSneakyJSLoader(['{plugin-quick-fix-css-installer}', '{plugin-embedder-installer}']),
 
@@ -220,7 +220,7 @@ function getPluginCode(info)
   } else {
     alert("unknown plugin server " + server);
   }
-  
+
   sm2Path = root + "sm2/";
   // set the path for loading other scripts
   embedCode += 'window.sm2root="' + sm2Path + '";';

@@ -1,7 +1,7 @@
 "use strict";
 
 var mediacomVersion = "V0.36";
- 
+
 (function(){
 
   var defMedia = {
@@ -13,20 +13,20 @@ var mediacomVersion = "V0.36";
   };
 
   var titleTemplates = {
-    'simple': '<p style="color:#222;font-size:20px;font-weight:bold;margin:20px 5%;text-align:center;padding:0 5%">{title}</p>',
+    'simple': '<div style="color:#222;font-size:20px;font-weight:bold;margin:20px 5%;text-align:center;padding:0 5%">{title}</div>',
 
     'darkred': '<div style="padding:2px;border:1px solid #b21;border-radius:5px;margin:1em auto;width:760px;max-width:80%">'
       + '<div style="padding:0.5em 1em;border-radius:5px;background-color:#b21;color:#fff;font-size:16px;font-weight:bold;text-align:center;letter-spacing:0.1em">{title}</div></div>',
 
-    'pink': '<section style="padding:25px 0px 5px 0px"><p style="margin:0px 5% 20px 5%;padding:15px 2em;border-radius:3px;color:#fff;background-color:rgb(240,120,140);box-shadow:0.1em 0.1em 0.2em #caa;line-height:1.2;font-size:16px;font-weight:bold;text-shadow:1px 1px 5px rgba(80,0,0,0.3);text-align:center;">{title}</p></section>',
+    'pink': '<section style="padding:25px 0px 5px 0px"><div style="margin:0px 5% 20px 5%;padding:15px 2em;border-radius:3px;color:#fff;background-color:rgb(240,120,140);box-shadow:0.1em 0.1em 0.2em #caa;line-height:1.2;font-size:16px;font-weight:bold;text-shadow:1px 1px 5px rgba(80,0,0,0.3);text-align:center;">{title}</div></section>',
 
-    'orange': '<section style="padding:30px 0px"><p style="width:96%;margin:auto;max-width:800px;padding:10px 5px;color:rgb(128,80,4);background-image:linear-gradient(to bottom,rgb(245,230,164),rgb(240,152,23));text-shadow:3px 4px 5px rgb(255,235,148);border:1px solid rgb(238,220,110);line-height:1.7;font-size:18px;font-weight:bold;text-align:center;">{title}</p></section>',
+    'orange': '<section style="padding:30px 0px"><div style="width:96%;margin:auto;max-width:800px;padding:10px 5px;color:rgb(128,80,4);background-image:linear-gradient(to bottom,rgb(245,230,164),rgb(240,152,23));text-shadow:3px 4px 5px rgb(255,235,148);border:1px solid rgb(238,220,110);line-height:1.7;font-size:18px;font-weight:bold;text-align:center;">{title}</div></section>',
 
     'golden': '<section style="margin:0px;"><section style="background:linear-gradient(120deg, rgba(255,240,0,0.1) 0%, rgba(255,240,0,0.8) 20% 50%, rgba(255,240,0,0.6) 70%, transparent 100%);padding:0px 30px 40px 0px;width:100%;min-width:200px;"><section style="color:#fff;font-size:18px;text-shadow:1px 1px 5px rgba(120,60,0,0.3);background:radial-gradient(circle at 10% 20%, rgba(255,255,255,0.2) 0%,rgba(255,150,0,1.0) 20%,rgba(255,150,0,1.0) 80%, rgba(255,180,0,0.9) 100%);box-shadow:0px 0px 1px rgba(255,255,255,0.3),0px 0px 3px rgba(200,200,150,0.7);border-radius:0px 0px 40px 0px;padding:40px 1em 50px 1em;line-height:1.5;letter-spacing:0.05em;font-weight:bold;text-align:center;">{title}</section></section></section>',
 
-    'red': '<section style="margin:0px;padding:30px 0px"><p style="background-color:rgb(200,50,30);background:linear-gradient(90deg,rgb(200,50,30) 0%,rgb(240,10,10) 40% 70%,rgb(200,50,30) 100%);box-shadow:1px 1px 3px rgba(200,50,30,0);text-align:center;padding:0px 20px;line-height:1.8;position:relative;margin:auto;width:800px;max-width:100%;"><span style="display:block;font-size:16px;font-weight:bold;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,0.3);background-color:rgba(255,200,255,0.15);padding:0.8em 2em;letter-spacing:0.05em;">{title}</span></p></section>',
+    'red': '<section style="margin:0px;padding:30px 0px"><div style="background-color:rgb(200,50,30);background:linear-gradient(90deg,rgb(200,50,30) 0%,rgb(240,10,10) 40% 70%,rgb(200,50,30) 100%);box-shadow:1px 1px 3px rgba(200,50,30,0);text-align:center;padding:0px 20px;line-height:1.8;position:relative;margin:auto;width:800px;max-width:100%;"><span style="display:block;font-size:16px;font-weight:bold;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,0.3);background-color:rgba(255,200,255,0.15);padding:0.8em 2em;letter-spacing:0.05em;">{title}</span></div></section>',
 
-    'blue': '<p style="width:92%;margin:auto;max-width:760px;margin-bottom:2em;padding:0.8em 10% 0.8em 10%;border-radius:0px 0px 5px 5px;color:#fff;background:linear-gradient(150deg,rgba(20,70,120,0.9) 0%,rgba(50,120,250,0.9) 20% 70%,rgba(20,90,150,0.9) 100%);box-shadow:0.2em 0.05em 0.3em #79c;line-height:1.6;font-size:16px;font-weight:700;letter-spacing:0.1em;text-shadow:0px -1px 1px rgba(0,0,100,0.3);text-align:center;">{title}</p>',
+    'blue': '<div style="width:92%;margin:auto;max-width:760px;margin-bottom:2em;padding:0.8em 10% 0.8em 10%;border-radius:0px 0px 5px 5px;color:#fff;background:linear-gradient(150deg,rgba(20,70,120,0.9) 0%,rgba(50,120,250,0.9) 20% 70%,rgba(20,90,150,0.9) 100%);box-shadow:0.2em 0.05em 0.3em #79c;line-height:1.6;font-size:16px;font-weight:700;letter-spacing:0.1em;text-shadow:0px -1px 1px rgba(0,0,100,0.3);text-align:center;">{title}</div>',
 
     '': ''
   };
@@ -94,7 +94,7 @@ var mediacomVersion = "V0.36";
       + '<p>&nbsp;</p>\n',
 
     "image": '\n<!-- 图片{image-id}源代码开始 -->\n'
-      + '{title-html}<div style="text-align:center;margin:0px 0px 30px 0px">{link-begin}<img src="{src}" style="max-width:100%"/>{link-end}</p>{descr-html}\n'
+      + '{title-html}<div style="text-align:center;margin:0px 0px 30px 0px;text-indent:0">{link-begin}<img src="{src}" style="max-width:100%"/>{link-end}</p>{descr-html}\n'
       + '<!-- 图片{image-id}源代码结束 -->\n'
       + '<p>&nbsp;</p>\n',
 
@@ -181,7 +181,7 @@ var mediacomVersion = "V0.36";
       var styles = '';
       styles += ' style="display:inline-block;border:3px solid #8be"';
       info["link-begin"] = '<a href="' + info.href + '"' + attrs + styles + '>';
-      info["link-end"] = '</a>'; 
+      info["link-end"] = '</a>';
     } else {
       info["link-begin"] = '';
       info["link-end"] = '';
@@ -244,7 +244,7 @@ var mediacomVersion = "V0.36";
   var renderVideo = function(info, renderf)
   {
     var opts = info["opts"] || "", attrs = '';
-    
+
     if ( info.loop === undefined ) {
       if ( opts !== undefined && opts.indexOf("L") >= 0 ) {
         info.loop = false;

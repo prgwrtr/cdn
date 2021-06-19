@@ -946,7 +946,7 @@ function updateQRGen(el)
   if ( bgcolor.charAt(0) === "#" ) {
     bgcolor = bgcolor.slice(1);
   }
-  
+
   var cmd = "http://api.qrserver.com/v1/create-qr-code/?", args = [];
   args.push( "data=" + encodeURIComponent(url) );
   args.push( "size=" + size + "x" + size );

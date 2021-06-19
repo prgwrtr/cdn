@@ -1,6 +1,6 @@
 window.domainMapDataArray__ = [
   {
-    "name": "tzbk",
+    "name": "blog",
     "live": [
       "lurichardweb.site",
     ],
@@ -35,7 +35,7 @@ window.domainMapDataArray__ = [
       "junhong2or.net",
       "web2orlujunhong.com",
       "net2orrichard.online",
-      "bloglumasterweb.net"
+      "bloglumasterweb.net",
     ]
   },
   {
@@ -44,7 +44,6 @@ window.domainMapDataArray__ = [
       "xlch45.com",
     ],
     "dead": [
-      "xlch.org",
       "xlch44.com",
       "xlch43.com",
       "xlch42.com",
@@ -89,7 +88,8 @@ window.domainMapDataArray__ = [
       "xlch3.com",
       "xlch2.com",
       "xlch1.com",
-      "xlch.com"
+      "xlch.com",
+      "xlch.org",
     ]
   },
   {
@@ -113,14 +113,18 @@ window.domainMapDataArray__ = [
   {
     "name": "caxl",
     "live": [
-      "vip.blessedca.cloud/fofa/bbs",
+      "pro.blessedca.cloud/fofa/bbs",
+      "adobe.caxlotus.com/fofa/bbs",
+      "bbs.lotusciai.cloud/fofa/bbs",
+      "baidu.lotusciai.cloud/fofa/bbs",
+    ],
+    "dead": [
+      "sina.meritlotus.cloud/fofa/bbs",
       "vip.gycciai.cloud/fofa/bbs",
       "vip.xlpureland.cloud/fofa/bbs",
       "sina.lotusciai.cloud/fofa/bbs",
-      "sina.meritlotus.cloud/fofa/bbs",
       "vipbaidu.caxlotus.com/fofa/bbs",
-    ],
-    "dead": [
+      "vip.blessedca.cloud/fofa/bbs",
       "www.sina.caxlotus.com/fofa/bbs",
       "sina.caxlotus.com/fofa/bbs",
       "www.baidu.caxlotus.com/fofa/bbs",
@@ -131,10 +135,11 @@ window.domainMapDataArray__ = [
   {
     "name": "xlys",
     "live": [
-      "baidu.xlys.live",
-      "baidu.xlfmw.cloud",
+      "www.sohu.xlys.cloud",
     ],
     "dead": [
+      "baidu.xlys.live",
+      "baidu.xlfmw.cloud",
       "baidu.xly2.cloud",
       "ifeng.xly2.cloud",
       "ifeng.xlfmw.cloud",
@@ -151,39 +156,36 @@ window.domainMapDataArray__ = [
   {
     "name": "jchz",
     "live": [
+      "women.wonderfulsummary.com/sinaweb/jchz",
+    ],
+    "dead": [
       "www.baidu.wonderfulsummary.com/sinaweb/jchz",
       "www.baidu.jchz68686568.com/sinaweb/jchz",
       "www.baidu.lujiajun8.com/sinaweb/jchz",
-    ],
-    "dead": [
     ]
   },
   {
     "name": "balh",
     "live": [
+      "www.baidu.balh2.live/cn/bbs",
+    ],
+    "dead": [
       "www.balh01.com/cn/bbs",
-    ],
-    "dead": [
-    ]
-  },
-  {
-    "name": "xf8",
-    "live": [
-      "xf8.club",
-    ],
-    "dead": [
-      "xfabc.xyz",
     ]
   },
   {
     "name": "xf123",
     "live": [
       "xf123.rf.gd",
-      "xfabc.rf.gd",
+      "bhff.infinityfreeapp.com/app",
+      "xf8.great-site.net/app",
+      "kindness.lovestoblog.com/app",
     ],
     "dead": [
       "xf8.rf.gd",
+      "xfabc.rf.gd",
+      "xfabc.epizy.com/app",
+      "cbxs.freecluster.eu/app",
     ]
   }
 ];
-
