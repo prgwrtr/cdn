@@ -1,0 +1,144 @@
+* {
+  box-sizing: border-box;
+}
+
+.sp-container {
+  font-family:  "Helvetica Neue", Helvetica, "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  width: 800px;
+  max-width: 100%;
+  display: block;
+  margin: 10px auto;
+  line-height: 1;
+  background-color: #f7f7f7;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fdfdfd 30%, #f3f3f3 85%, #f3f3f3 98%, #f9f9f9 99%, #f7f7f7 100%);
+  border: 1px solid #f6f6f6;
+  border-radius: 4px;
+  font-size: 17px;
+  box-shadow: 1px 1px 1px #aaa;
+  transition: .3s ease;
+}
+
+.sp-container.sp-dark {
+  background-color: #555;
+  background-image: linear-gradient(180deg, #5e5e5e 0%, #505050 10%, #6e6e6e 60%, #707070 78%, #777777 98%, #838383 99%, #777 100%);
+  border: 1px solid #6e6e6e;
+}
+
+
+.sp-media,
+.sp-media video,
+.sp-media audio {
+  width: 100%;
+  line-height: 0;
+}
+
+.sp-toolbar {
+  font-size: inherit;
+  color: #555;
+  line-height: 1.15;
+  margin: 0px;
+  padding: 0px;
+}
+
+.sp-dark .sp-toolbar {
+  color: #fff;
+}
+
+.sp-toolbar-main-row {
+  width: 100%;
+  display: table;
+}
+
+.sp-toolbar-main-row>div {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.sp-toolbar-main-row .sp-play-button {
+  height: 3em;
+  width: 3em;
+  min-width: 3em;
+  font-size: inherit;
+  padding: 0.8em 0 0 0.8em;
+  overflow: hidden;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.sp-toolbar-main-row .sp-play-button svg {
+}
+
+.sp-title {
+  font-size: 0.95em;
+  text-align: center;
+  padding: 0.5em 0.5em 0.1em 0.5em;
+  margin: 0 0.5em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sp-toolbar-sub-row {
+  height: 2.1em;
+  padding-bottom: 0.2em;
+}
+
+.sp-time-bar {
+  width: 100%;
+  height: 100%;
+  display: table;
+  font-size: 0.75em;
+  margin: 0px;
+  padding: 0px;
+}
+
+.sp-time-bar>div {
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.sp-time-bar .sp-cur-time,
+.sp-time-bar .sp-max-time {
+  height: 100%;
+  padding: 0px 12px;
+}
+
+.sp-progress-cell {
+  width: 100%;
+  vertical-align: middle;
+}
+
+/* progress bar, cf. https://css-tricks.com/css3-progress-bars/ */
+.sp-progress {
+  width: 100%;
+  position: relative;
+  height: 10px;
+  background-color: rgba(0,0,0,0.15);
+  background-image: linear-gradient(145deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%);
+  border-radius: 8px;
+  margin: 4px 0px;
+  cursor: pointer;
+}
+
+.sp-played {
+  height: 100%;
+  width: 0;
+  border-radius: 8px;
+  background-color: #fc1;
+}
+
+.sp-seeker {
+  position: absolute;
+  background-color: #555;
+  top: -2px;
+  left: 0px;
+  width: 14px;
+  height: 14px;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.sp-dark .sp-seeker {
+  background-color: #fff;
+}
+

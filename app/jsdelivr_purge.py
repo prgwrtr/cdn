@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.6
 #import urllib
 import requests
 
@@ -49,11 +49,11 @@ jsdelivr_purge("prgwrtr", "cdn",
         #"app/css/mkmedia.css",
         #"app/js/addsp.js",
         #"app/js/bsw.js",
-        #"app/js/com1.js",
+        #"app/js/common1.js",
         #"app/js/domainmap.js",
         "app/js/dmapdata.js",
         "app/js/ed.js",
-        #"app/js/mediacom.js",
+        "app/js/mediacom.js",
         #"app/js/mkmedia.js",
         #"app/js/redir.js",
         "app/js/sm2ls.js",
