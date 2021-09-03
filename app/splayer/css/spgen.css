@@ -14,3 +14,17 @@
   width: 100%;
   min-height: 200px;
 }
+
+.help-block {
+  word-break: break-all;
+}
+
+.secondary-text-input {
+  border-top-right-radius: 0px;
+  border-top: none;
+}
+
+.apply-btn {
+  font-size: 80%;
+  padding: 2px 6px;
+}

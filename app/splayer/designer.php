@@ -6,7 +6,7 @@
       style="margin:20px 0px">
 
     <li v-for="(tab, itab) in uiTabs"
-        v-bind:class="(itab==0?'active':'')">
+        v-bind:class="(itab == 0 ? 'active' : '')">
       <a v-bind:href="'#tab-' + tab.key"
          role="tab"
          data-toggle="tab">
@@ -20,68 +20,80 @@
 
     <div v-for="(tab, itab) in uiTabs"
          v-bind:id="'tab-' + tab.key"
-         v-bind:class="'tab-pane' + (itab==0?' active':'')">
+         v-bind:class="'tab-pane' + (itab == 0 ? ' active' : '')">
 
-      <div v-for="f in tab.fields"
-           class="input-group">
+      <div v-for="f in tab.fields">
+        <div class="input-group">
 
-        <template v-if="f.uiType == 'select'">
-          <label v-bind:for="f.key"
-                 class="input-group-addon">
-            {{f.name}}
-          </label>
-          <select v-bind:id="f.key"
-                  v-model="values[f.varName]"
-                  class="form-control"
-                  v-on:change="onChangeDesigner"
-                  v-on:input="onChangeDesigner">
-            <option v-for="opt in f.options"
-                    v-bind:value="opt.value">
-              {{opt.name}}
-            </option>
-          </select>
-        </template>
-
-        <template v-else-if="f.uiType == 'textarea'">
-          <label v-bind:for="f.key"
-                 class="input-group-addon">
-            {{f.name}}
-          </label>
-          <textarea v-bind:id="f.key"
+          <template v-if="f.uiType == 'select'">
+            <label v-bind:for="f.key"
+                   class="input-group-addon">
+              {{f.name}}
+            </label>
+            <select v-bind:id="f.key"
                     v-model="values[f.varName]"
                     class="form-control"
-                    v-bind:rows="f.rows"
-                    v-bind:placeholder="f.placeholder"
-                    v-on:change="onChangeDesigner"></textarea>
-          <!-- do not monitor oninput -->
-        </template>
+                    v-on:change="onChangeDesigner"
+                    v-on:input="onChangeDesigner">
+              <option v-for="opt in f.options"
+                      v-bind:value="opt.value">
+                {{opt.name}}
+              </option>
+            </select>
+          </template>
 
-        <template v-else-if="f.uiType === 'color'">
-          <label v-bind:for="f.key"
-                 class="input-group-addon">
-            {{f.name}}
-          </label>
-          <input v-bind:id="f.key"
-                 type="color"
-                 v-model="values[f.varName]"
-                 class="form-control"
-                 v-on:change="onChangeDesigner"
-                 v-on:input="onChangeDesigner">
-        </template>
+          <template v-else-if="f.uiType == 'textarea'">
+            <label v-bind:for="f.key"
+                   class="input-group-addon">
+              {{f.name}}
+            </label>
+            <textarea v-bind:id="f.key"
+                      v-model="values[f.varName]"
+                      class="form-control"
+                      v-bind:rows="f.rows"
+                      v-bind:placeholder="f.placeholder"
+                      v-on:change="onChangeDesigner"></textarea>
+                      <!-- do not monitor oninput -->
+          </template>
 
-        <template v-else>
-          <label v-bind:for="f.key"
-                 class="input-group-addon">
-            {{f.name}}
-          </label>
-          <input v-bind:id="f.key"
-                 v-model="values[f.varName]"
-                 class="form-control"
-                 v-bind:placeholder="f.placeholder"
-                 v-on:change="onChangeDesigner">
-          <!-- do not monitor oninput -->
-        </template>
-      </div> <!-- .input-group -->
+          <template v-else-if="f.uiType === 'color'">
+            <label v-bind:for="f.key"
+                   class="input-group-addon">
+              {{f.name}}
+            </label>
+            <input v-bind:id="f.key"
+                   type="color"
+                   class="form-control"
+                   v-model="values[f.varName]"
+                   v-on:change="onChangeDesigner"
+                   v-on:input="onChangeDesigner">
+            <input v-bind:id="f.key + '-hex'"
+                   type="text"
+                   class="form-control secondary-text-input"
+                   v-model="values[f.varName]"
+                   v-on:change="onChangeDesigner"
+                   v-on:input="onChangeDesigner">
+          </template>
+
+          <template v-else> <!-- string or text input -->
+            <label v-bind:for="f.key"
+                   class="input-group-addon">
+              {{f.name}}
+            </label>
+            <input v-bind:id="f.key"
+                   v-model="values[f.varName]"
+                   class="form-control"
+                   v-bind:placeholder="f.placeholder"
+                   v-on:change="onChangeDesigner">
+                   <!-- do not monitor oninput -->
+          </template>
+
+        </div> <!-- .input-group -->
+        <div v-if="f.hint"
+             v-html="f.hint"
+             class="help-block">
+        </div>
+      </div>
 
     </div> <!-- .tab-pane -->
 
@@ -136,10 +148,39 @@ AppGV.vmSingleMediaDesigner = new Vue({
       }
       this.refresh();
     },
+
+    initApplyButtons: function() {
+      var btns = document.querySelectorAll('.apply-btn');
+      var thisVue = this;
+      for (var i = 0; i < btns.length; i++) {
+        (function(){ // introduce a closure to define new variables
+          var btn = btns[i],
+              srcEl = btn.dataset.src,
+              key = btn.dataset.key;
+
+          btn.addEventListener('click', function(evt) {
+            //console.log(src, target);
+            src = document.querySelector(srcEl);
+            if (src != null) {
+              if (key != undefined) {
+                var varName = SpgenUtils.kebabToCamel(key);
+                thisVue.values[varName] = src.innerHTML;
+                //console.log(key, varName, thisVue.values[varName]);
+                // emulate clicking of the Generate button
+                thisVue.onChangeDesigner(evt);
+              }
+            }
+          });
+        })();
+      }
+
+    },
+
   },
 
   mounted: function() {
     console.log("designer has been mounted", this.values);
+    this.initApplyButtons();
   },
 
 });

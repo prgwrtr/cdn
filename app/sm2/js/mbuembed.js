@@ -162,7 +162,7 @@
       var players = getPlayers(), i, p, d;
       for ( i = 0; i < players.length; i++ ) {
         p = players[i];
-        // add a download link for each item 
+        // add a download link for each item
         initItemDownload(p);
         // unhide the player
         p.style.display = "";

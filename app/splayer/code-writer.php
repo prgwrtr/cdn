@@ -9,6 +9,7 @@
     <textarea id="code"
               v-bind:value="code"
               readonly
+              rows=15
               class="form-control">
     </textarea>
   </div>
@@ -45,7 +46,7 @@ AppGV.vmSingleMediaCodeWriter = new Vue({
 
   methods: {
 
-    writeInstaller: function(values) {
+    writeEmbedderCode: function(values) {
       var version = AppGV.version;
       var servers = AppGV.servers;
       var serverToken = values.pluginServer;
@@ -65,6 +66,7 @@ AppGV.vmSingleMediaCodeWriter = new Vue({
 
     processDesignerValues: function() {
       var values = JSON.parse(JSON.stringify(this.designer.values));
+      console.log(values, "proccessed");
 
       // fill missing media src and poster
       if (values.src === "") {
@@ -73,7 +75,7 @@ AppGV.vmSingleMediaCodeWriter = new Vue({
         } else if (values.mediaType === "video") {
           values.src = "https://i3.vzan.cc/upload/video/mp4/20200614/82a09afb5f0548c7a0de4d8d1fd36a65.mp4";
           values.poster = "https://i2.vzan.cc/upload/image/jpg/20200614/77e2f7393bde43238cf3304338446ce5.jpg";
-        } 
+        }
       }
 
       // convert container margin to wrapper style
@@ -86,7 +88,7 @@ AppGV.vmSingleMediaCodeWriter = new Vue({
         wStyle = "padding:" + cMargin + ";" + wStyle;
         values.wrapperStyle = wStyle;
         delete values.containerMargin;
-      }  
+      }
 
       // convert video player margin to container style
       if (values.videoPlayerMargin) {
@@ -98,7 +100,7 @@ AppGV.vmSingleMediaCodeWriter = new Vue({
         mcStyle = "padding:" + vpMargin + ";" + mcStyle;
         values.mediaContainerStyle = mcStyle;
         delete values.videoPlayerMargin;
-      }  
+      }
 
       return values;
     },
@@ -109,22 +111,31 @@ AppGV.vmSingleMediaCodeWriter = new Vue({
       for (var i = 0; i < Spgen.fields.length; i++) {
         // filter data attributes, remove null values
         var f = Spgen.fields[i];
-        
+
         // skip internal options such as installation options
         if (f.internal) {
           continue;
         }
-        
+
         var val = values[f.varName];
-        console.log("writePlayerCode", f.key, f.varName, val);
+        // console.log("writePlayerCode", f.key, f.varName, val);
         if (val !== undefined && val !== null) {
           if (f.ignoreDefault) {
+            // ignore the user's input value if it is the same
+            // as the default value
             if (val === f.value) {
               continue;
             }
-          } else if (f.dataType === "string") {
+          } else if (f.dataType === "string"
+                  || f.dataType === "time") {
             val = SpgenUtils.htmlEscape(val);
           }
+
+          //console.log(val, f.normalizer);
+          if (f.normalizer) {
+            val = f.normalizer(val);
+          } 
+          //console.log(val);
 
           var fval = f.validator;
           if (fval && !fval(val)) { // call the validater if any
@@ -149,7 +160,7 @@ AppGV.vmSingleMediaCodeWriter = new Vue({
       var values = this.processDesignerValues();
       var s = "";
       s += this.writePlayerCode(values);
-      s += this.writeInstaller(values);
+      s += this.writeEmbedderCode(values);
       s = '<!-- 媒体代码开始 -->\n'
         + s
         + '\n<!-- 媒体代码结束 -->\n';

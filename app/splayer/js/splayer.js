@@ -329,8 +329,7 @@ var SpSingle = (function(){
     }
     bgStyle = "background-color:" + config.backgroundColor + ";"
 
-    // TODO: judge theme according to the background color
-    if (config.theme === "dark") {
+    if (config.theme === "dark") { // dark theme
       bgStyle += "background-image: "
         + "linear-gradient(to bottom, rgba(255,255,255,0.35) 0%, "
         + "rgba(255, 255, 255, 0.45) 2%, "
@@ -358,12 +357,15 @@ var SpSingle = (function(){
     config.containerStyle = bgStyle + config.containerStyle;
   }
 
-  function buildInterface(el, config)
+  function translateHighLevelAttribs(el, config)
   {
-    var ctl = {el: el};
-
     applyForegroundColor(config);
     applyBackgroundColor(config);
+  }
+
+  function buildUserInterface(el, config)
+  {
+    var ctl = {el: el};
 
     // wrapper: outer container
     ctl.wrapper = SpUtils.createElement("div",
@@ -465,6 +467,16 @@ var SpSingle = (function(){
           if ( !state.inited ) {
             state.inited = true;
             ctl.media.currentTime = config.startTime;
+            // for Wechat on iPhone/iPad, setting media.currentTime has no effect
+            // until the media's "canplay" event is triggered
+            ctl.media.addEventListener("canplay",
+              function(){
+                // Note: setting currentTime may tigger another "canplay" event
+                // creating an infinite loop, which we have to prevent
+                if (ctl.media.currentTime < config.startTime) {
+                  ctl.media.currentTime = config.startTime;
+                }
+              });
           }
 
           //console.log(this.innerHTML, this.querySelector("svg.play"), this.querySelector(".pause"));
@@ -501,7 +513,7 @@ var SpSingle = (function(){
   {
     // skip an element that has been initialized
     if ( el.dataset.inited ) {
-      return;
+      return 0;
     }
     el.dataset.inited = true;
 
@@ -509,8 +521,12 @@ var SpSingle = (function(){
     var config = SpUtils.getDataAttribsFromElement(el, attribSpec);
     //console.log(config);
 
+    // translate high-level attributes such as data-background-color
+    // to lower-level ones for building the user interface
+    translateHighLevelAttribs(el, config);
+
     // create interface, return a set of controls
-    var ctl = buildInterface(el, config);
+    var ctl = buildUserInterface(el, config);
 
     // player's internal states
     var state = {
@@ -519,17 +535,25 @@ var SpSingle = (function(){
 
     // register events
     registerEvents(ctl, config, state);
+    return 1;
   }
 
   function initAll() {
-    var singles = document.getElementsByClassName("sp-single"), j;
+    var singles = document.getElementsByClassName("sp-single"), j, count = 0;
     for (j = 0; j < singles.length; j++) {
-      init(singles[j]);
+      // init() will skip instances that have been already initialized
+      count += init(singles[j]);
     }
+    if (count > 0) console.log("initialized", count, "players");
   }
 
-  // initialize all
-  initAll();
+  // initialize all instances
+  // We need to do this regularly .
+  // This JavaScript file `splayer.js` may be loaded immediately after seeing the first DOM instance
+  // and is skipped when later instances are created and seen:w
+  // so the selector ".sp-single" in initAll() may give a growing list if we check at a later time
+  // initAll() is able to handle repeated calling without repeatedly initializing already initialized instances
+  setInterval(function() { initAll(); }, 2000);
 
   return {
     initAll: initAll,

@@ -53,6 +53,8 @@
   </div> <!-- .container-fluid -->
 </nav> <!-- .navbar -->
 
+
+
 <style>
 #top-navbar .navbar-brand {
   font-size: 100%;
@@ -61,8 +63,9 @@
 #top-navbar .navbar-brand .version {
   font-size: 90%;
 }
-
 </style>
+
+
 
 <script>
 var navbar = new Vue({
@@ -74,3 +77,5 @@ var navbar = new Vue({
   },
 });
 </script>
+
+

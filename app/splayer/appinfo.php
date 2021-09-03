@@ -1,11 +1,11 @@
 <?php
 $AppGV = array(
   "title" => "多媒体代码生成器",
-  "version" => "0.0.1",
+  "version" => "0.0.3",
   "glyphicon" => "glyphicon-film",
   "servers" => array(
     "cdn" => "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/splayer",
-    "xljt" => "http://baidu.xljt.cloud/extra/app/splayer",
+    "xljt" => "http://sina.xljt.cloud/extra/app/splayer",
     "bhffer" => "https://app.bhffer.com/splayer",
     "local" => ".",
   ),

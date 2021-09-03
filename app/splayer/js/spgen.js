@@ -18,12 +18,32 @@ var SpgenUtils = (function(){
     return val;
   }
 
+  function normalizeTime(val) {
+    val = val.replace(/ /g, "");
+    val = val.replace(/：/g, ":"); // replace the Chinese colon by the English one
+    return val;
+  }
+
+  // return if the time value is valid
+  function validateTime(val) {
+    if (val == "" || val === null || val === undefined) {
+      console.log("missing time", val);
+      return false;
+    }
+    var invalidChar = /[^:0-9.]/.test(val);
+    console.log(invalidChar, val);
+    return !invalidChar;
+  }
+
   return {
     camelToKebab: camelToKebab,
     kebabToCamel: kebabToCamel,
     htmlEscape: htmlEscape,
+    normalizeTime: normalizeTime,
+    validateTime: validateTime,
   }
 })();
+
 
 
 var Spgen = (function(){
@@ -65,8 +85,13 @@ var Spgen = (function(){
         validator: function(val) {
           return val !== "";
         },
-        uiType: "input",
+        uiType: "textarea",
+        rows: 3,
         placeholder: "https://i3.vzan.cc/upload/video/mp4/20200614/82a09afb5f0548c7a0de4d8d1fd36a65.mp4",
+        hint: '片段音频请尝试：<br><a id="eg-src" '
+            + ' href="http://sina.xljt.cloud/xlfm/audio/1.diantaijiemu/2018/201806/wenda20180622.mp3"'
+            + ' target="TestLink">http://sina.xljt.cloud/xlfm/audio/1.diantaijiemu/2018/201806/wenda20180622.mp3</a> '
+            + '<button class="apply-btn" data-key="src" data-src="#eg-src">应用</button>',
       },
       {
         key: "poster",
@@ -76,30 +101,33 @@ var Spgen = (function(){
         validator: function(val) {
           return val !== "";
         },
-        uiType: "input",
+        uiType: "textarea",
+        rows: 3,
         placeholder: "https://i2.vzan.cc/upload/image/jpg/20200614/77e2f7393bde43238cf3304338446ce5.jpg",
       },
       {
         key: "start-time",
         name: "开始时间",
-        dataType: "string",
+        dataType: "time",
         value: "",
-        validator: function(val) {
-          return val !== "";
-        },
+        normalizer: SpgenUtils.normalizeTime,
+        validator: SpgenUtils.validateTime,
         uiType: "input",
         placeholder: "00:00:00",
+        hint: '片段音频请尝试：<code id="eg-start-time">1:12:26</code> '
+            + '<button class="apply-btn" data-key="start-time" data-src="#eg-start-time">应用</button>',
       },
       {
         key: "end-time",
         name: "结束时间",
-        dataType: "string",
+        dataType: "time",
         value: "",
-        validator: function(val) {
-          return val !== "";
-        },
+        normalizer: SpgenUtils.normalizeTime,
+        validator: SpgenUtils.validateTime,
         uiType: "input",
         placeholder: "00:00:00",
+        hint: '片段音频请尝试：<code id="eg-end-time">1:15:51</code> '
+            + '<button class="apply-btn" data-key="end-time" data-src="#eg-end-time">应用</button>',
       },
     ],
   }, // end of the basic tab

@@ -850,10 +850,10 @@
  /*
  url(https://i2.vzan.cc/upload/image/png/20200710/bbb6105f740944edba48e9108149199a.png) no-repeat,
  */
- url(../image/fmpause2.png) no-repeat, 
+ url(../image/fmpause2.png) no-repeat,
  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
  background-position: right center;
- font-weight: bold;    
+ font-weight: bold;
  background-size: 2.5em, contain;
 }
 

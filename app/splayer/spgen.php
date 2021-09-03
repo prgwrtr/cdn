@@ -21,6 +21,9 @@
 <script src="../js/jquery-1.12.4.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/vue-2.6.12.min.js"></script>
+<!--
+<script src="../js/vue-2.6.12.js"></script>
+-->
 <script src="../js/common1.js?v=<?php echo $AppGV['version'];?>"></script>
 <script src="./js/spgen.js?v=<?php echo $AppGV['version'];?>"></script>
 
