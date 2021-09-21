@@ -2,7 +2,7 @@
 #import urllib
 import requests
 
-''' purge the jsDelivr CDN latest version 
+''' purge the jsDelivr CDN latest version
     so that they are up to date '''
 def jsdelivr_purge(user, repo, vers, fns, verbose = False):
     if not "" in vers:
@@ -34,7 +34,7 @@ def jsdelivr_purge(user, repo, vers, fns, verbose = False):
                 if verbose:
                     #print (f.read() + "\n")
                     print (r.text + "\n")
-    
+
 jsdelivr_purge("prgwrtr", "cdn",
     [], # ["0","0.1"],
     [

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="version" content="V0.36c">
+<meta name="version" content="V0.37">
 <script>
 // update the timestamp in the address bar
 (function(){
@@ -27,6 +27,7 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/ver.css?ver=V0.35">
 <link rel="stylesheet" href="css/bsw.css?ver=V0.33">
+<link rel="stylesheet" href="css/foldableinput.css?ver=V0.01">
 <link rel="stylesheet" href="css/ed.css?ver=V0.36">
 <!-- JS Bin
 created by the 3ki5tj github account
@@ -216,28 +217,6 @@ https://jsbin.com/muxiho
 
         <div class="btn-group format-tool">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" aria-label="图片"
-                data-toggle="modal"
-                data-target="#insert-image-modal">
-              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" aria-label="二维码"
-              data-toggle="modal" href="#insert-qrcode-modal">
-             <span class="glyphicon glyphicon glyphicon-qrcode" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" aria-label="音频"
-                data-toggle="modal"
-                data-target="#insert-audio-modal">
-              <span class="glyphicon glyphicon-music" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <div class="btn-group" role="group">
             <button type="button" class="btn btn-default" aria-label="视频"
                 data-toggle="modal"
                 data-target="#insert-video-modal">
@@ -250,6 +229,29 @@ https://jsbin.com/muxiho
               <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
             </button>
             -->
+          </div>
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" aria-label="音频"
+                data-toggle="modal"
+                data-target="#insert-audio-modal">
+              <span class="glyphicon glyphicon-music" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" aria-label="图片"
+                data-toggle="modal"
+                data-target="#insert-image-modal">
+              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" aria-label="二维码"
+              data-toggle="modal" href="#insert-qrcode-modal">
+             <span class="glyphicon glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+            </button>
           </div>
 
           <div class="btn-group" role="group">
@@ -386,7 +388,8 @@ https://jsbin.com/muxiho
       <div class="modal-body options-body">
         <div class="row">
           <div class="col-sm-6">
-            <div class="inp-group">
+            <div class="inp-group inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="image-title">
                 图片标题：
               </label>
@@ -452,11 +455,12 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
-            <div class="inp-group advanced">
+            <div class="inp-group advanced inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="image-descr">
                 附加描述（可选）：
               </label>
-              <textarea id="image-descr" rows="2"
+              <textarea id="image-descr" rows="5"
                 class="form-control"
                 placeholder=""
                 onchange="updatePreviewer(this)"></textarea>
@@ -539,7 +543,8 @@ https://jsbin.com/muxiho
       <div class="modal-body options-body">
         <div class="row">
           <div class="col-sm-6">
-            <div class="inp-group">
+            <div class="inp-group inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="qrcode-title">
                 二维码标题：
               </label>
@@ -670,11 +675,12 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
-            <div class="inp-group advanced">
+            <div class="inp-group advanced inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="qrcode-descr">
                 附加描述（可选）：
               </label>
-              <textarea id="qrcode-descr" rows="2"
+              <textarea id="qrcode-descr" rows="5"
                 class="form-control"
                 placeholder=""
                 onchange="updatePreviewer(this)"></textarea>
@@ -757,7 +763,8 @@ https://jsbin.com/muxiho
       <div class="modal-body options-body">
         <div class="row">
           <div class="col-sm-6">
-            <div class="inp-group">
+            <div class="inp-group inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="audio-title">
                 音频标题：
               </label>
@@ -807,11 +814,12 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
-            <div class="inp-group advanced">
+            <div class="inp-group advanced inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="audio-descr">
                 附加描述（可选）：
               </label>
-              <textarea id="audio-descr" rows="2"
+              <textarea id="audio-descr" rows="5"
                 class="form-control"
                 placeholder=""
                 onchange="updatePreviewer(this)"></textarea>
@@ -894,7 +902,8 @@ https://jsbin.com/muxiho
       <div class="modal-body options-body">
         <div class="row">
           <div class="col-sm-6">
-            <div class="inp-group">
+            <div class="inp-group inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="video-title">
                 视频标题：
               </label>
@@ -957,11 +966,12 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
-            <div class="inp-group advanced">
+            <div class="inp-group advanced inp-foldable"
+                 data-ontoggle="updatePreviewer(this)">
               <label for="video-descr">
                 附加描述（可选）：
               </label>
-              <textarea id="video-descr" rows="2"
+              <textarea id="video-descr" rows="5"
                 class="form-control"
                 placeholder=""
                 onchange="updatePreviewer(this)"></textarea>
@@ -1161,8 +1171,9 @@ https://jsbin.com/muxiho
 <script src="js/ver.js?ver=V0.35"></script>
 <script src="js/bsw.js?ver=V0.35"></script>
 <script src="js/common1.js?ver=V0.38"></script>
-<script src="js/mediacom.js?ver=V0.37"></script>
-<script src="js/ed.js?ver=V0.36c"></script>
+<script src="js/mediacom.js?ver=V0.38"></script>
+<script src="js/foldableinput.js?ver=V0.01"></script>
+<script src="js/ed.js?ver=V0.37"></script>
 
 </body>
 </html>

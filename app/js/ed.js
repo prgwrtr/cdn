@@ -807,13 +807,27 @@ function copySnippet(btn)
   animateShow(txt, [1.0, 700, 0.3, 600, 0.3, 700, 1.0]);
 }
 
+
+function collectInputValue(key, selector, info)
+{
+  var obj = $(selector);
+  var val = obj.val();
+  // for foldable inp-groups we test if it is collapsed
+  // if so, we will not collect its value even if it exists
+  var par = obj.parent('.inp-foldable');
+  if (!par.hasClass('collapsed')) {
+    info[key] = obj.val();
+  }
+}
+
+
 function collectImageInfo()
 {
   var info = {"type": "image"};
-  info["title"] = $('#image-title').val();
+  collectInputValue('title', '#image-title', info);
   info["src"] = $('#image-src').val();
   info["style"] = $('#image-style').val();
-  info["descr"] = $('#image-descr').val();
+  collectInputValue('descr', '#image-descr', info);
   if ( $('#image-link-options').hasClass('in') ) {
     info["href"] = $('#image-link-href').val();
     info["open-in-new-page"] = $('#image-link-open-in-new-page').is(':checked');
@@ -824,10 +838,12 @@ function collectImageInfo()
 function collectQRCodeInfo()
 {
   var info = {"type": "image"};
-  info["title"] = $('#qrcode-title').val();
+  //info["title"] = $('#qrcode-title').val();
+  collectInputValue('title', '#qrcode-title', info);
   info["src"] = $('#qrcode-src').val();
   info["style"] = $('#qrcode-style').val();
-  info["descr"] = $('#qrcode-descr').val();
+  //info["descr"] = $('#qrcode-descr').val();
+  collectInputValue('descr', '#qrcode-descr', info);
   info["href"] = $('#qrcode-link-href').val();
   info["open-in-new-page"] = $('#qrcode-link-open-in-new-page').is(':checked');
   return info;
@@ -836,10 +852,12 @@ function collectQRCodeInfo()
 function collectAudioInfo()
 {
   var info = {"type": "audio"};
-  info["title"] = $('#audio-title').val();
+  //info["title"] = $('#audio-title').val();
+  collectInputValue('title', '#audio-title', info);
   info["src"] = $('#audio-src').val();
   info["style"] = $('#audio-style').val();
-  info["descr"] = $('#audio-descr').val();
+  //info["descr"] = $('#audio-descr').val();
+  collectInputValue('descr', '#audio-descr', info);
   info["loop"] = $('#audio-loop').is(':checked');
   info["autoplay"] = $('#audio-autoplay').is(':checked');
   return info;
@@ -848,11 +866,13 @@ function collectAudioInfo()
 function collectVideoInfo()
 {
   var info = {"type": "video"};
-  info["title"] = $('#video-title').val();
+  //info["title"] = $('#video-title').val();
+  collectInputValue('title', '#video-title', info);
   info["src"] = $('#video-src').val();
   info["poster"] = $('#video-poster').val();
   info["style"] = $('#video-style').val();
-  info["descr"] = $('#video-descr').val();
+  //info["descr"] = $('#video-descr').val();
+  collectInputValue('descr', '#video-descr', info);
   info["loop"] = $('#video-loop').is(':checked');
   info["autoplay"] = $('#video-autoplay').is(':checked');
   return info;
@@ -883,11 +903,11 @@ function renderLink(info, renderf)
 
 function applyMediaDefValues()
 {
-  $('#image-src').val( MediaCom.defMedia['image-src'] );
-  $('#qrcode-src').val( MediaCom.defMedia['qrcode-src'] );
-  $('#audio-src').val( MediaCom.defMedia['audio-src'] );
-  $('#video-src').val( MediaCom.defMedia['video-src'] );
-  $('#video-poster').val( MediaCom.defMedia['video-poster'] );
+  $('#image-src').val( MediaCom.defMedia['imageSrc'] );
+  $('#qrcode-src').val( MediaCom.defMedia['qrcodeSrc'] );
+  $('#audio-src').val( MediaCom.defMedia['audioSrc'] );
+  $('#video-src').val( MediaCom.defMedia['videoSrc'] );
+  $('#video-poster').val( MediaCom.defMedia['videoPoster'] );
 }
 
 function initMediaInputs()
@@ -973,4 +993,5 @@ $(document).ready(function () {
   focusEditor();
   keepEditorFocused();
   leavePageWarning();
+  initFoldableInputs('.inp-foldable');
 });

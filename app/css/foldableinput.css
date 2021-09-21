@@ -1,0 +1,39 @@
+.inp-foldable * {
+  transition: all 0.7s ease;
+}
+
+.inp-foldable .toggler {
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+  margin-top: 4px;
+  height: 36px;
+}
+
+.inp-foldable .toggler .toggler-btn {
+  display: inline-block;
+  padding: 0px 4px 0px 12px;
+  background-color: rgba(255,255,255,0);
+  line-height: 1;
+  border: none;
+  border-radius: 4px;
+}
+
+.inp-foldable .toggler .toggler-btn {
+  color: #59b;
+}
+
+.inp-foldable.collapsed .toggler .toggler-btn {
+  color: #888;
+}
+
+.inp-foldable.collapsed label {
+  color: #888;
+  font-weight: normal;
+}
+
+.inp-foldable.collapsed textarea {
+  display: none;
+}
+
+

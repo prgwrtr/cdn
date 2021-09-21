@@ -1,7 +1,7 @@
 <?php
 $AppGV = array(
   "title" => "多媒体代码生成器",
-  "version" => "0.0.3",
+  "version" => "0.0.4",
   "glyphicon" => "glyphicon-film",
   "servers" => array(
     "cdn" => "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/splayer",

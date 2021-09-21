@@ -20,7 +20,8 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 <!--
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/mkmedia.css?v=0.1.18">
 -->
-  <link rel="stylesheet" href="css/mkmedia.css?v=0.33">
+  <link rel="stylesheet" href="css/foldableinput.css?v=0.01">
+  <link rel="stylesheet" href="css/mkmedia.css?v=0.38a">
 </head>
 <body>
 
@@ -43,18 +44,25 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
     <div class="container">
       <div class="inp-group">
         <label for="inp-media-type">类型：</label>
-        <select id="inp-media-type" onchange="onChangeMediaType();writeCode()">
+        <select id="inp-media-type"
+                onchange="onChangeMediaType();writeCode()">
           <option value="video">视频</option>
           <option value="audio">音频</option>
           <option value="image">图片</option>
         </select>
       </div>
 
-      <div class="inp-group">
-        <label for="inp-media-title" class="single-line">标题（可选）：</label>
-        <textarea id="inp-media-title" rows="3"
-          placeholder="【标题】"
-           onchange="writeCode()">【〔视频〕标题】</textarea>
+      <div class="inp-group inp-foldable"
+           data-ontoggle="writeCode()"
+           id="inp-media-title-container">
+        <label for="inp-media-title" class="single-line">
+          标题：
+        </label>
+        <textarea id="inp-media-title"
+                  class=""
+                  rows="3"
+                  placeholder="【标题】"
+                  onchange="writeCode()">【〔视频〕标题】</textarea>
       </div>
 
       <div class="inp-group">
@@ -71,7 +79,9 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
           onchange="writeCode()"></textarea>
       </div>
 
-      <div class="inp-group">
+      <div class="inp-group inp-foldable collapsed"
+           data-ontoggle="writeCode()"
+           id="inp-media-descr-container">
         <label for="inp-media-descr" class="single-line">简单描述：</label>
         <textarea id="inp-media-descr" rows="7"
           placeholder="内容描述……&#x0A;（分段空一行……）&#x0A;&#x0A;第二段……&#x0A;（仍在第二段……）"
@@ -125,7 +135,8 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
     <h1>预览</h1>
     <div id="preview-wrapper" class="container">
       <div id="preview-box">
-        <div id="preview-canvas"></div>
+        <div id="preview-canvas"
+             class="preview-canvas"></div>
       </div>
     </div>
 
@@ -158,7 +169,9 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
             <option value="" selected>当前</option>
             <option value="http://baidu.xljt.cloud/extra/app/mkmedia.html">心灵净土云盘</option>
             <option value="http://app.bhffer.com/mkmedia.html">app.bhffer.com</option>
+            <!--
             <option value="https://prgwrtr.github.io/cdn/app/mkmedia.html">GitHub</option>
+            -->
           </select>
         </div>
 
@@ -254,8 +267,9 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 <script src="./js/shortenurl.js?v=0.01"></script>
 <script src="./js/urib64.js?v=0.02"></script>
 <script src="./js/urlalias.js?v=0.05"></script>
-<script src="./js/mediacom.js?v=0.37"></script>
-<script src="./js/mkmedia.js?v=0.38"></script>
+<script src="./js/mediacom.js?v=0.38"></script>
+<script src="./js/foldableinput.js?v=0.01"></script>
+<script src="./js/mkmedia.js?v=0.38a"></script>
 
 <!--
 <script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/common1.min.js"></script>

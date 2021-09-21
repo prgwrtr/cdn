@@ -1,97 +1,109 @@
 (function(){
-  h = location.host;
-  if (location.href.indexOf("?")>0) {
-    if (/sina\.xljt\.cloud/.exec(h)
-     || /zhihuicibeixishev\.cloud/.exec(h)) {
-      var servers = [
-        "c.xljtsub1.com",
-        "b.xljtsub1.com",
-        "x.xljtsub1.com",
-        "s.xljtsub1.com",
-        "baidu.xljtsub1.com",
+  hostSubs = [
+    {
+      src: [
+        /xljt\.cloud/,
+        /xljtsub1\.com/,
         "sina.xljtsub1.com",
-        "apple.xljtsub1.com",
-        "c.xljtsub3.com",
-        "b.xljtsub3.com",
-        "x.xljtsub3.com",
-        "s.xljtsub3.com",
-        "sina.xljtsub3.com",
-        "baidu.xljtsub3.com",
-        "apple.xljtsub3.com",
-        "c.xlpureland1.com",
-        "b.xlpureland1.com",
-        "x.xlpureland1.com",
-        "s.xlpureland1.com",
-        "sina.xlpureland1.com",
-        "baidu.xlpureland1.com",
-        "apple.xlpureland1.com",
-        "c.xljingtu1.com",
-        "b.xljingtu1.com",
-        "x.xljingtu1.com",
-        "s.xljingtu1.com",
-        "sina.xljingtu1.com",
-        "baidu.xljingtu1.com",
-        "apple.xljingtu1.com",
-        "c.xljingtu2.com",
-        "b.xljingtu2.com",
-        "x.xljingtu2.com",
-        "s.xljingtu2.com",
-        "sina.xljingtu2.com",
-        "baidu.xljingtu2.com",
-        "apple.xljingtu2.com",
-      ];
-      if (Math.random() < 1.0) {
-        i = Math.floor(Math.random()*servers.length);
-        location.href = location.href.replace(h, servers[i]);
-      }
-    } else if (/app\.bhffer\.com/.exec(h)) {
-      if ((r=Math.random()) < 0.997) {
-        var servers = [
-          //"app.bhffer1.com",
-          //"app.bhffer2.com",
-          "c.app.bhffer1.com",
-          "b.app.bhffer1.com",
-          "x.app.bhffer1.com",
-          "s.app.bhffer1.com",
-          "sina.app.bhffer1.com",
-          "baidu.app.bhffer1.com",
-          "apple.app.bhffer1.com",
-          "c.app.bhffer2.com",
-          "b.app.bhffer2.com",
-          "x.app.bhffer2.com",
-          "s.app.bhffer2.com",
-          "sina.app.bhffer2.com",
-          "baidu.app.bhffer2.com",
-          "apple.app.bhffer2.com",
-          "c.app.bhffer3.com",
-          "b.app.bhffer3.com",
-          "x.app.bhffer3.com",
-          "s.app.bhffer3.com",
-          "sina.app.bhffer3.com",
-          "baidu.app.bhffer3.com",
-          "apple.app.bhffer3.com",
-        ];
-        i = Math.floor(Math.random()*servers.length);
-        location.href = location.href.replace(h, servers[i]);
-        //location.href = location.href.replace(h,"cbxs".charAt(Math.floor(Math.random()*4))+".jsappl.com");
-      } else if (r < 0.998) {
-        location.href = location.href.replace(h,"xf123.rf.gd");
-      } else if (r < 0.999) {
-        location.href = location.href.replace(h,"bhff.infinityfreeapp.com/app");
-      } else {
-        location.href = location.href.replace(h,"xf8.great-site.net/app");
-      }
-    } else if (/app[0-9]+\.bhffer\.com/.exec(h)) {
-      if ((r=Math.random()) < 0.0) { // banned in wechat
-        location.href = location.href.replace(h,"jdh".charAt(Math.floor(Math.random()*3))+".xsmartie.com");
-      } else if (r < 1.0) { // disable
-        location.href = location.href.replace(h,"xfabc.epizy.com/app");
-      } else if (r < 1.0) { // banned in wechat
-        location.href = location.href.replace(h,"kindness.lovestoblog.com/app");
-      } else if (r < 1.0) { // banned in wechat
-        location.href = location.href.replace(h,"cbxs.freecluster.eu/app");
-      } else {
-        location.href = location.href.replace(h,"app.xf8.site");
+        "qq.xfiny1.com",
+        "tv.xfiny1.com",
+        "bln.xfiny1.com",
+        "xyz.xfiny1.com",
+        "wat.xfiny1.com",
+      ],
+      dest: [
+        "qq.uctv1.com",
+        "brew.uctv1.com",
+        "dir.uctv1.com",
+        "pwd.uctv1.com",
+      ],
+      dest2: [
+      ],
+      proba: 1.0,
+    },
+    {
+      src: [
+        /app\.bhffer\.com/,
+        /app\.bhffer1\.com/,
+        /app\.bhffer2\.com/,
+        /app\.bhffer3\.com/,
+        "c.app.cb8cb.com",
+        "b.app.cb8cb.com",
+        "x.app.cb8cb.com",
+        "s.app.cb8cb.com",
+        "c.app.jscb2.com",
+        "b.app.jscb2.com",
+        "x.app.jscb2.com",
+        "s.app.jscb2.com",
+      ],
+      dest: [
+        "c.app.jscb1.com",
+        "b.app.jscb1.com",
+        "x.app.jscb1.com",
+        "s.app.jscb1.com",
+        "baidu.app.jscb1.com",
+        "sina.app.jscb1.com",
+        "apple.app.jscb1.com",
+      ],
+      dest2: [
+      ],
+      proba: 1.0,
+    },
+    {
+      src: [
+        /xf123\.rf\.gd/,
+        "balance.app.shcut2.com",
+        "diligence.app.shcut2.com",
+        "discipline.app.shcut2.com",
+        "forbearance.app.shcut2.com",
+        "sympathy.app.shcut2.com",
+      ],
+      dest: [
+        "app.xf8.site",
+      ],
+      proba: 1.0,
+    },
+    {
+      src: [
+        /xf8\.great-site\.net/,
+        /bhff\.infinityfreeapp\.com/,
+        "balance.js1go.com",
+        "hope.js1go.com",
+        "moderation.js1go.com",
+        "tolerance.js1go.com",
+        "joy.js1go.com",
+        "apple.inc1z.com",
+        "tree.inc1z.com",
+      ],
+      dest: [
+        "abc.inc1a.com",
+        "nbc.inc1a.com",
+        "cbc.inc1a.com",
+        "give.inc1z.com",
+        "peace.inc1z.com",
+        "wisdom.inc1z.com",
+      ],
+      destb: [
+        "xfabc.epizy.com",
+      ],
+      proba: 1.0,
+    },
+  ];
+  h = location.host;
+  if (location.href.indexOf("?") > 0) {
+    // loop over hostSubs
+    for (match = false, i = 0; i < hostSubs.length && !match; i++) {
+      hs = hostSubs[i];
+      for (src = hs.src, j = 0; j < src.length; j++) {
+        if (src[j].exec(h)) {
+          // randomly jump to one of destinations
+          if (Math.random() < hs.proba) {
+            k = Math.floor(Math.random()*hs.dest.length);
+            location.href = location.href.replace(h, hs.dest[k]);
+          }
+          match = true;
+          break;
+        }
       }
     }
   }

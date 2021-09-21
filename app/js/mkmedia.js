@@ -306,6 +306,7 @@ function onCodeChange()
 
 function writeCode(enc)
 {
+  // check if the code manually modified by the user
   if ( codeIsDirty ) {
     var ans = confirm("将要重写代码，继续？");
     if ( !ans ) return;
@@ -338,9 +339,10 @@ function writeCode(enc)
     args.push( "type=" + URIEncode(type, enc) );
     info["type"] = type;
 
-    var src = document.getElementById("inp-media-src").value, src0 = src;
+    var src = document.getElementById("inp-media-src").value,
+        src0 = src;
     if ( src === "" ) {
-      src = MediaCom.defMedia[type + "-src"];
+      src = MediaCom.defMedia[type + "Src"];
     }
     args.push( "src=" + URIEncode(src, enc, 1) );
     info["src"] = src;
@@ -349,7 +351,7 @@ function writeCode(enc)
     if ( type === "video" ) {
       var poster = document.getElementById("inp-video-poster").value;
       if ( poster === "" && src0 === "" ) {
-        poster = MediaCom.defMedia["video-poster"];
+        poster = MediaCom.defMedia["videoPoster"];
       }
       if ( poster !== "" ) {
         args.push( "poster=" + URIEncode(poster, enc, 1) );
@@ -380,15 +382,24 @@ function writeCode(enc)
     info["style"] = style;
 
     // let the title and descr be the last arguments
-    var title = document.getElementById("inp-media-title").value, stitle = title;
-    if ( stitle !== "" ) {
-      args.push( "title=" + URIEncode(stitle, enc) );
-      info["title"] = title;
+
+    // add "title" into `info` the container is not collapsed
+    var titleContainer = document.getElementById("inp-media-title-container");
+    if (titleContainer.className.indexOf("collapsed") < 0) {
+      var title = document.getElementById("inp-media-title").value;
+      if ( title !== "" ) {
+        args.push( "title=" + URIEncode(title, enc) );
+        info["title"] = title;
+      }
     }
-    var descr = document.getElementById("inp-media-descr").value, sdescr = descr;
-    if ( sdescr !== "" ) {
-      args.push( "descr=" + URIEncode(sdescr, enc) );
-      info["descr"] = descr;
+
+    var descrContainer = document.getElementById("inp-media-descr-container");
+    if (descrContainer.className.indexOf("collapsed") < 0) {
+      var descr = document.getElementById("inp-media-descr").value;
+      if ( descr !== "" ) {
+        args.push( "descr=" + URIEncode(descr, enc) );
+        info["descr"] = descr;
+      }
     }
 
     if ( URIEncodingError == 0 ) {
@@ -469,6 +480,7 @@ window.onload = function() {
     // render the media according to the user input
     render(info);
   } else { // generator
+    initFoldableInputs(".inp-foldable");
     // if no user input is given show the generation box
     document.getElementById("gen-page").style.display = "";
     document.getElementById("demo-page").style.display = "none";

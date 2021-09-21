@@ -420,7 +420,7 @@ var SpSingle = (function(){
   function registerEvents(ctl, config, state)
   {
     var seekFunc = function(e) {
-      if ( config.endTime < config.startTime ) {
+      if ( config.endTime <= config.startTime ) {
         return;
       }
       e.stopPropagation();
@@ -502,7 +502,7 @@ var SpSingle = (function(){
 
           if ( ctl.media.currentTime >= config.endTime ) {
             ctl.media.pause();
-            SpUtils.removeClass(ctl.playButton, "sp-playing");
+            togglePlayPauseButton(ctl.playButton, true);
             state.inited = false; // reset the player, as if the play button is never clicked
           }
         });
@@ -519,7 +519,6 @@ var SpSingle = (function(){
 
     // load the data-attributes into config
     var config = SpUtils.getDataAttribsFromElement(el, attribSpec);
-    //console.log(config);
 
     // translate high-level attributes such as data-background-color
     // to lower-level ones for building the user interface
