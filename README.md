@@ -13,7 +13,7 @@ For jsdelivr to delivr the latest version,
 edit the file and version lists in `jsdelivr_purge.py`
 and then run
 ```
-python jsdelivr_purge.py
+python3 jsdelivr_purge.py
 ```
 
 ## jsDelivr

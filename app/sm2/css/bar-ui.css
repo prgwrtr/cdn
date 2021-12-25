@@ -1002,7 +1002,9 @@
   margin-right: 4.8em !important;
 }
 
-.sm2-bar-ui .sm2-playlist-target  li {
+/* 2021.12.25 */
+.sm2-bar-ui .sm2-playlist-bd li {
   border: none;
+  font-size: 95%;
+  line-height: 1.5;
 }
-
