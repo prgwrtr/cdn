@@ -46,7 +46,7 @@
 
 .sm2-playlist-wrapper ul.sm2-playlist-bd li.selected {
   background: url(../image/fmpause2.png) no-repeat,
-  -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
+              -webkit-linear-gradient(270deg, #FFF000 0%, #FFCD02 40%, #FEA404 100%);
   background-position: right center;
   background-size: 2.5em, contain !important;
 }
