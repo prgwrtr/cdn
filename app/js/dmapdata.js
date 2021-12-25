@@ -95,9 +95,12 @@ window.domainMapDataArray__ = [
   {
     "name": "mflh",
     "live": [
-      "baidu.haiweivipmflotuscibei.cloud/gegsyps/weibo",
+      "m.apple.haiweivipmflotuscibei.cloud/gegsyps/weibo",
+      "support.haiweivipmflotuscibei.cloud/gegsyps/weibo",
+      "tmall.haiweivipmflotuscibei.cloud/gegsyps/weibo",
     ],
     "dead": [
+      "baidu.haiweivipmflotuscibei.cloud/gegsyps/weibo",
       "baidu.mfxlianhua.cloud/gegsyps/weibo",
       "vip.lianhuapureland.cloud/gegsyps/weibo",
       "vip.tech.mflianhua.cloud/gegsyps/weibo",
@@ -113,12 +116,15 @@ window.domainMapDataArray__ = [
   {
     "name": "caxl",
     "live": [
-      "pro.blessedca.cloud/fofa/bbs",
-      "adobe.caxlotus.com/fofa/bbs",
-      "bbs.lotusciai.cloud/fofa/bbs",
+      "apple.caxlotus.com/fofa/bbs",
+      "fab.blessedca.cloud/fofa/bbs",
+      "awesome.blessedca.cloud/fofa/bbs",
       "baidu.lotusciai.cloud/fofa/bbs",
+      "bbs.lotusciai.cloud/fofa/bbs",
     ],
     "dead": [
+      "pro.blessedca.cloud/fofa/bbs",
+      "adobe.caxlotus.com/fofa/bbs",
       "sina.meritlotus.cloud/fofa/bbs",
       "vip.gycciai.cloud/fofa/bbs",
       "vip.xlpureland.cloud/fofa/bbs",
@@ -135,9 +141,13 @@ window.domainMapDataArray__ = [
   {
     "name": "xlys",
     "live": [
-      "www.sohu.xlys.cloud",
+      "ifeng.fofa.xlys.cloud",
+      "baidu.fofa.xlys.cloud",
+      "www.baidu.xlys2.live",
+      //"baidu.xlbkqs.xlys.cloud",
     ],
     "dead": [
+      "www.sohu.xlys.cloud",
       "baidu.xlys.live",
       "baidu.xlfmw.cloud",
       "baidu.xly2.cloud",
@@ -176,12 +186,17 @@ window.domainMapDataArray__ = [
   {
     "name": "xf123",
     "live": [
+      "b.app.zgh1.com",
+      "c.app.zgh1.com",
+      "baidu.app.jhrt3.com",
+      "baidu.app.ryt3.com",
+      "app1.bhffrd.com",
+    ],
+    "dead": [
       "xf123.rf.gd",
       "bhff.infinityfreeapp.com/app",
       "xf8.great-site.net/app",
       "kindness.lovestoblog.com/app",
-    ],
-    "dead": [
       "xf8.rf.gd",
       "xfabc.rf.gd",
       "xfabc.epizy.com/app",

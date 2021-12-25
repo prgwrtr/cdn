@@ -16,7 +16,7 @@ sync::
 	ln -f ../../bhffer/public_html/app/sm2/swf/*.swf ./sm2/swf/
 	rsync -avz ../../bhffer/public_html/app/sm2/image ./sm2/
 	rsync -avz ../../bhffer/public_html/app/sm2/Sound ./sm2/
-	ln -f ../../bhffer/public_html/app/splayer/*.php ./splayer/
+	#ln -f ../../bhffer/public_html/app/splayer/*.php ./splayer/
 	ln -f ../../bhffer/public_html/app/splayer/js/*.js ./splayer/js/
 	ln -f ../../bhffer/public_html/app/splayer/css/*.css ./splayer/css/
 	$(MAKE) merger -C sm2/js

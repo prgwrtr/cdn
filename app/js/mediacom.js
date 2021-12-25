@@ -26,18 +26,59 @@ var mediacomVersion = "V0.37";
 
   var _styles = {
     "default": {
-     "container": {
-        "begin": '<div style="border:solid #f3b83e;border-width:7px 0 7px 0;background-color:#ffe991">',
+      "styleOptions": {
+        "default": { // yellow title theme
+          "name": "默认方案",
+          //"backgroundColor": "#fff7e7",
+          "backgroundColor": "#fcefdc",
+          "borderColor": "#f3b83e",
+          "borderWidth": "7px 0 7px 0",
+          "titleBackgroundColor": "#fce988",
+          "titleColor": "#000",
+          //"titleColor": "#420",
+          "titleFontWeight": "bold",
+        },
+        "1": { // blog compatible
+          "name": "配色方案1",
+          "backgroundColor": "#fcefdc",
+          "borderColor": "#eca34a",
+          "borderWidth": "7px 0 7px 0",
+          "titleBackgroundColor": "#fce988",
+          "titleColor": "#000",
+          //"titleBackgroundColor": "#b21",
+          //"titleColor": "#fff",
+          "titleFontWeight": "bold",
+        },
+        "2": { // old orange theme
+          "name": "配色方案2",
+          "backgroundColor": "#ffe991",
+          "borderColor": "#f3b83e",
+          "borderWidth": "7px 0 7px 0",
+          "titleBackgroundColor": "#ffbb99",
+          "titleColor": "#000",
+          //"titleBackgroundColor": "#b21",
+          //"titleColor": "#fff",
+          "titleFontWeight": "bold",
+        },
+      },
+      "container": {
+        "begin": '<div style="border:solid {styleOptions.borderColor};border-width:{styleOptions.borderWidth};background-color:{styleOptions.backgroundColor}">',
         "end": '</div>',
       },
-      "title": '<div style="padding:2px;border:1px solid #b21;border-radius:5px;margin:2em auto 0.5em auto;width:800px;max-width:95%">'
-             + '<div style="padding:0.5em 1em;border-radius:5px;background-color:#b21;color:#fff;font-size:16px;font-weight:bold;text-align:center">'
+      "title": '<div style="padding:2px;border:1px solid {styleOptions.titleBackgroundColor};'
+             + 'border-radius:5px;margin:2em auto 0.5em auto;width:800px;max-width:95%">'
+             + '<div style="padding:0.5em 1em;border-radius:5px;'
+             + 'background-color:{styleOptions.titleBackgroundColor};color:{styleOptions.titleColor};'
+             + 'font-size:16px;font-weight:{styleOptions.titleFontWeight};text-align:center">'
              + '{title}'
              + '</div>'
              + '</div>',
       //"noTitle": '<div style="margin-top:2em;line-height:0">&nbsp; &nbsp;</div>',
       "descr": '<p style="color:#400;background-color:rgba(255,255,255,0.6);box-shadow:1px 1px 1px rgba(240,150,150,0.2);font-size:14px;margin:20px 5%;padding:0.5em 1em;line-height:1.8;border-radius:4px;">{descr}</p>',
-      "background": "",
+      "pageStyle": {
+        "background": "#fcefdc",
+        "padding-top": "30px",
+      },
     },
 
     "simple": {
@@ -50,7 +91,9 @@ var mediacomVersion = "V0.37";
              + '</div>',
       //"noTitle": '<div style="margin-top:25px;line-height:0">&nbsp; &nbsp;</div>',
       "descr": '<p style="color:#222;font-size:16px;margin:20px 5%;line-height:1.5;letter-spacing:0.05em">{descr}</p>',
-      "background": 'background-color:#fff',
+      "pageStyle": {
+        "background": 'background-color:#fff',
+      },
     },
 
     "darkred": {
@@ -64,7 +107,9 @@ var mediacomVersion = "V0.37";
              + '</div>'
              + '</div>',
       "descr": '<p style="color:#400;background-color:rgba(255,255,255,0.6);box-shadow:1px 1px 1px rgba(240,150,150,0.2);font-size:14px;margin:20px 5%;padding:0.5em 1em;line-height:1.8;border-radius:4px;">{descr}</p>',
-      "background": 'background-color:#fff',
+      "pageStyle": {
+        "background": 'background-color:#fff',
+      },
     // disabling gradient b/c margin issue
     //'background-image:linear-gradient(160deg,rgba(255,200,200,0.3) 0%,rgba(255,255,250,1.0) 25% 45%,rgba(255,200,200,0.5) 70%,rgba(255,255,235,0.8) 85%,rgba(255,200,200,0.5) 100%)',
     },
@@ -80,7 +125,9 @@ var mediacomVersion = "V0.37";
              + '</div>'
              + '</section>',
       "descr": '<p style="margin:20px 5%;padding:15px;border-radius:3px;color:#600;background-color:rgba(255,250,253,0.8);box-shadow:0.1em 0.1em 0.2em rgba(240,180,180,0.5);line-height:1.5;font-size:16px;">{descr}</p>',
-      "background": 'background-image:radial-gradient(circle,rgba(255,150,150,0.3) 0%,rgba(255,245,245,0.3) 70%,rgba(255,255,255,0.5) 80%,rgba(255,220,200,0.3) 100%)',
+      "pageStyle": {
+        "background": 'background-image:radial-gradient(circle,rgba(255,150,150,0.3) 0%,rgba(255,245,245,0.3) 70%,rgba(255,255,255,0.5) 80%,rgba(255,220,200,0.3) 100%)',
+      },
     },
 
     "orange": {
@@ -94,7 +141,9 @@ var mediacomVersion = "V0.37";
              + '</div>'
              + '</section>',
       "descr": '<p style="color:rgb(113,33,33);background-color:rgb(251,241,214);font-size:18px;line-height:1.5;margin:20px 2%;padding:10px">{descr}</p>',
-      "background": 'background-color:rgb(251,241,214)',
+      "pageStyle": {
+        "background": 'background-color:rgb(251,241,214)',
+      },
     },
 
     "golden": {
@@ -110,7 +159,9 @@ var mediacomVersion = "V0.37";
              + '</section>'
              + '</section>',
       "descr": '<p style="background:linear-gradient(150deg, rgba(255,253,240,0.9) 0%, rgba(255,250,230,0.8) 100%);color:#630;padding:1em;font-size:16px;letter-spacing:0.07em;line-height:1.6;margin:20px 3%;border:1px solid rgba(255,220,0,0.7);border-width:1px 0px 0px 20px;border-radius:0px 0px 10px 0px;box-shadow:3px 3px 3px rgba(200,200,50,0.3);">{descr}</p>',
-      "background": 'background-image:radial-gradient(circle at 80% 20%,rgba(255,255,240,0.8) 0%,rgba(0,0,0,0) 30%), radial-gradient(circle at 20% 80%,rgba(255,255,240,0.8) 0%,rgba(0,0,0,0) 40%), linear-gradient(to top left,rgba(0,0,0,0) 40%,rgba(255,255,240,0.7) 50%,rgba(0,0,0,0) 60%); background-color:rgba(255,240,0,1.0)',
+      "pageStyle": {
+        "background": 'background-image:radial-gradient(circle at 80% 20%,rgba(255,255,240,0.8) 0%,rgba(0,0,0,0) 30%), radial-gradient(circle at 20% 80%,rgba(255,255,240,0.8) 0%,rgba(0,0,0,0) 40%), linear-gradient(to top left,rgba(0,0,0,0) 40%,rgba(255,255,240,0.7) 50%,rgba(0,0,0,0) 60%); background-color:rgba(255,240,0,1.0)',
+      },
     },
 
     "red": {
@@ -126,7 +177,9 @@ var mediacomVersion = "V0.37";
              + '</div>'
              + '</section>',
       "descr": '<p style="color:#622;text-shadow:0px 0px 1px rgba(255,255,255,0.5);letter-spacing:0.08em;background-image:linear-gradient(90deg,rgba(255,250,230,0.9) 0%,rgba(255,255,255,0.7) 40% 70%,rgba(255,250,230,0.9) 100%);border-left:10px solid rgba(255,0,0,0.5);font-size:16px;padding:0.8em 1.6em;line-height:1.5;border-radius:1px;margin:40px 5%;position:relative;">{descr}</p>',
-      "background": 'background:radial-gradient(circle, rgba(255,240,230,0.5) 0%,rgba(255,255,240,1.0) 60%,rgba(255,200,100,0.2) 80%,rgba(255,140,100,0.1) 100%)',
+      "pageStyle": {
+        "background": 'background:radial-gradient(circle, rgba(255,240,230,0.5) 0%,rgba(255,255,240,1.0) 60%,rgba(255,200,100,0.2) 80%,rgba(255,140,100,0.1) 100%)',
+      },
     },
 
     "blue": {
@@ -138,7 +191,9 @@ var mediacomVersion = "V0.37";
              + '{title}'
              + '</div>',
       "descr": '<p style="width:90%;margin:auto;max-width:800px;font-size:16px;color:rgb(0,20,50);margin-top:50px;margin-bottom:50px;line-height:1.5;padding:30px 30px;position:relative"><span style="display:inline-block;position:absolute;top:10px;left:0px;width:30px;height:1px;background-color:rgb(100,150,255)"></span><span style="display:inline-block;position:absolute;top:0px;left:10px;width:1px;height:30px;background-color:rgb(100,150,255)"></span>{descr}<span style="display:inline-block;position:absolute;bottom:10px;right:0px;width:30px;height:1px;background-color:rgb(100,150,255)"></span><span style="display:inline-block;position:absolute;bottom:0px;right:10px;width:1px;height:30px;background-color:rgb(100,150,255)"></span></p>',
-      "background": 'background:linear-gradient(-20deg,rgba(220,240,255,0.3) 0%,rgba(255,255,255,1.0) 80%,rgba(220,240,255,0.3) 100%);',
+      "pageStyle": {
+        "background": 'background:linear-gradient(-20deg,rgba(220,240,255,0.3) 0%,rgba(255,255,255,1.0) 80%,rgba(220,240,255,0.3) 100%);',
+      },
     },
 
     "": {
@@ -148,7 +203,9 @@ var mediacomVersion = "V0.37";
       },
       "title": "",
       "descr": "",
-      "background": "",
+      "pageStyle": {
+        "background": "",
+      },
     },
   };
 
@@ -213,17 +270,71 @@ var mediacomVersion = "V0.37";
     return s;
   };
 
-  var subKeys = function(template, tab)
+  var subKeys = function(template, tab, prefix)
   {
-    var s, k, re;
+    var s, k, re, pat;
     s = template;
+    if (prefix === undefined) {
+      prefix = "";
+    }
     for ( k in tab ) {
       if ( tab.hasOwnProperty(k) ) {
-        re = new RegExp("{" + k + "}", 'gi');
+        pat = "{" + prefix + k + "}";
+        re = new RegExp(pat, 'gi');
         s = s.replace(re, tab[k]);
       }
     }
     return s;
+  };
+
+  var getStyle = function(style) {
+    if ( !_styles[style] ) {
+      style = "default";
+    }
+    var obj = {};
+    return Object.assign(obj, _styles[style]);
+  };
+
+  var getStyleOptionsUiControls = function(style) {
+    var styleInfo = getStyle(style);
+    var styleOptions = styleInfo.styleOptions || {};
+    var schemes = [];
+
+    schemes.push({
+      value: "default",
+      text: "默认方案",
+    });
+    // loop over stock schemes of styleOptions
+    for (var key in styleOptions) { // key: "default" or "1"
+      if (styleOptions.hasOwnProperty(key) && key !== "default") {
+        schemes.push({
+          value: key,
+          text: styleOptions[key].name || ("方案" + key),
+        });
+      }
+    }
+
+    var uiControls = [];
+    var options = styleOptions["default"];
+    if (options) {
+      for (key in options) {
+        if (options.hasOwnProperty(key) && key !== "name") {
+          uiControls.push(key);
+        }
+      }
+    }
+
+    if (uiControls.length > 0) {
+      schemes.push({
+        value: "custom",
+        text: "自定义…",
+      });
+    }
+
+    return {
+      schemes: schemes,
+      uiControls: uiControls,
+    };
   };
 
   var getStyleFromInfo = function(info) {
@@ -234,12 +345,12 @@ var mediacomVersion = "V0.37";
     return _styles[style];
   };
 
-  var getBackgroundStyle = function(info) {
+  var getPageStyle = function(info) {
     var style = getStyleFromInfo(info);
-    return style.background;
+    return style.pageStyle;
   };
 
-  var renderTitle = function(titleTemplate, noTitleTemplate, info)
+  var renderTitle = function(titleTemplate, noTitleTemplate, info, styleOptions)
   {
     var s0 = info.title;
     if ( s0 === undefined ) {
@@ -249,7 +360,9 @@ var mediacomVersion = "V0.37";
     if ( s0 === "" ) {
       return "";
     }
-    var s = subKeys(titleTemplate, info);
+    var s = applyStyleOptions(titleTemplate, styleOptions);
+    //console.log(s, styleOptions);
+    s = subKeys(s, info);
     return s;
   };
 
@@ -433,14 +546,34 @@ var mediacomVersion = "V0.37";
     }
   };
 
+  var applyStyleOptions = function(template, styleOptions) {
+    return subKeys(template, styleOptions, "styleOptions\.");
+  };
+
   // render media according to info,
   // needs 'type', 'src', 'style', 'title', 'descr'
   // for type = 'video', requires 'poster', 'video'
   var render = function(info, renderf, errorf) {
+
     var style = getStyleFromInfo(info);
-    info["container-begin-html"] = style.container.begin;
-    info["container-end-html"] = style.container.end;
-    info["title-html"] = renderTitle(style.title, style.noTitle, info);
+    var styleScheme = info.styleScheme || "default";
+    
+    // copy style options
+    var styleOptions = {};
+    if (style.styleOptions) {
+      if (style.styleOptions.hasOwnProperty(styleScheme)) {
+        Object.assign(styleOptions, style.styleOptions[styleScheme]);
+      }
+    }
+    if (styleScheme === "custom" && info.styleOptions) {
+      // use the user input style options to override the default one
+      Object.assign(styleOptions, info.styleOptions);
+    }
+    //console.log(styleOptions);
+
+    info["container-begin-html"] = applyStyleOptions(style.container.begin, styleOptions);
+    info["container-end-html"] = applyStyleOptions(style.container.end, styleOptions);
+    info["title-html"] = renderTitle(style.title, style.noTitle, info, styleOptions);
     info["descr-html"] = renderDescr(style.descr, info);
 
     var s = "";
@@ -460,6 +593,8 @@ var mediacomVersion = "V0.37";
   window.MediaCom = {
     defMedia: defMedia,
     render: render,
-    getBackgroundStyle: getBackgroundStyle,
+    getStyle: getStyle,
+    getStyleOptionsUiControls: getStyleOptionsUiControls,
+    getPageStyle: getPageStyle,
   };
 })();

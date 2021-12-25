@@ -38,6 +38,7 @@ def jsdelivr_purge(user, repo, vers, fns, verbose = False):
 jsdelivr_purge("prgwrtr", "cdn",
     [], # ["0","0.1"],
     [
+        "app/splayer/js/splayer.js",
         "app/sm2/css/bar-ui.css",
         "app/sm2/css/bar-ui-patch.css",
         "app/sm2/js/mbuembed.js",

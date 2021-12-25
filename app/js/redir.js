@@ -1,5 +1,10 @@
 "use strict";
 
+function isWeixin()
+{
+  return !!navigator.userAgent.match(/MicroMessenger/i);
+}
+
 // encode a string by 1. flipping and 2. randomly swapping some letters
 // calling this function twice gives the original back
 function flipenc(s) {
@@ -51,7 +56,7 @@ function genLink()
 
   if ( url === "" ) {
     // hide the output wrapper if url is empty
-    document.getElementById("out-url-wrapper").style.display = "none";
+    document.getElementById("out-url-group").style.display = "none";
     var a = document.getElementById("out-url");
     a.innerHTML = "";
     a.href = "#";
@@ -105,7 +110,7 @@ function genLink()
   // form the final link
   outurl += "?" + args.join("&");
 
-  document.getElementById("out-url-wrapper").style.display = "";
+  document.getElementById("out-url-group").style.display = "";
   var a = document.getElementById("out-url");
   a.innerHTML = outurl;
   a.href = outurl;
@@ -145,7 +150,7 @@ function setMobileViewport() {
   x.content = "width=device-width,initial-scale=1";
 }
 
-function handleInputURL(url, mode, enc, title, mobile, dmap)
+function handleInputURL(url, mode, enc, title, mobile, dmap, wxRedirect)
 {
   var x, i;
 
@@ -153,7 +158,7 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
   // decode the url
   if ( enc !== "none" ) {
     // 2020.8.28: remove additional parameters after url=
-    // e.g. Wechat would appends "&from=timeline" when shared on Momemts
+    // e.g. Weixin would appends "&from=timeline" when shared on Momemts
     // we can safely remove these parameters if any encoding scheme exists
     if ( (i=url.indexOf("&")) >= 0 ) {
       url = url.slice(0, i);
@@ -185,16 +190,23 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
   document.getElementById("url").innerHTML = url;
   document.getElementById("url").dataUrl = url;
 
-  // check if the browser is Wechat
-  var isWechat = !!navigator.userAgent.match(/MicroMessenger/i), action;
+  // handle wx_redirect commands
+  console.log("url", url, "wx_redirect", wxRedirect);
+  if (wxRedirect == "1") {
+    var wxUrl = "https://support.weixin.qq.com/cgi-bin/mmsupport-bin/readtemplate?t=w_redirect_taobao&url=" + encodeURIComponent(url);
+    location.replace(wxUrl);
+    return;
+  }
+
+  var action;
 
   if ( mode === "0" ) { // prompt for redirection if in wechat
-    if ( isWechat ) action = "prompt-redir";
+    if ( isWeixin() ) action = "prompt-redir";
     else action = "go";
   } else if ( mode === "1" ) { // always prompt for redirection
     action = "prompt-redir";
   } else if ( mode === "2" ) { // embed webpage if in wechat
-    if ( isWechat ) action = "embed";
+    if ( isWeixin() ) action = "embed";
     else action = "go";
   } else if ( mode === "3" ) {
     action = "embed";
@@ -228,15 +240,15 @@ function handleInputURL(url, mode, enc, title, mobile, dmap)
 }
 
 
-// wait till the DomainMap data is loaded and then jump
-function handleInputURLWait(url, mode, enc, title, mobile, dmap)
+// wait till the DomainMap data is loaded and then display data
+function handleInputURLWait(url, mode, enc, title, mobile, dmap, wxRedirect)
 {
   if ( dmap === "0" || window.DomainMap.isReady() ) {
-    handleInputURL(url, mode, enc, title, mobile, dmap);
+    handleInputURL(url, mode, enc, title, mobile, dmap, wxRedirect);
   } else {
     var timer = setInterval(function() {
       if ( window.DomainMap.isReady() ) {
-        handleInputURL(url, mode, enc, title, mobile, dmap);
+        handleInputURL(url, mode, enc, title, mobile, dmap, wxRedirect);
         clearInterval(timer);
       }
     }, 200);
@@ -246,7 +258,10 @@ function handleInputURLWait(url, mode, enc, title, mobile, dmap)
 
 (function(){
   // main function
-  var s, p, q, args, url = undefined, mode = "0", enc = "0", mobile = "", dmap = "1", title = "", i, kv;
+  var s, p, q, args,
+      url = undefined, mode = "0", enc = "0", mobile = "",
+      dmap = "1", title = "", wxRedirect = "", i, kv;
+
   s = location.href; // address bar
   q = s.indexOf("?"); // look for "?"
   if ( q >= 0 ) {
@@ -305,6 +320,13 @@ function handleInputURLWait(url, mode, enc, title, mobile, dmap)
         }
         document.getElementById("dmap").value = dmap;
 
+      } else if ( kv[0] === "wx_redirect" ) {
+        if ( kv[1] !== undefined && kv[1] !== "" ) {
+          wxRedirect = kv[1];
+        } else {
+          wxRedirect = "";
+        }
+
       } else if ( kv[0] === "advanced" ) {
         if ( kv[1] !== "0" ) {
           document.getElementById("advanced-options").style.display = "";
@@ -318,6 +340,6 @@ function handleInputURLWait(url, mode, enc, title, mobile, dmap)
     setMobileViewport();
     document.getElementById("gen-panel").style.display = "";
   } else { // open the link
-    handleInputURLWait(url, mode, enc, title, mobile, dmap);
+    handleInputURLWait(url, mode, enc, title, mobile, dmap, wxRedirect);
   }
 })();
