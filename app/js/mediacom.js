@@ -1,6 +1,6 @@
 "use strict";
 
-var mediacomVersion = "V0.37";
+var mediacomVersion = "V0.39";
 
 (function(){
 
@@ -23,6 +23,10 @@ var mediacomVersion = "V0.37";
       "qrcodeSrc": "http://sina.xljt.cloud/extra/app/img/fofabook-qrcode.png",
     };
   }
+
+  var defVars = {
+    stdBlockBottomHtml: "<p>&nbsp;</p>",
+  };
 
   var _styles = {
     "default": {
@@ -62,7 +66,9 @@ var mediacomVersion = "V0.37";
         },
       },
       "container": {
-        "begin": '<div style="border:solid {styleOptions.borderColor};border-width:{styleOptions.borderWidth};background-color:{styleOptions.backgroundColor}">',
+        "begin": '<div style="border:solid {styleOptions.borderColor};'
+                 + 'border-width:{styleOptions.borderWidth};'
+                 + 'background-color:{styleOptions.backgroundColor}">',
         "end": '</div>',
       },
       "title": '<div style="padding:2px;border:1px solid {styleOptions.titleBackgroundColor};'
@@ -214,73 +220,55 @@ var mediacomVersion = "V0.37";
   var imageId = 0;
 
   var templates = {
-    "audio": '\n<!-- 音频{audio-id}源代码开始 -->\n'
-      + '{container-begin-html}'
-      + '{title-html}'
+    "audio": '\n<!-- 音频{audioId}源代码开始 -->\n'
+      + '{containerBeginHtml}'
+      + '{titleHtml}'
       + '<div style="padding:30px 1% 30px 1%;text-align:center">'
       + '<audio src="{src}" {attrs}controls="controls"'
       + ' style="width:800px;max-width:100%"></audio>'
       + '</div>'
-      + '{descr-html}'
-      + '{container-end-html}\n'
-      + '<!-- 音频{audio-id}源代码结束 -->\n'
-      + '<p>&nbsp;</p>\n',
+      + '{descrHtml}'
+      + '{containerEndHtml}\n'
+      + '<!-- 音频{audioId}源代码结束 -->\n'
+      + '{blockBottomHtml}\n',
 
-    "video": '\n<!-- 视频{video-id}源代码开始 -->\n'
-      + '{container-begin-html}'
-      + '{title-html}'
+    "video": '\n<!-- 视频{videoId}源代码开始 -->\n'
+      + '{containerBeginHtml}'
+      + '{titleHtml}'
       + '<div style="padding:20px 2% 20px 2%;text-align:center">'
       + '<video src="{src}" poster="{poster}" {attrs}preload="none" controls="controls" webkit-playsinline="" playsinline=""'
       + ' style="background-color:black;width:800px;max-width:100%;"></video>'
       + '</div>'
-      + '{descr-html}'
-      + '{container-end-html}\n'
-      + '<!-- 视频{video-id}源代码结束 -->\n'
-      + '<p>&nbsp;</p>\n',
+      + '{descrHtml}'
+      + '{containerEndHtml}\n'
+      + '<!-- 视频{videoId}源代码结束 -->\n'
+      + '{blockBottomHtml}\n',
 
-    "image": '\n<!-- 图片{image-id}源代码开始 -->\n'
-      + '{container-begin-html}'
-      + '{title-html}'
+    "image": '\n<!-- 图片{imageId}源代码开始 -->\n'
+      + '{containerBeginHtml}'
+      + '{titleHtml}'
       + '<div style="padding:20px 2% 20px 2%;text-align:center">'
-      + '{link-begin}'
+      + '{linkBegin}'
       + '<img src="{src}" style="max-width:100%"/>'
-      + '{link-end}'
+      + '{linkEnd}'
       + '</div>'
-      + '{descr-html}'
-      + '{container-end-html}\n'
-      + '<!-- 图片{image-id}源代码结束 -->\n'
-      + '<p>&nbsp;</p>\n',
+      + '{descrHtml}'
+      + '{containerEndHtml}\n'
+      + '<!-- 图片{imageId}源代码结束 -->\n'
+      + '{blockBottomHtml}\n',
 
     "": ''
   };
 
-  var escapeHTML = function(s) {
-    var map = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;'
-    };
-
-    // this part is equivalent to PHP htmlspecicalchars()
-    s = s.replace(/[&<>"'\n]/g, function(m) { return map[m]; });
-    // replace new lines by <br/>
-    s = s.replace(/\n/g, "<br/>");
-    return s;
-  };
-
-  var subKeys = function(template, tab, prefix)
-  {
-    var s, k, re, pat;
-    s = template;
+  var subKeys = function(template, tab, prefix) {
+    var s = template;
     if (prefix === undefined) {
       prefix = "";
     }
-    for ( k in tab ) {
+    for ( var k in tab ) {
       if ( tab.hasOwnProperty(k) ) {
-        pat = "{" + prefix + k + "}";
-        re = new RegExp(pat, 'gi');
+        var pat = "{" + prefix + k + "}";
+        var re = new RegExp(pat, 'gi');
         s = s.replace(re, tab[k]);
       }
     }
@@ -291,8 +279,7 @@ var mediacomVersion = "V0.37";
     if ( !_styles[style] ) {
       style = "default";
     }
-    var obj = {};
-    return Object.assign(obj, _styles[style]);
+    return Object.assign({}, _styles[style]);
   };
 
   var getStyleOptionsUiControls = function(style) {
@@ -338,7 +325,7 @@ var mediacomVersion = "V0.37";
   };
 
   var getStyleFromInfo = function(info) {
-    var style = info["style"] || "default";
+    var style = info.style || "default";
     if ( !_styles[style] ) {
       style = "default";
     }
@@ -388,36 +375,36 @@ var mediacomVersion = "V0.37";
     return s;
   };
 
-  var renderImage = function(info, renderf)
+  var renderImage = function(info, renderFunc)
   {
     if ( info.href !== undefined && info.href !== "" ) {
       var attrs = '';
-      if ( info["open-in-new-page"] ) {
+      if ( info.openInNewPage ) {
         attrs = ' target="_blank" rel="noopener noreferrer"';
       }
       var styles = '';
       styles += ' style="display:inline-block;border:3px solid #8be"';
-      info["link-begin"] = '<a href="' + info.href + '"' + attrs + styles + '>';
-      info["link-end"] = '</a>';
+      info.linkBegin = '<a href="' + info.href + '"' + attrs + styles + '>';
+      info.linkEnd = '</a>';
     } else {
-      info["link-begin"] = '';
-      info["link-end"] = '';
+      info.linkBegin = '';
+      info.linkEnd = '';
     }
 
-    if ( info["inc-id"] ) {
-      info['image-id'] = ++imageId;
+    if ( info.incId ) {
+      info['imageId'] = ++imageId;
     } else {
-      info['image-id'] = "";
+      info['imageId'] = "";
     }
 
     var s = subKeys(templates["image"], info);
-    if ( renderf ) {
-      renderf(s);
+    if ( renderFunc ) {
+      renderFunc(s);
     }
     return s;
   };
 
-  var renderAudio = function(info, renderf)
+  var renderAudio = function(info, renderFunc)
   {
     var opts = info["opts"], attrs = '';
 
@@ -443,22 +430,22 @@ var mediacomVersion = "V0.37";
       attrs += 'autoplay="autoplay" ';
     }
 
-    info['attrs'] = attrs;
+    info.attrs = attrs;
 
-    if ( info["inc-id"] ) {
-      info['audio-id'] = ++audioId;
+    if ( info.incId ) {
+      info['audioId'] = ++audioId;
     } else {
-      info['audio-id'] = "";
+      info['audioId'] = "";
     }
 
     var s = subKeys(templates["audio"], info);
-    if ( renderf ) {
-      renderf(s);
+    if ( renderFunc ) {
+      renderFunc(s);
     }
     return s;
   };
 
-  var renderVideo = function(info, renderf)
+  var renderVideo = function(info, renderFunc)
   {
     var opts = info["opts"] || "", attrs = '';
 
@@ -484,36 +471,36 @@ var mediacomVersion = "V0.37";
       attrs += 'autoplay="autoplay" ';
     }
 
-    info['attrs'] = attrs;
+    info.attrs = attrs;
 
-    if ( info["inc-id"] ) {
-      info['video-id'] = ++videoId;
+    if ( info.incId ) {
+      info['videoId'] = ++videoId;
     } else {
-      info['video-id'] = "";
+      info['videoId'] = "";
     }
 
-    if ( info["poster"] === undefined ) {
-      info["poster"] = "";
+    if ( info.poster === undefined ) {
+      info.poster = "";
     }
     var s = subKeys(templates["video"], info);
-    if ( renderf ) {
-      renderf(s);
+    if ( renderFunc ) {
+      renderFunc(s);
     }
     return s;
   };
 
-  var guessType = function(info) {
-    var type = info["type"];
+  var guessMediaType = function(info) {
+    var type = info.type;
     var defType = "audio";
 
     if ( type !== undefined ) {
       return type;
     } else {
       // start guessing
-      var src = info["src"];
+      var src = info.src;
       var p = src.indexOf("?");
       if ( p >= 0 ) src = src.slice(0, p);
-      if ( info["poster"] !== undefined ) {
+      if ( info.poster !== undefined ) {
         return "video";
       }
       // get the extension
@@ -550,14 +537,35 @@ var mediacomVersion = "V0.37";
     return subKeys(template, styleOptions, "styleOptions\.");
   };
 
+  var removeBottomBorder = function(borderWidth) {
+    if (borderWidth === undefined || borderWidth === "none") {
+      return borderWidth;
+    }
+    var bwArray = borderWidth.split(" ");
+    if (bwArray.length > 1) {
+      bwArray = [bwArray[0], bwArray[1], "0", "0"];
+    } else if (bwArray.length === 1) {
+      bwArray = [bwArray[0], bwArray[0], "0", "0"];
+    }
+    return bwArray.join(" ");
+  }
+
+  var renderContainer = function(template, info, styleOptions) {
+    var so = Object.assign({}, styleOptions);
+    if (info.noBottomBorder) {
+      so.borderWidth = removeBottomBorder(so.borderWidth);
+    }
+    return applyStyleOptions(template, so);
+  };
+
   // render media according to info,
   // needs 'type', 'src', 'style', 'title', 'descr'
   // for type = 'video', requires 'poster', 'video'
-  var render = function(info, renderf, errorf) {
+  var render = function(info, renderFunc, errorf) {
 
-    var style = getStyleFromInfo(info);
-    var styleScheme = info.styleScheme || "default";
-    
+    var style = getStyleFromInfo(info); // "default", "simple", "darkred", etc.
+    var styleScheme = info.styleScheme || "default"; // "default", "1", "2"
+
     // copy style options
     var styleOptions = {};
     if (style.styleOptions) {
@@ -571,19 +579,20 @@ var mediacomVersion = "V0.37";
     }
     //console.log(styleOptions);
 
-    info["container-begin-html"] = applyStyleOptions(style.container.begin, styleOptions);
-    info["container-end-html"] = applyStyleOptions(style.container.end, styleOptions);
-    info["title-html"] = renderTitle(style.title, style.noTitle, info, styleOptions);
-    info["descr-html"] = renderDescr(style.descr, info);
+    info.containerBeginHtml = renderContainer(style.container.begin, info, styleOptions);
+    info.containerEndHtml = renderContainer(style.container.end, info, styleOptions);
+    info.titleHtml = renderTitle(style.title, style.noTitle, info, styleOptions);
+    info.descrHtml = renderDescr(style.descr, info);
+    info.blockBottomHtml = info.noBottomSpace ? "" : defVars.stdBlockBottomHtml;
 
     var s = "";
-    var type = guessType(info);
+    var type = guessMediaType(info);
     if ( type === "audio" ) {
-      s += renderAudio(info, renderf);
+      s += renderAudio(info, renderFunc);
     } else if ( type === "video" ) {
-      s += renderVideo(info, renderf);
+      s += renderVideo(info, renderFunc);
     } else if ( type === "image" ) {
-      s += renderImage(info, renderf);
+      s += renderImage(info, renderFunc);
     } else if ( errorf ) {
       errorf();
     }

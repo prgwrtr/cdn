@@ -64,9 +64,10 @@ function animateShow(el, seq) {
       } else {
         setupStage(stage);
       }
+    } else {
+      // set the current opacity
+      el.style.opacity = op0 + (op1 - op0)*istep/nsteps;
     }
-    // set the current opacity
-    el.style.opacity = op0 + (op1 - op0)*istep/nsteps;
   };
   animId = setInterval(showFrame, dt);
 }
@@ -146,8 +147,9 @@ function copyTextToClipboard(s, btn)
   el.readonly = '';
   el.value = s; // set its value to the string that you want copied
   document.body.appendChild(el); // append the textarea element to the HTML document
-  copyContentToClipboard(el, btn);
+  var ret = copyContentToClipboard(el, btn);
   document.body.removeChild(el); // remove the <textarea> element
+  return ret;
 }
 
 
@@ -174,17 +176,24 @@ function showOrHide(sel, show) {
 // toggle (show or hide) a set of elements selected by `sel`
 // `sel` is the selector of the element to show or hide, e.g. '.myclass', '#myid' or 'TAG'
 // `btn` is the controller button or its selector; its innerHTML starts with "显示" or "隐藏"
-function btnToggle(sel, btn) {
+function btnToggle(sel, btn, options) {
   if ( isString(btn) ) {
     btn = document.querySelector(btn);
   }
-  var txt = btn.innerHTML.trim(), t2 = txt.slice(0,2);
-  if ( t2 === "显示" ) {
+  var defOptions = {
+    showText: "显示",
+    hideText: "隐藏",
+  };
+  if (!options) {
+    options = defOptions;
+  }
+  var btnLabel = btn.innerHTML.trim();
+  if ( btnLabel.indexOf(options.showText) >= 0 ) {
     showOrHide(sel, true);
-    btn.innerHTML = "隐藏" + txt.slice(2);
-  } else if ( t2 === "隐藏" ) {
+    btn.innerHTML = btnLabel.replace(options.showText, options.hideText);
+  } else if ( btnLabel.indexOf(options.hideText) >= 0 ) {
     showOrHide(sel, false);
-    btn.innerHTML = "显示" + txt.slice(2);
+    btn.innerHTML = btnLabel.replace(options.hideText, options.showText);
   } else {
     showOrHide(sel, "toggle");
   }

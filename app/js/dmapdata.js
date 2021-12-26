@@ -2,6 +2,7 @@ window.domainMapDataArray__ = [
   {
     "name": "blog",
     "live": [
+      "blogweblumaster.top",
       "lurichardweb.site",
     ],
     "dead": [

@@ -3,73 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <meta id="viewport">
-<!--
-  <meta http-equiv="refresh" content="0;url=./redir/redir.php">
--->
   <title>&nbsp;</title>
-<!--
-  <script src="./common/js/uatoken.js?v=0.3.0"></script>
-  <script src="./js/_domredir.js?v=0.1.6"></script>
--->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="./css/redir.css?v=0.1.1">
-<!--
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/css/redir.css?v=0.1.19">
--->
+  <link rel="stylesheet" href="./css/redir.css?v=0.2.0">
 </head>
 <body>
 
 <div id="container">
-<div id="redir-panel" style="display:none">
-  <div class="inp-group">
-    <label for="url">您将要访问<span id="title" style="font-weight:bold"></span>：</label>
-    <div id="url" class="url-wrapper"></div>
-    <button id="copy-url" class="a-btn" onclick="copyURL(this)">复制地址</button>
+
+<div id="prompt-panel" style="display:none">
+
+  <div class="three-dots-pointer-arrow">
+    <svg xmlns="http://www.w3.org/2000/svg" height="1em" fill="currentColor" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708l-4-4z"/>
+    </svg>
   </div>
-  <ul style="line-height:2.5">
-    <li>请点击右上角
-    <span class="three-dots">···</span>
-    菜单
-    <li>选择
-<!--
-      src="https://i.niupic.com/images/2020/07/20/8qXI.png"
--->
-    <img src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/img/WechatOpenWithBrowser.png"
-      alt="在浏览器打开" style="height:2em;vertical-align:middle">
-    “在浏览器打开”<br>
-    <span style="font-size:80%">（英文版：“Open with Browser”）</span>
-  </ul>
-</div>
+
+  <div class="prompt-label">链接转向</div>
+
+  <div class="input-box">
+    <div class="inp-group">
+
+      <label for="url">
+        您将要访问 <span id="title"></span> ：
+      </label>
+
+      <div id="url" class="url-wrapper"></div>
+      
+      <div class="toolbar">
+        <button id="copy-target-url">
+          复制地址
+        </button>
+      </div>
+
+    </div>  
+  </div>
+
+  <div class="instruction-container">
+
+    <h3>操作方法</h3>
+
+    <ul class="instruction-list">
+
+      <li>请点击右上角
+        <span class="three-dots">···</span>
+        菜单
+      </li>
+  
+      <li>
+        选择
+        <img
+          src="//app1.bhffres.com/img/WechatOpenWithBrowser.png"
+          id="img-open-in-browser"
+          alt="在浏览器打开"
+          style="height:2em;vertical-align:middle">
+        “在浏览器打开”<br>
+        <span style="font-size:80%">（英文版微信提示文字：“Open with Browser”）</span>
+      </li>
+  
+    </ul>
+  
+  </div>
+</div> <!-- #prompt-panel -->
 
 <div id="gen-panel" style="display:none">
-  <h1>链接转向生成器<span class="version">v0.1.3</span></h1>
+  <h1>链接转向生成器<span class="version">v0.2.0</span></h1>
 
   <div class="inp-group">
     <label for="inp-url">输入网址：</label>
-    <textarea id="inp-url" rows="5" placeholder="https://bing.com"
-      onchange="genLink()"></textarea>
+    <textarea
+      id="inp-url"
+      class="input-component"
+      rows="5"
+      placeholder="https://bing.com"></textarea>
   </div>
 
   <div class="inp-group">
     <label>链接模式：</label><br>
-    <select id="mode" onchange="genLink()">
+    <select
+      id="mode"
+      class="input-component">
       <option value="go">直接转跳</option>
-      <option value="0" selected>微信内提示转跳</option>
+      <option value="0">微信内提示转跳</option>
       <option value="1">总是提示转跳</option>
-      <option value="2">微信内网页内嵌</option>
+      <option value="2" selected>微信内网页内嵌</option>
       <option value="3">总是网页内嵌</option>
     </select>
   </div>
 
   <div class="inp-group">
     <label for="inp-title">网站标题（可选）：</label>
-    <textarea id="inp-title" rows="2" onchange="genLink()"></textarea>
+    <textarea
+      id="inp-title"
+      class="input-component"
+      rows="2"></textarea>
   </div>
 
-  <div id="advanced-options" style="display:none">
+  <div
+    class="advanced-options"
+    style="display:none">
     <div class="inp-group">
-      <label for="enc">网址编码算法：</label><br>
-      <select id="enc" onchange="genLink()">
+      <label for="enc">网址编码算法：</label>
+      <br>
+      <select
+        id="enc"
+        class="input-component">
         <option value="0" selected>默认</option>
         <option value="1">倒序+字母对换</option>
         <option value="2">64进制文本</option>
@@ -78,8 +115,11 @@
     </div>
 
     <div class="inp-group">
-      <label for="mobile">网页是否为手机版？</label><br>
-      <select id="mobile" onchange="genLink()">
+      <label for="mobile">网页是否为手机版？</label>
+      <br>
+      <select
+        id="mobile"
+        class="input-component">
         <option value="" selected>不指定</option>
         <option value="0">电脑版</option>
         <option value="1">手机版</option>
@@ -87,27 +127,39 @@
     </div>
 
     <div class="inp-group">
-      <label for="dmap">自动更新过期的域名：</label><br>
-      <select id="dmap" onchange="genLink()">
+      <label for="dmap">自动更新过期的域名：</label>
+      <br>
+      <select
+        id="dmap"
+        class="input-component">
         <option value="0">不用</option>
         <option value="1" selected>使用</option>
       </select>
     </div>
 
     <div class="inp-group">
-      <label for="server">服务器：</label><br>
-      <select id="server" onchange="genLink()">
-        <option value="">当前</option>
-<!--
-        <option value="http://baidu.xljt.cloud/extra/app/redir.html">心灵净土云盘</option>
--->
-        <option value="http://app1.xfez.xyz/app/redir.html" selected>服务器1</option>
-        <option value="http://app3.jghrt9.com/app/redir.html">服务器2</option>
-<!--
-        <option value="http://one.xfez.xyz/app/redir.html">服务器3</option>
-        <option value="http://output.jsbin.com/gayacob">JSBin</option>
-        <option value="https://prgwrtr.github.io/cdn/app/redir.html">GitHub（仅https）</option>
--->
+      <label for="server">服务器：</label>
+      <br>
+      <select
+        id="server"
+        class="input-component">
+        <option
+          value="">
+          当前
+        </option>
+        <option
+          value="http://app1.xfez.xyz/app/redir.html"
+          selected>
+          服务器1
+        </option>
+        <option
+          value="http://i1.xjdh.org/app/redir.html">
+          服务器2
+        </option>
+        <option
+          value="http://rr.zgh1.com/app/redir.html">
+          服务器3
+        </option>
       </select>
     </div>
   </div>
@@ -122,37 +174,36 @@
   </div>
 
   <div class="inp-group">
-    <button id="gen-link" class="a-btn" onclick="genLink()">生成</button>
-    <!-- <button id="shorten-link" class="a-btn" onclick="shortenLink()">缩短</button> -->
-    <button id="copy-link" class="a-btn" onclick="copyLink(this)">复制</button>
-    <button class="a-btn" onclick='btnToggle("#advanced-options",this)'>显示高级选项</button>
-  </div>
-</div>
-</div> <!-- container -->
 
-<iframe id="embed-page" src="about:blank"
-  style="display:none;z-index:100"
-  frameborder="0" scrolling="yes" marginheight="0" marginwidth="0">
+    <button id="create-redirect-url">
+      生成
+    </button>
+
+    <button id="copy-redirect-url">
+      复制
+    </button>
+
+    <button id="toggle-advanced-options">
+      显示高级选项
+    </button>
+
+  </div>
+</div> <!-- #gen-panel -->
+
+</div> <!-- #container -->
+
+<iframe 
+  id="embed-page"
+  style="display:none"
+  scrolling="yes">
 </iframe>
 
-<!--
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/com1.min.js"></script>
-<script src="./js/urlhead.js?v=0.03"></script>
-<script src="./js/urib64.js?v=0.02"></script>
-<script src="./js/shortenurl.js?v=0.01"></script>
--->
-<script src="./js/common1.js?v=0.39"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urlhead.min.js?v=0.1.17"></script>
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/urib64.min.js?v=0.1.17"></script>
-<!--
+<script src="./js/common1.js?v=0.2.0"></script>
+<script src="./js/urlhead.js?v=0.2.0"></script>
+<script src="./js/urib64.js?v=0.2.0"></script>
 <script>window.domainMapDataPath__ = "./";</script>
-<script src="./js/domainmap.js?v=0.05"></script>
--->
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/js/domainmap.min.js?v=0.1.31"></script>
-<!--
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.24/app/js/redir.min.js"></script>
--->
-<script src="./js/redir.js?v=0.1.3"></script>
+<script src="./js/domainmap.js?v=0.2.0"></script>
+<script src="./js/redir.js?v=0.2.0"></script>
 
 </body>
 </html>

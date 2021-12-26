@@ -5,58 +5,48 @@
   window.spEmbedderOnce = 1;
 
   // root path for the player code
-  var root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/splayer/";
+  var root = "//app1.bhffres.com/splayer/";
   if (window.spRoot) {
     root = window.spRoot;
   }
 
-  function appendVersion(url) {
-    if (window.spVersion) {
-      url += "?v=" + window.spVersion;
-    }
-    return url;
+  var ver = "0.0.6";
+  if (window.spVersion) {
+    ver = window.spVersion;
   }
 
-  function getfn(url) {
+  function getFn(url) {
     var i = url.lastIndexOf("/");
     return (i >= 0) ? url.slice(i+1) : url;
   }
 
   function findJS(url) {
-    var x = document.getElementsByTagName("SCRIPT"), i, fn = getfn(url);
-    for (i = 0; i < x.length; i++) {
-      if (x[i].src.indexOf(fn) >= 0) {
-        return x[i];
-      }
-    }
+    var fn = getFn(url);
+    document.querySelectorAll("script").forEach(function(x){
+      if (x.src.indexOf(fn) >= 0) return x;
+    });
+    return null;
   }
 
   function installJS(url) {
-    var s = document.createElement("SCRIPT");
-    url = appendVersion(url);
-    s.src = url;
+    var s = document.createElement("script");
+    s.src = url + (ver !== null ? '?v='+ver : '');
     document.body.append(s);
   }
 
   function findCSS(url) {
-    var x = document.getElementsByTagName("LINK"), i, fn = getfn(url);
-    for (i = 0; i < x.length; i++) {
-      if (x[i].href.indexOf(fn) >= 0) {
-        return x[i];
-      }
-    }
+    var fn = getFn(url), x = document.querySelectorAll("link");
+    for (var i = 0; i < x.length; i++) {
+      if (x[i].href.indexOf(fn) >= 0) return x[i];
+    };
+    return null;
   }
 
   function installCSS(url) {
-    var s = document.createElement("LINK");
+    var s = document.createElement("link");
     s.rel = "stylesheet";
-    if (url.indexOf("jsdelivr") >= 0) {
-      // minimize CSS for the CDN version
-      url = url.replace(/[.]css$/, ".min.css");
-    }
-    url = appendVersion(url);
-    s.href = url;
-    document.getElementsByTagName("head")[0].append(s);
+    s.href = url + (ver !== null ? '?v='+ver : '');
+    document.querySelector("head").append(s);
   }
 
   // install necessary js and css

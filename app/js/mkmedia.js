@@ -163,9 +163,9 @@ function modifyPageTitle(info)
 function renderTemplateFunc(s)
 {
   if ( isDemoMode() ) {
-    document.getElementById("demo-canvas").innerHTML = s;
+    document.getElementById("demo-inner-box").innerHTML = s;
   } else { // preview mode
-    document.getElementById("preview-canvas").innerHTML = s;
+    document.getElementById("preview-inner-box").innerHTML = s;
     document.getElementById("code").value = s;
   }
 }
@@ -200,13 +200,13 @@ function showError()
     msg = "无法显示以下代码：<br>" + s;
   }
   if ( isDemoMode() ) {
-    document.getElementById("demo-canvas").innerHTML = msg;
+    document.getElementById("demo-inner-box").innerHTML = msg;
   } else {
-    document.getElementById("preview-canvas").innerHTML = msg;
+    document.getElementById("preview-inner-box").innerHTML = msg;
   }
 }
 
-// this function is called either as a demo or a preview
+// this function is called either as a demo or a previewer
 function render(info) {
   if ( info === undefined ) {
     info = parseUrl();
@@ -328,12 +328,12 @@ var codeIsDirty = false;
 function onCodeChange()
 {
   codeIsDirty = true;
-  document.getElementById("preview-canvas").innerHTML
+  document.getElementById("preview-inner-box").innerHTML
     = document.getElementById("code").value;
 }
 
 
-function readInputOpts(info, src0, args)
+function readInputOptions(info, src0, args)
 {
   var opts = '';
 
@@ -363,7 +363,8 @@ function readInputOpts(info, src0, args)
   }
 
   if ( opts !== '' ) {
-    args.push( "opts=" + URIEncode(opts, enc) );
+    //console.log(info.enc, URIEncode(opts, info.enc));
+    args.push( "opts=" + URIEncode(opts, info.enc) );
   }
 
   info.opts = opts;
@@ -525,7 +526,7 @@ function writeCode(enc)
 
     var type = document.getElementById("inp-media-type").value;
     args.push( "type=" + URIEncode(type, enc) );
-    info["type"] = type;
+    info.type = type;
 
     var src = document.getElementById("inp-media-src").value,
         src0 = src;
@@ -535,7 +536,10 @@ function writeCode(enc)
     args.push( "src=" + URIEncode(src, enc, 1) );
     info.src = src;
 
-    readInputOpts(info, src0, args);
+    info.noBottomBorder = document.getElementById("inp-no-bottom-border").checked;
+    info.noBottomSpace = document.getElementById("inp-no-bottom-space").checked;
+
+    readInputOptions(info, src0, args);
 
     readInputStyle(info, args);
 
@@ -600,7 +604,7 @@ function getShortURL()
   var btn = document.getElementById('surl-gen-btn');
   btn.disabled = true;
 
-  shortenURL(lurl, type, function(surl){
+  ShortenUrl.shortenUrl(lurl, type, function(surl){
     showShortURL(surl);
     btn.disabled = false;
   });

@@ -92,6 +92,7 @@ h1 .badge {
   vertical-align: middle;
   display: inline-block;
   width: 5em;
+  text-align: center;
 }
 
 #big-heading {
@@ -177,13 +178,18 @@ select {
 }
 
 label {
-  color: #335577;
+  color: #345;
   font-size: 100%;
   font-weight: normal;
   letter-spacing: 0.1em;
   margin-top: 1em;
   padding: 0.5em 0em 0.5em 0.5em !important;
   line-height: 150%;
+}
+
+label input[type="checkbox"] {
+  transform: scale(1.5) translate(0, -1px);
+  margin-right: 4px;
 }
 
 .single-line {
@@ -355,6 +361,6 @@ a.download:active {
   color: #777;
 }
 
-.preview-canvas {
-  border: 1px dotted rgba(200,200,200,0.7);
+.preview-inner-box {
+  border: 2px dashed rgba(200,200,200,0.7);
 }

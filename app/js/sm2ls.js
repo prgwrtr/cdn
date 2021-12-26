@@ -1,10 +1,18 @@
 "use strict";
 
-var latestCDNVersion = "0.1.36";
+var AppGV = {
+  appearanceControls: null,
+  outputAceCodeEditor: null,
+};
 
-var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
- + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
- + '{player-code}'
+
+
+var frameworkTemplate = ''
+ + '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
+ + '<section style="margin:0 0 15px 0;">\n'
+ + '  {titleCode}\n'
+ + '</section>\n\n'
+ + '{playerCode}\n'
  + '</section>\n';
 
 var titleTemplates = {
@@ -27,33 +35,31 @@ var sm2BarUITemplates = {
     //+ '<script type="text/javascript" src="./sm2/Sound/js/soundmanager2.js"></script>\n'
     //+ '<script type="text/javascript" src="./sm2/Sound/js/bar-ui.js"></script>\n',
     // don't use the .min versions, for they will confuse mbuembed.js
-    + '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/bar-ui.css"/>\n'
-    + '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/js/soundmanager2.js"></script>\n'
-    + '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn/app/sm2/Sound/js/bar-ui.js"></script>\n',
+    + '<link rel="stylesheet" href="' + AppConfig.emulatorServer + '/sm2/Sound/bar-ui.css"/>\n'
+    + '<script type="text/javascript" src="' + AppConfig.emulatorServer + '/sm2/Sound/js/soundmanager2.js"></script>\n'
+    + '<script type="text/javascript" src="' + AppConfig.emulatorServer + '/sm2/Sound/js/bar-ui.js"></script>\n',
 
   "simple-installation-code": ''
     + '<section>\n'
-    + '<style>{plugin-quick-fix-css}</style>\n'
-    + '<link rel="stylesheet" href="{plugin-css}"/>\n'
+    + '<style>{pluginQuickFixCss}</style>\n'
+    + '<link rel="stylesheet" href="{pluginCssUrl}"/>\n'
     // even though the settings in patch css are the same as the main css
     // the patch can help prevent them from being overridden
     // by the system (if any) style sheets, which appears later
-    + '<link rel="stylesheet" href="{plugin-css-patch}"/>\n'
-    + writeSneakyJSLoader('{plugin-js-installer}')
+    + '<link rel="stylesheet" href="{pluginCssPatchUrl}"/>\n'
+    + writeSneakyJSLoader('{pluginJsInstaller}')
     + '</section>',
 
   "smart-installation-code": ''
     + '<section>\n'
-    + '<style>{plugin-quick-fix-css}</style>\n'
-    + '<link rel="stylesheet" href="{plugin-css-patch}"/>\n'
-    + writeSneakyJSLoader('{plugin-embedder-installer}')
+    + '<style>{pluginQuickFixCss}</style>\n'
+    + writeSneakyJSLoader('{pluginEmbeddingInstaller}')
     + '</section>',
 
-  "sneaky-installation-code": ''
-    + writeSneakyJSLoader(['{plugin-quick-fix-css-installer}', '{plugin-embedder-installer}']),
-
   "player": ''
-    + '<div class="sm2-bar-ui playlist-open full-width {options}" style="font-size:{font-size};line-height:1;letter-spacing:0px">\n'
+    + '<div\n'
+    + '  class="sm2-bar-ui playlist-open full-width {options}"\n'
+    + '  style="font-size:{font-size};line-height:1;letter-spacing:0px">\n'
     + ' <div class="bd sm2-main-controls" style="background-color: {bar-color}">\n'
     + '  <div class="sm2-inline-gradient"></div>\n'
     + '  <div class="sm2-inline-element sm2-button-element">\n'
@@ -116,6 +122,8 @@ var sm2BarUITemplates = {
     + '  </div>\n',
 };
 
+
+
 function subKeys(template, tab)
 {
   var s, k, re;
@@ -127,19 +135,6 @@ function subKeys(template, tab)
     }
   }
   return s;
-}
-
-function copyAnimated(txtSel, btnSel, msgSel, htmlSel)
-{
-  var txt = document.querySelector(txtSel);
-  copyTextToClipboard(txt.value, btnSel);
-  if ( htmlSel === undefined ) {
-    htmlSel = txtSel;
-  }
-  // fade out the html div, then fade it back in
-  animateShow(htmlSel, [1.0, 700, 0.3, 600, 0.3, 700, 1.0]);
-  // wait 2000ms (for button animation), then show the notice, then hide it
-  animateShow(msgSel, [0.0, 2000, 0.0, 2000, 1.0, 3000, 1.0, 1000, 0.0]);
 }
 
 
@@ -190,6 +185,7 @@ function getSelectedOption(selector)
   return null;
 }
 
+
 function getPluginCode(info)
 {
   // manipulate the version
@@ -198,7 +194,7 @@ function getPluginCode(info)
   ver = v[0];
   forced = v[1];
   if ( ver === "this" ) {
-    ver = lastestCDNVersion;
+    ver = AppConfig.appVersion;
   }
 
   var cssPatchFn = "css/bar-ui-patch.css",
@@ -214,12 +210,13 @@ function getPluginCode(info)
       embedCode = "";
 
   // set the CDN version parameter
-  embedCode += 'window.sm2cdnver="' + latestCDNVersion + '";';
+  embedCode += 'window.sm2cdnver="' + AppConfig.appVersion + '";';
 
   // determine the serverRoot
   var serverOption = getSelectedOption("#inp-plugin-server"),
       serverValue = null,
       serverRoot = undefined;
+
   if (serverOption) {
     serverValue = serverOption.value;
     serverRoot = serverOption.dataset.root;
@@ -244,7 +241,7 @@ function getPluginCode(info)
         alert("cdn can't handle version " + ver + " fn " + fn);
       }
     } else if ( serverValue === "this" ) {
-      serverRoot = selectServerPath(location.href,
+      serverRoot = InstallerOptions.selectServerPath(location.href,
           [/bhffer\.com/, /xljt\.cloud/, /localhost:/],
           "https://app.bhffer.com/");
     } else {
@@ -256,16 +253,16 @@ function getPluginCode(info)
   // set the path for loading other scripts
   embedCode += 'window.sm2root="' + sm2Path + '";';
 
-  var tail = '?v=' + latestCDNVersion;
+  var tail = '?v=' + AppConfig.appVersion;
 
   cssPatchPath = sm2Path + cssPatchFn;
-  info["plugin-css-patch"] = cssPatchPath + tail;
+  info.pluginCssPatchUrl = cssPatchPath + tail;
 
   cssPath = sm2Path + cssFn;
-  info["plugin-css"] = cssPath + tail;
+  info.pluginCssUrl = cssPath + tail;
 
   jsPath = sm2Path + jsFn;
-  info["plugin-js"] = jsPath + tail;
+  info.pluginJsUrl = jsPath + tail; // not currently used
 
   // embedder script
   embedPath = sm2Path + embedFn;
@@ -277,9 +274,9 @@ function getPluginCode(info)
     embedCode += embedVar + '.src="' + embedPath + tail + '";';
   }
 
-  info["plugin-js-installer"] = writeJSInstaller(jsPath + tail, null, jsVar, "sm2baruiOnce");
+  info.pluginJsInstaller = writeJSInstaller(jsPath + tail, null, jsVar, "sm2baruiOnce");
 
-  info["plugin-embedder-installer"] = writeJSInstaller(null, embedCode, embedVar, "mbuembedOnce");
+  info.pluginEmbeddingInstaller = writeJSInstaller(null, embedCode, embedVar, "mbuembedOnce");
 
   // the quick fix css is intended to temporarily
   // fix the faulty default css until the patch css kicks in
@@ -287,8 +284,8 @@ function getPluginCode(info)
   // will break too many other things). Fortunately it will be overriden by
   // the value in the patch css or the fixed css with stronger rules (important)
   var qf = '.sm2-playlist-bd span.lianhua{width:2em;height:2em;background-size:contain}';
-  info["plugin-quick-fix-css"] = qf;
-  info["plugin-quick-fix-css-installer"] = writeCSSInstaller(qf);
+  info.pluginQuickFixCss = qf;
+  info.pluginQuickFixCssInstaller = writeCSSInstaller(qf); // not currently used
 }
 
 // write the JS code that loads the script at path
@@ -303,7 +300,7 @@ function writeJSInstaller(path, code, varS, varOnce)
 
   var src = '';
   if ( varOnce ) {
-    src += 'if(window.{vo}){return;}else{window.{vo}=1;'.replace(/{vo}/g, varOnce);
+    src += 'if(!window.{varOnce}){window.{varOnce}=1;'.replace(/{varOnce}/g, varOnce);
   }
   src += 'var {vs}=document.createElement("SCRIPT");'
   src += code;
@@ -316,6 +313,7 @@ function writeJSInstaller(path, code, varS, varOnce)
 }
 
 // write the JS code that loads css rules
+// not currently used
 function writeCSSInstaller(css, varS)
 {
   if ( !varS ) {
@@ -348,9 +346,9 @@ function writeSneakyJSLoader(code)
     code = [code,];
   }
 
-  for ( var i = 0; i < code.length; i++ ) {
-    src += code[i];
-  }
+  code.forEach(function(s){
+    src += s;
+  });
 
   src += '})()\'></div>\n';
   return src;
@@ -390,7 +388,7 @@ function writeSM2PlayerCode(info)
   // compile the media list
   var needIcon = document.getElementById("inp-lianhua").checked;
   var scrollLongTitle = document.getElementById("inp-scroll-long-title").checked;
-  var arr = getInputList(), i, list = "";
+  var arr = BasicInput.getInputList(), i, list = "";
   for ( i = 0; i < arr.length; i++ ) {
     var title = arr[i].title, src = arr[i].src;
     if ( src === "" ) {
@@ -432,18 +430,12 @@ function writeSM2PlayerCode(info)
   return s;
 }
 
-function packCode(s)
-{
-  var x = s.replace(/^\s+|\s+$/g, "").split("\n"), i;
-  for ( i = 0; i < x.length; i++ ) {
-    x[i] = x[i].replace(/^\s+|\s+$/g, "");
-  }
-  return x.join("");
-}
-
 function updatePreview()
 {
-  var s = document.getElementById("code").value;
+  var s = '';
+  
+  s = AceEditorUtils.getCodeEditorValue("#code");
+
   //document.getElementById("preview-canvas").innerHTML = s;
   var fr = document.getElementById("preview-iframe");
   fr.innerHTML = "";
@@ -465,18 +457,8 @@ function onCodeChange()
   updatePreview();
 }
 
-function updateDisplayValues()
-{
-  // update interface
-  document.getElementById("font-size-display").innerHTML = document.getElementById("inp-font-size").value;
-  document.getElementById("bar-color-display").innerHTML = document.getElementById("inp-bar-color").value;
-  document.getElementById("bg-color-display").innerHTML = document.getElementById("inp-bg-color").value;
-}
-
 function writeCode()
 {
-  updateDisplayValues();
-
   if ( codeIsDirty ) {
     var ans = confirm("将要重写代码，继续？");
     if ( !ans ) return;
@@ -485,22 +467,21 @@ function writeCode()
   var info = {};
   info["title"] = document.getElementById("inp-media-title").value;
   info["style"] = document.getElementById("inp-style").value;
-  var fontSize = document.getElementById("inp-font-size").value;
-  info["font-size"] = fontSize + "px";
-  var barColor = document.getElementById("inp-bar-color").value;
-  info["bar-color"] = barColor;
-  var bgColor = document.getElementById("inp-bg-color").value;
-  info["bg-color"] = bgColor;
+
+  AppGV.appearanceControls.getInput(info);
 
   var s = subKeys(frameworkTemplate, info);
   var sTitle = renderTitle(info);
   var sPlayer = writeSM2PlayerCode(info);
-  s = subKeys(s, {'title-code': sTitle, 'player-code': sPlayer});
-  if ( document.getElementById("inp-pack-code").checked ) {
-    s = packCode(s);
-  }
-  document.getElementById("code").value = s;
+  s = subKeys(s, {
+    titleCode: sTitle,
+    playerCode: sPlayer
+  });
+
+  AceEditorUtils.setCodeEditorValue("#code", s);
+
   updatePreview();
+
   codeIsDirty = false;
 }
 
@@ -515,98 +496,43 @@ function resizeIframe() {
   }
 }
 
-function initListInputMode()
+
+function addHandlers()
 {
-  switchListInputMode("normal-mode");
+  // install handers that respond to input changes
+  document.querySelectorAll(".code-rewriter").forEach(function(el){
+    var evt = 'change';
+    if (el.tagName === 'BUTTON' || el.tagName === 'A') {
+      evt = 'click';
+    }
+
+    el.addEventListener(evt, function(){
+      writeCode();
+    });
+  });
+
+  AceEditorUtils.addCodeEditorListener("#code", "change", function(delta) {
+    onCodeChange();
+  });
+
 }
 
-function switchListInputMode(mode)
-{
-  var par = document.querySelector("#list-input-mode");
-  par.setAttribute("data-mode", mode);
-  var modes = par.children, i;
-  for ( i = 0; i < modes.length; i++ ) {
-    if ( modes[i].id === mode ) {
-      modes[i].style.display = "";
-    } else {
-      modes[i].style.display = "none";
-    }
-  }
-}
+document.addEventListener("DOMContentLoaded", function(){
 
-function getInputList()
-{
-  var par = document.querySelector("#list-input-mode");
-  var mode = par.getAttribute("data-mode");
-  console.log("reading input list from mode", mode);
-  if ( mode === "normal-mode" ) {
-    return getInputListNormalMode();
-  } else if ( mode === "itemized-mode" ) {
-    return getInputListItemizedMode();
-  } else {
-    console.log("Error: unknown input-list mode", mode);
-  }
-}
+  BasicInput.init();
 
-function getInputListNormalMode()
-{
-  var slist = document.getElementById("inp-list").value;
-  slist = slist.replace(/\s+$/g, ""); // remove trailing spaces;
-  var arr = [], i;
-  // replace blank lines with spaces by a single line-break
-  slist = slist.replace(/[ \t]+\n/g, "\n");
-  slist = slist.split("\n\n");
-  for ( i = 0; i < slist.length; i++ ) {
-    var x = slist[i].split("\n"), title, src;
-    for ( var j = 0; j < x.length; j++ ) {
-      x[j] = x[j].trim();
-    }
-    if ( x.length >= 2 ) {
-      title = escapeHTML(x[0]);
-      src = x[1];
-    } else if ( x[0].slice(0,4) === "http" || x[0].slice(0,2) === "//" ) {
-      title = "";
-      src = x[0];
-    } else {
-      continue;
-    }
-    arr.push( { "title": title, "src": src} );
-  }
-  return arr;
-}
+  InstallerOptions.init();
 
-function getInputListItemizedMode()
-{
-  var title = document.getElementById("inp-list-title").value;
-  title = title.replace(/\s+$/g, "").split("\n");
-  var src = document.getElementById("inp-list-src").value;
-  src = src.replace(/\s+$/g, "").split("\n");
-  var arr = [], i, n;
-  n = Math.max(title.length, src.length);
-  for ( i = 0; i < n; i++ ) {
-    var t = title[i];
-    if ( t === undefined ) {
-      t = "";
-    }
-    var s = src[i];
-    if ( s === undefined ) {
-      s = "";
-    }
-    arr.push( { "title": t, "src": s } );
-  }
-  return arr;
-}
+  AppGV.appearanceControls = new AppearanceOptions.AppearanceControls();
 
-window.onload = function() {
-  initListInputMode();
+  AppGV.outputAceCodeEditor = AceEditorUtils.initCodeEditor('#code', AppConfig.useAceEditor);
+
+  addHandlers();
 
   writeCode();
 
   // allow the preview iframe to dynamically adjust its height
   //  https://stackoverflow.com/questions/9975810/make-iframe-automatically-adjust-height-according-to-the-contents-without-using
   setInterval(resizeIframe, 200); // readjust height every 0.2s
-
-  document.getElementById("inp-plugin-version-this").innerHTML += "v" + latestCDNVersion;
-  //document.getElementById("header-code").value = sm2BarUITemplates["header"];
-};
+});
 

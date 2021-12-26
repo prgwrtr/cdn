@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="version" content="V0.37">
+<meta name="version" content="V0.39">
 <script>
 // update the timestamp in the address bar
 (function(){
@@ -28,7 +28,7 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 <link rel="stylesheet" href="css/ver.css?ver=V0.35">
 <link rel="stylesheet" href="css/bsw.css?ver=V0.33">
 <link rel="stylesheet" href="css/foldableinput.css?ver=V0.01">
-<link rel="stylesheet" href="css/ed.css?ver=V0.36">
+<link rel="stylesheet" href="css/ed.css?ver=V0.39">
 <!-- JS Bin
 created by the 3ki5tj github account
 https://jsbin.com/muxiho/edit?html,css,js,output
@@ -276,9 +276,12 @@ https://jsbin.com/muxiho
         </div>
       </span> <!-- format-tools -->
 
-      <div id="toggle-format-tools" class="bsw-group"
-          data-bsw-on-style="default" data-bsw-off-style=""
-          data-bsw-toggle-mode="2" data-bsw-click-handler="showHideFormatTools">
+      <div id="toggle-format-tools"
+           class="bsw-group"
+           data-bsw-on-style="default"
+           data-bsw-off-style=""
+           data-bsw-toggle-mode="2"
+           data-bsw-click-handler="showHideFormatTools">
         <button type="button" class="btn bsw bsw-on bsw-active">
           <span class="glyphicon glyphicon-eye-close"></span>
           格式工具
@@ -374,9 +377,13 @@ https://jsbin.com/muxiho
 </div> <!-- html editor -->
 
 <!-- Modal: insert image -->
-<div class="modal fade options-wrapper" id="insert-image-modal" data-type="image"
-    tabindex="-1" role="dialog" aria-labelledby="insert-image-options">
-  <div class="modal-dialog" role="document">
+<div class="modal content-insertion-modal fade options-wrapper"
+     id="insert-image-modal"
+     data-type="image"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="insert-image-options">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header options-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -387,7 +394,7 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-body options-body">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="image-title">
@@ -403,7 +410,9 @@ https://jsbin.com/muxiho
               <label for="image-src">
                 图片网址：
               </label>
-              <textarea id="image-src" rows="2"
+              <textarea
+                id="image-src"
+                rows="2"
                 class="form-control"
                 placeholder="http://my.web.site/image.jpg"
                 onchange="updatePreviewer(this)"></textarea>
@@ -411,7 +420,9 @@ https://jsbin.com/muxiho
 
             <div class="link-options-wrapper advanced">
               <div class="inp-group">
-                <button type="button" class="btn btn-info"
+                <button
+                  type="button"
+                  class="btn btn-info"
                   data-toggle="collapse"
                   data-target="#image-link-options"
                   onclick="updatePreviewer(this, 1000)">
@@ -455,6 +466,28 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
+            <div class="inp-group">
+              <label
+                for="image-no-bottom-border">
+                <input
+                  id="image-no-bottom-border"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部边框
+              </label>
+            </div>
+
+            <div class="inp-group">
+              <label
+                for="image-no-bottom-space">
+                <input
+                  id="image-no-bottom-space"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部空白
+              </label>
+            </div>
+
             <div class="inp-group advanced inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="image-descr">
@@ -467,7 +500,7 @@ https://jsbin.com/muxiho
             </div>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group" style="margin:1em 0em;text-align:center">
               <div class="btn-group">
                 <button type="button" class="btn btn-info"
@@ -481,16 +514,23 @@ https://jsbin.com/muxiho
               </div>
             </div>
             <div class="previewer-wrapper">
-              <div class="previewer"></div>
+              <div class="previewer-container">
+                <div class="previewer"></div>
+              </div>
               <div class="src-code-wrapper advanced">
                 <div class="inp-group">
-                  <textarea class="src-code" rows="8"
+                  <textarea
+                    class="src-code form-control"
+                    rows="12"
                     class="form-control"></textarea>
                 </div>
                 <div class="btn-group pull-right">
-                  <button type="button" class="btn btn-success"
-                    onclick='copySnippet(this)'
-                    >复制源代码</button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick='copySnippet(this)'>
+                    复制源代码
+                  </button>
                 </div>
               </div>
             </div>
@@ -502,8 +542,10 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-footer options-footer">
         <div class="bsw-group pull-left"
-            data-bsw-on-style="info" data-bsw-off-style="default"
-            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+             data-bsw-on-style="info"
+             data-bsw-off-style="default"
+             data-bsw-toggle-mode="2"
+             data-bsw-click-handler="toggleModalAdvancedOptions">
           <button type="button" class="btn bsw bsw-on bsw-inactive">
             <span class="glyphicon glyphicon-eye-close"></span>
             更多选项
@@ -529,9 +571,13 @@ https://jsbin.com/muxiho
 
 
 <!-- Modal: insert qrcode -->
-<div class="modal fade options-wrapper" id="insert-qrcode-modal" data-type="qrcode"
-    tabindex="-1" role="dialog" aria-labelledby="insert-qrcode-options">
-  <div class="modal-dialog" role="document">
+<div class="modal content-insertion-modal fade options-wrapper"
+     id="insert-qrcode-modal"
+     data-type="qrcode"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="insert-qrcode-options">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header options-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -542,7 +588,7 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-body options-body">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="qrcode-title">
@@ -675,6 +721,28 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
+            <div class="inp-group">
+              <label
+                for="qrcode-no-bottom-border">
+                <input
+                  id="qrcode-no-bottom-border"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部边框
+              </label>
+            </div>
+
+            <div class="inp-group">
+              <label
+                for="qrcode-no-bottom-space">
+                <input
+                  id="qrcode-no-bottom-space"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部空白
+              </label>
+            </div>
+
             <div class="inp-group advanced inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="qrcode-descr">
@@ -687,7 +755,7 @@ https://jsbin.com/muxiho
             </div>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group" style="margin:1em 0em;text-align:center">
               <div class="btn-group">
                 <button type="button" class="btn btn-info"
@@ -701,16 +769,23 @@ https://jsbin.com/muxiho
               </div>
             </div>
             <div class="previewer-wrapper">
-              <div class="previewer"></div>
+              <div class="previewer-container">
+                <div class="previewer"></div>
+              </div>
               <div class="src-code-wrapper advanced">
                 <div class="inp-group">
-                  <textarea class="src-code" rows="8"
+                  <textarea
+                    class="src-code form-control"
+                    rows="12"
                     class="form-control"></textarea>
                 </div>
                 <div class="btn-group pull-right">
-                  <button type="button" class="btn btn-success"
-                    onclick='copySnippet(this)'
-                    >复制源代码</button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick='copySnippet(this)'>
+                    复制源代码
+                  </button>
                 </div>
               </div>
             </div>
@@ -722,8 +797,10 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-footer options-footer">
         <div class="bsw-group pull-left"
-            data-bsw-on-style="info" data-bsw-off-style="default"
-            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+             data-bsw-on-style="info"
+             data-bsw-off-style="default"
+             data-bsw-toggle-mode="2"
+             data-bsw-click-handler="toggleModalAdvancedOptions">
           <button type="button" class="btn bsw bsw-on bsw-inactive">
             <span class="glyphicon glyphicon-eye-close"></span>
             更多选项
@@ -749,9 +826,13 @@ https://jsbin.com/muxiho
 
 
 <!-- Modal: insert audio -->
-<div class="modal fade options-wrapper" id="insert-audio-modal" data-type="audio"
-    tabindex="-1" role="dialog" aria-labelledby="insert-audio-options">
-  <div class="modal-dialog" role="document">
+<div class="modal content-insertion-modal fade options-wrapper"
+     id="insert-audio-modal"
+     data-type="audio"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="insert-audio-options">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header options-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -762,7 +843,7 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-body options-body">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="audio-title">
@@ -786,16 +867,20 @@ https://jsbin.com/muxiho
 
             <div class="inp-group advanced">
               <label for="audio-loop" style="display:inline-block">
-                <input id="audio-loop" type="checkbox"
-                 onchange="updatePreviewer(this)">
+                <input
+                  id="audio-loop"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
                 循环播放
               </label>
             </div>
 
             <div class="inp-group advanced">
               <label for="audio-autoplay" style="display:inline-block">
-                <input id="audio-autoplay" type="checkbox"
-                onchange="updatePreviewer(this)">
+                <input
+                  id="audio-autoplay"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
                 自动播放
               </label>
             </div>
@@ -814,6 +899,28 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
+            <div class="inp-group">
+              <label
+                for="audio-no-bottom-border">
+                <input
+                  id="audio-no-bottom-border"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部边框
+              </label>
+            </div>
+
+            <div class="inp-group">
+              <label
+                for="audio-no-bottom-space">
+                <input
+                  id="audio-no-bottom-space"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部空白
+              </label>
+            </div>
+
             <div class="inp-group advanced inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="audio-descr">
@@ -826,7 +933,7 @@ https://jsbin.com/muxiho
             </div>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group" style="margin:1em 0em;text-align:center">
               <div class="btn-group">
                 <button type="button" class="btn btn-info"
@@ -840,16 +947,23 @@ https://jsbin.com/muxiho
               </div>
             </div>
             <div class="previewer-wrapper">
-              <div class="previewer"></div>
+              <div class="previewer-container">
+                <div class="previewer"></div>
+              </div>
               <div class="src-code-wrapper advanced">
                 <div class="inp-group">
-                  <textarea class="src-code" rows="8"
+                  <textarea
+                    class="src-code form-control"
+                    rows="12"
                     class="form-control"></textarea>
                 </div>
                 <div class="btn-group pull-right">
-                  <button type="button" class="btn btn-success"
-                    onclick='copySnippet(this)'
-                    >复制源代码</button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick='copySnippet(this)'>
+                    复制源代码
+                  </button>
                 </div>
               </div>
             </div>
@@ -861,8 +975,10 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-footer options-footer">
         <div class="bsw-group pull-left"
-            data-bsw-on-style="info" data-bsw-off-style="default"
-            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+             data-bsw-on-style="info"
+             data-bsw-off-style="default"
+             data-bsw-toggle-mode="2"
+             data-bsw-click-handler="toggleModalAdvancedOptions">
           <button type="button" class="btn bsw bsw-on bsw-inactive">
             <span class="glyphicon glyphicon-eye-close"></span>
             更多选项
@@ -888,9 +1004,13 @@ https://jsbin.com/muxiho
 
 
 <!-- Modal: insert video -->
-<div class="modal fade options-wrapper" id="insert-video-modal" data-type="video"
-    tabindex="-1" role="dialog" aria-labelledby="insert-video-options">
-  <div class="modal-dialog" role="document">
+<div class="modal content-insertion-modal fade options-wrapper"
+     id="insert-video-modal"
+     data-type="video"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="insert-video-options">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header options-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -901,7 +1021,7 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-body options-body">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="video-title">
@@ -966,6 +1086,28 @@ https://jsbin.com/muxiho
               </select>
             </div>
 
+            <div class="inp-group">
+              <label
+                for="video-no-bottom-border">
+                <input
+                  id="video-no-bottom-border"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部边框
+              </label>
+            </div>
+
+            <div class="inp-group">
+              <label
+                for="video-no-bottom-space">
+                <input
+                  id="video-no-bottom-space"
+                  type="checkbox"
+                  onchange="updatePreviewer(this)">
+                  去掉底部空白
+              </label>
+            </div>
+
             <div class="inp-group advanced inp-foldable"
                  data-ontoggle="updatePreviewer(this)">
               <label for="video-descr">
@@ -978,7 +1120,7 @@ https://jsbin.com/muxiho
             </div>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group" style="margin:1em 0em;text-align:center">
               <div class="btn-group">
                 <button type="button" class="btn btn-info"
@@ -992,16 +1134,23 @@ https://jsbin.com/muxiho
               </div>
             </div>
             <div class="previewer-wrapper">
-              <div class="previewer"></div>
+              <div class="previewer-container">
+                <div class="previewer"></div>
+              </div>
               <div class="src-code-wrapper advanced">
                 <div class="inp-group">
-                  <textarea class="src-code" rows="8"
+                  <textarea
+                    class="src-code form-control"
+                    rows="12"
                     class="form-control"></textarea>
                 </div>
                 <div class="btn-group pull-right">
-                  <button type="button" class="btn btn-success"
-                    onclick='copySnippet(this)'
-                    >复制源代码</button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick='copySnippet(this)'>
+                    复制源代码
+                  </button>
                 </div>
               </div>
             </div>
@@ -1013,8 +1162,10 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-footer options-footer">
         <div class="bsw-group pull-left"
-            data-bsw-on-style="info" data-bsw-off-style="default"
-            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+             data-bsw-on-style="info"
+             data-bsw-off-style="default"
+             data-bsw-toggle-mode="2"
+             data-bsw-click-handler="toggleModalAdvancedOptions">
           <button type="button" class="btn bsw bsw-on bsw-inactive">
             <span class="glyphicon glyphicon-eye-close"></span>
             更多选项
@@ -1040,9 +1191,13 @@ https://jsbin.com/muxiho
 
 
 <!-- Modal: insert link -->
-<div class="modal fade options-wrapper" id="insert-link-modal" data-type="link"
-    tabindex="-1" role="dialog" aria-labelledby="insert-link-options">
-  <div class="modal-dialog" role="document">
+<div class="modal content-insertion-modal fade options-wrapper"
+     id="insert-link-modal"
+     data-type="link"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="insert-link-options">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header options-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -1053,7 +1208,7 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-body options-body">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group">
               <label for="link-href">
                 链接网址：
@@ -1084,7 +1239,7 @@ https://jsbin.com/muxiho
 
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="inp-group" style="margin:1em 0em;text-align:center">
               <div class="btn-group">
                 <button type="button" class="btn btn-info"
@@ -1098,16 +1253,23 @@ https://jsbin.com/muxiho
               </div>
             </div>
             <div class="previewer-wrapper">
-              <div class="previewer"></div>
+              <div class="previewer-container">
+                <div class="previewer"></div>
+              </div>
               <div class="src-code-wrapper advanced">
                 <div class="inp-group">
-                  <textarea class="src-code" rows="3"
+                  <textarea
+                    class="src-code form-control"
+                    rows="12"
                     class="form-control"></textarea>
                 </div>
                 <div class="btn-group pull-right">
-                  <button type="button" class="btn btn-success"
-                    onclick='copySnippet(this)'
-                    >复制源代码</button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick='copySnippet(this)'>
+                    复制源代码
+                  </button>
                 </div>
               </div>
             </div>
@@ -1119,8 +1281,10 @@ https://jsbin.com/muxiho
       </div>
       <div class="modal-footer options-footer">
         <div class="bsw-group pull-left"
-            data-bsw-on-style="info" data-bsw-off-style="default"
-            data-bsw-toggle-mode="2" data-bsw-click-handler="toggleModalAdvancedOptions">
+             data-bsw-on-style="info"
+             data-bsw-off-style="default"
+             data-bsw-toggle-mode="2"
+             data-bsw-click-handler="toggleModalAdvancedOptions">
           <button type="button" class="btn bsw bsw-on bsw-inactive">
             <span class="glyphicon glyphicon-eye-close"></span>
             更多选项
@@ -1154,14 +1318,26 @@ https://jsbin.com/muxiho
 </div>
 
 <div class="row">
-  <div id="ed-version" class="version" data-name="网页编辑器"
-    data-css="ed.css" data-js="ed.js" data-js-var="edVersion"></div>
+  <div id="ed-version"
+       class="version"
+       data-name="网页编辑器"
+       data-css="ed.css"
+       data-js="ed.js"
+       data-js-var="edVersion"></div>
 
-  <div id="bsw-version" class="version" data-name="开关按钮"
-    data-css="bsw.css" data-js="bsw.js" data-js-var="bswVersion"></div>
+  <div id="bsw-version"
+       class="version"
+       data-name="开关按钮"
+       data-css="bsw.css"
+       data-js="bsw.js"
+       data-js-var="bswVersion"></div>
 
-  <div id="ver-version" class="version" data-name="版本控制"
-    data-css="ver.css" data-js="ver.js" data-js-var="verVersion"></div>
+  <div id="ver-version"
+       class="version"
+       data-name="版本控制"
+       data-css="ver.css"
+       data-js="ver.js"
+       data-js-var="verVersion"></div>
 </div>
 
 <div class="note center">如果页面底部出现广告，是宿主网站自带的，请不要去点击。程序在设计和使用中如有不如理不如法的情况，请大慈大悲观世音菩萨和龙天护法菩萨原谅。</div>
@@ -1171,9 +1347,9 @@ https://jsbin.com/muxiho
 <script src="js/ver.js?ver=V0.35"></script>
 <script src="js/bsw.js?ver=V0.35"></script>
 <script src="js/common1.js?ver=V0.38"></script>
-<script src="js/mediacom.js?ver=V0.38"></script>
+<script src="js/mediacom.js?ver=V0.39"></script>
 <script src="js/foldableinput.js?ver=V0.01"></script>
-<script src="js/ed.js?ver=V0.37"></script>
+<script src="js/ed.js?ver=V0.39"></script>
 
 </body>
 </html>

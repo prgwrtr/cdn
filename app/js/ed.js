@@ -1,6 +1,6 @@
 "use strict";
 
-var edVersion = "V0.36";
+var edVersion = "V0.39";
 
 // selection range of the editor as a global variable
 var visEdSelRange = null;
@@ -10,12 +10,6 @@ function subGlyphicons(s)
 {
   return s.replace(/\[\[([\w-]+)\]\]/g, '<span class="glyphicon glyphicon-$1">');
 }
-/*
-  $('input[type="checkbox"][data-toggle="toggle"]').each(function(){
-    $(this).attr('data-on', subGlyphicons( $(this).attr('data-on') ) );
-    $(this).attr('data-off', subGlyphicons( $(this).attr('data-off') ) );
-  });
-*/
 
 // return the current editor mode, 'vis' or 'src'
 function getEditorMode()
@@ -728,7 +722,7 @@ function autoToggleEditorModeAlert()
 // find the options-wrapper modal in this element and its parents
 function findParentModal(el)
 {
-  return $(el).closest('.modal.options-wrapper');
+  return $(el).closest('.modal');
 }
 
 function toggleModalAdvancedOptions(e, changed)
@@ -737,7 +731,7 @@ function toggleModalAdvancedOptions(e, changed)
   modal.find('.advanced').toggle(500);
 }
 
-function collectSnippetInfo(modal)
+function collectMediaItemInfo(modal)
 {
   var type = modal.data("type"), info;
   if ( type === "image" ) {
@@ -754,6 +748,7 @@ function collectSnippetInfo(modal)
     console.log("Error: unknown type", type);
     info = {"type": type};
   }
+  collectMediaItemExtraInfo(info, type);
   return info;
 }
 
@@ -779,10 +774,10 @@ function updatePreviewer(el, timeout)
   // so we wait for a while be before updating
   setTimeout( function() {
     var modal = findParentModal(el);
-    var info = collectSnippetInfo(modal);
+    var info = collectMediaItemInfo(modal);
     var code = renderSnippet(info);
     modal.find('.previewer').html(code);
-    modal.find('.src-code').html(code);
+    modal.find('.src-code').val(code);
   }, timeout );
 }
 
@@ -790,8 +785,8 @@ function updatePreviewer(el, timeout)
 function insertSnippet(el)
 {
   var modal = findParentModal(el);
-  var info = collectSnippetInfo(modal), code;
-  info["inc-id"] = true;
+  var info = collectMediaItemInfo(modal), code;
+  info.incId = true;
   var code = renderSnippet(info);
   modal.modal('hide');
   insertHTMLCode2(code);
@@ -811,7 +806,6 @@ function copySnippet(btn)
 function collectInputValue(key, selector, info)
 {
   var obj = $(selector);
-  var val = obj.val();
   // for foldable inp-groups we test if it is collapsed
   // if so, we will not collect its value even if it exists
   var par = obj.parent('.inp-foldable');
@@ -820,17 +814,22 @@ function collectInputValue(key, selector, info)
   }
 }
 
+function collectMediaItemExtraInfo(info, type)
+{
+  info.noBottomBorder = $('#' + type + '-no-bottom-border').is(':checked');
+  info.noBottomSpace = $('#' + type + '-no-bottom-space').is(':checked');
+}
 
 function collectImageInfo()
 {
   var info = {"type": "image"};
   collectInputValue('title', '#image-title', info);
-  info["src"] = $('#image-src').val();
-  info["style"] = $('#image-style').val();
+  info.src = $('#image-src').val();
+  info.style = $('#image-style').val();
   collectInputValue('descr', '#image-descr', info);
   if ( $('#image-link-options').hasClass('in') ) {
-    info["href"] = $('#image-link-href').val();
-    info["open-in-new-page"] = $('#image-link-open-in-new-page').is(':checked');
+    info.href = $('#image-link-href').val();
+    info.openInNewPage = $('#image-link-open-in-new-page').is(':checked');
   }
   return info;
 }
@@ -840,12 +839,12 @@ function collectQRCodeInfo()
   var info = {"type": "image"};
   //info["title"] = $('#qrcode-title').val();
   collectInputValue('title', '#qrcode-title', info);
-  info["src"] = $('#qrcode-src').val();
-  info["style"] = $('#qrcode-style').val();
+  info.src = $('#qrcode-src').val();
+  info.style = $('#qrcode-style').val();
   //info["descr"] = $('#qrcode-descr').val();
   collectInputValue('descr', '#qrcode-descr', info);
-  info["href"] = $('#qrcode-link-href').val();
-  info["open-in-new-page"] = $('#qrcode-link-open-in-new-page').is(':checked');
+  info.href = $('#qrcode-link-href').val();
+  info.openInNewPage = $('#qrcode-link-open-in-new-page').is(':checked');
   return info;
 }
 
@@ -854,12 +853,12 @@ function collectAudioInfo()
   var info = {"type": "audio"};
   //info["title"] = $('#audio-title').val();
   collectInputValue('title', '#audio-title', info);
-  info["src"] = $('#audio-src').val();
-  info["style"] = $('#audio-style').val();
+  info.src = $('#audio-src').val();
+  info.style = $('#audio-style').val();
   //info["descr"] = $('#audio-descr').val();
   collectInputValue('descr', '#audio-descr', info);
-  info["loop"] = $('#audio-loop').is(':checked');
-  info["autoplay"] = $('#audio-autoplay').is(':checked');
+  info.loop = $('#audio-loop').is(':checked');
+  info.autoplay = $('#audio-autoplay').is(':checked');
   return info;
 }
 
@@ -868,36 +867,36 @@ function collectVideoInfo()
   var info = {"type": "video"};
   //info["title"] = $('#video-title').val();
   collectInputValue('title', '#video-title', info);
-  info["src"] = $('#video-src').val();
-  info["poster"] = $('#video-poster').val();
-  info["style"] = $('#video-style').val();
+  info.src = $('#video-src').val();
+  info.poster = $('#video-poster').val();
+  info.style = $('#video-style').val();
   //info["descr"] = $('#video-descr').val();
   collectInputValue('descr', '#video-descr', info);
-  info["loop"] = $('#video-loop').is(':checked');
-  info["autoplay"] = $('#video-autoplay').is(':checked');
+  info.loop = $('#video-loop').is(':checked');
+  info.autoplay = $('#video-autoplay').is(':checked');
   return info;
 }
 
 function collectLinkInfo()
 {
   var info = {"type": "link"};
-  info["text"] = $('#link-text').val();
-  info["href"] = $('#link-href').val();
-  info["open-in-new-page"] = $('#link-open-in-new-page').is(':checked');
+  info.text = $('#link-text').val();
+  info.href = $('#link-href').val();
+  info.openInNewPage = $('#link-open-in-new-page').is(':checked');
   return info;
 }
 
-function renderLink(info, renderf)
+function renderLink(info, renderFunc)
 {
-  var text = info["text"];
+  var text = info.text;
   if ( text === undefined || text === "" ) {
-    text = info["href"];
+    text = info.href;
   }
   var attrs = '';
-  if ( info["open-in-new-page"] ) {
+  if ( info.openInNewPage ) {
     attrs = ' target="_blank" rel="noopener noreferrer"';
   }
-  var s = '<a href="' + info["href"] + '"' + attrs + '>' + text + '</a>';
+  var s = '<a href="' + info.href + '"' + attrs + '>' + text + '</a>';
   return s;
 }
 
@@ -914,7 +913,7 @@ function initMediaInputs()
 {
   applyMediaDefValues();
 
-  var modals = $('.modal.options-wrapper');
+  var modals = $('.modal.content-insertion-modal');
   modals.on('show.bs.modal', function(e) {
     autoToggleEditorModeAlert();
     updatePreviewer(this);
@@ -928,6 +927,7 @@ function initMediaInputs()
     // initially hide the previewer on xs devices
     modals.find('.previewer-wrapper').hide();
   }
+
   // initially hide advanced options
   modals.find('.advanced').hide();
 }

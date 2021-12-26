@@ -4,18 +4,15 @@
   window.domainMapScriptRequested__ = true;
 
   var loadData = function(path) {
-    var url, min = "", s;
+    var url, s;
     if ( path === undefined ) {
-      path = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn@latest/app/"
+      path = "//app1.bhffres.com/"
     }
-    if ( path.indexOf("jsdelivr") >= 0 ) {
-      min = ".min";
-    }
-    url = path + "js/dmapdata" + min + ".js";
+    url = path + "js/dmapdata.js";
     // refresh the browser cache every 5 min = 300 s = 3e5 ms
     url += "?t=" + Math.floor((new Date())/3e5);
 
-    s = document.createElement("SCRIPT");
+    s = document.createElement("script");
     s.src = url;
     document.body.append(s);
   };
@@ -72,8 +69,8 @@
   };
 
   window.DomainMap = {
-    "isReady": isReady,
-    "sub": sub
+    isReady: isReady,
+    sub: sub
   };
 })();
 

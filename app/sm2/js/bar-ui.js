@@ -6,6 +6,9 @@
    * http://www.schillmania.com/projects/soundmanager2/
    * Code provided under BSD license.
    * http://schillmania.com/projects/soundmanager2/license.txt
+   * 
+   * 2022.05.19 Note:
+   * This is a modified version, exposing the playLink() function
    */
 
   /* global console, document, navigator, soundManager, window */
@@ -1254,6 +1257,7 @@
       on: null,
       actions: actions,
       dom: dom,
+      playLink: playLink,
       playlistController: playlistController
     };
 

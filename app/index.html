@@ -1,3 +1,6 @@
+<?php
+include_once __DIR__ . '/common/ServerUtils.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,54 +79,44 @@ button {
   color: #888;
 }
 
-.debug-panel {
-  padding-left: 2em;
-  margin: 30px 0px 10px 0px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #357;
-}
-
-.debug-panel div {
-  margin: 10px 0px;
-}
-
 </style>
 </head>
 <body>
 <div id="container">
   <h1 class="heading1">网页制作小工具</h1>
   <ul>
-    <li><a href="./ed.html">网页编辑器</a></li>
-    <li class="dev">
-      <a href="./wgen.html">视频网页生成器</a></li>
-    <li><a href="./addsp.html">文本空格添加器</a></li>
-    <li class="dev">
-      <a href="./showsp.html">显示隐藏空格</a></li>
-    <li><a href="./mkmedia.html">媒体代码生成器</a></li>
-    <li class="dev"><a href="./splayer/spgen.php">媒体代码生成器（新）</a></li>
-    <li><a href="./sm2ls.html">SM2 Bar-UI 音频列表生成器</a></li>
-    <li><a href="./redir.html">链接转向/网页内嵌生成器</a></li>
-    <li class="dev">网页内嵌
-      <input id="frame-url" size=16 placeholder="http://your.web.site">
-      <button onclick="makeFrame()">去</button>
+    <li>
+      <a href="./ed.html">网页编辑器</a>
     </li>
-    <li class="dev">二维码生成器
-      <div>
-        <label for="qr-url">网址：</label>
-        <input id="qr-url" size=16 placeholder="https://map.baidu.com" value="https://map.baidu.com">
-      </div>
-      <div>
-        <label for="qr-size">大小：</label>
-        <input id="qr-size" size=16 placeholder="200x200">
-      </div>
-      <button onclick="generateQR()">生成</button>
-      <div>
-        <div style="text-align:center;margin:0 1em 0 0">
-          <img id="qr-img" alt="二维码" src="">
-          <textarea id="qr-cmd" style="display:block"></textarea>
-        </div>
-      </div>
+    <li class="dev">
+      <a href="./wgen.html">视频网页生成器</a>
+    </li>
+    <li class="dev">
+      <a href="./addsp.html">文本空格添加器</a>
+    </li>
+    <li class="dev">
+      <a href="./showsp.html">显示隐藏空格</a>
+    </li>
+    <li>
+      <a href="./mkmedia.html">媒体代码生成器</a>
+    </li>
+    <li>
+      <a href="./sm2/generator/">SM2 Bar-UI 音频列表生成器</a>
+    </li>
+    <li>
+      <a href="./splayer/spgen.php">媒体代码生成器（新）</a>
+    </li>
+    <li>
+      <a href="./redir.html">链接转向/网页内嵌生成器</a>
+    </li>
+    <li class="dev">
+      <a href="./discuzquote/">论坛引用代码生成器</a>
+    </li>
+    <li class="dev">
+      <a href="./iframe/generator/">网页内嵌生成器</a>
+    </li>
+    <li class="dev">
+      <a href="./qrcode/generator/">二维码生成器</a>
     </li>
   </ul>
   <div class="toolbar">
@@ -131,103 +124,14 @@ button {
   </div>
 
   <div class="toolbar">
-    <a onclick='btnToggle("#test-copy-panel",this)'>显示复制测试</a>
-  </div>
-
-  <div id="test-copy-panel" class="debug-panel" style="display:none">
-    <div>复制测试</div>
-    <div>
-      plain text
-      <button onclick='copyTextToClipboard("plain text", this)'>Copy</button>
-    </div>
-    <div>
-      <input id="test-copy-input" value="input text">
-      <button onclick='copyContentToClipboard("#test-copy-input", this)'>Copy</button>
-    </div>
-    <div>
-      <textarea id="test-copy-textarea">textarea text</textarea>
-      <button onclick='copyContentToClipboard("#test-copy-textarea", this)'>Copy</button>
-    </div>
-    <div>
-      <span id="test-copy-span">span text</span>
-      <button onclick='copyContentToClipboard("#test-copy-span", this)'>Copy</button>
-    </div>
-    <div>
-      <span id="test-copy-div" contenteditable>contenteditable div text</span>
-      <button onclick='copyContentToClipboard("#test-copy-div", this)'>Copy</button>
-    </div>
-  </div>
-
-  <div class="toolbar">
-    <a onclick='btnToggle("#debug-info-panel",this)'>显示调试信息</a>
-  </div>
-
-  <div id="debug-info-panel" class="debug-panel" style="display:none">
-    <div>
-      <b>User Agent:</b> <span id="user-agent"></span>
-    </div>
-    <div>
-      <b>Time Stamp:</b> <span id="time-stamp"></span>
-    </div>
-    <div>
-      Last updated: 2020-09-15 21:08
-    </div>
+    <a href='./tests/'>调试工具</a>
   </div>
 
 </div>
 
-<!--
-<script src="https://cdn.jsdelivr.net/gh/prgwrtr/cdn@0.1.22/app/js/com1.min.js"></script>
--->
 <script src="./js/common1.js?v=0.38"></script>
 <script>
 document.getElementById("toggle-dev").click();
-function makeFrame() {
-  s = document.getElementById("frame-url").value.replace(/^\s+|\s+$/g, "");
-  // some browsers don't like "http(s)://" as an argument
-  if ( s.slice(0, 8) === "https://" ) {
-    s = "~" + s.slice(8);
-  } else if ( s.slice(0, 7) === "http://" ) {
-    s = s.slice(7);
-  }
-  if ( s === "" ) return;
-  h = location.href;
-  // to avoid the mixed content error, the hosting page must be http
-  // if the target url (`s`) is so; but we don't know if the target
-  // url is an https disguised as an http, so always use http for the page
-  h = h.replace("https://", "http://");
-  p = h.indexOf("index.html");
-  if ( p >= 0 ) {
-    h = h.slice(0, p);
-  }
-  window.open( h + "frame.html?url=" + s, "_blank" );
-}
-
-// compute the user agent
-var ua = navigator.userAgent;
-document.getElementById("user-agent").innerHTML = ua + "<br>"
-  + (isMobileDevice() ? "是移动设备" : "不是移动设备") + " "
-  + (ua.match(/ipad|ipod|iphone/i) ? "是苹果设备" : "不是苹果设备") + " "
-  + (ua.match(/micromessenger/i) ? "是微信" : "不是微信");
-
-// refresh time stamp
-setInterval(function() {
-  var d = new Date();
-  document.getElementById("time-stamp").innerHTML = "" + d + " " + d*1;
-}, 100);
-
-function generateQR() {
-  var url = document.getElementById("qr-url").value;
-  var size = document.getElementById("qr-size").value;
-  if ( size.trim() === "" ) {
-    size = "200x200";
-  }
-  var cmd = "http://api.qrserver.com/v1/create-qr-code/?"
-  cmd += "size=" + size;
-  cmd += "&data=" + encodeURIComponent(url);
-  document.getElementById("qr-cmd").value = cmd;
-  document.getElementById("qr-img").src = cmd;
-}
 </script>
 
 </body>

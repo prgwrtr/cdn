@@ -1,5 +1,24 @@
 "use strict";
 
+var SpgenRes = {
+  sampleAudio: {
+    url: "https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp3",
+    startTime: "3:17",
+    endTime: "3:52",
+  },
+  //sampleAudio2: {
+  //  url: "http://sina.xljt.cloud/xlfm/audio/1.diantaijiemu/2018/201806/wenda20180622.mp3",
+  //  startTime: "1:12:26",
+  //  endTime: "1:15:51",
+  //},
+  sampleVideo: {
+    url: "https://i3.vzan.cc/upload/video/mp4/20200614/82a09afb5f0548c7a0de4d8d1fd36a65.mp4",
+    poster: "https://i2.vzan.cc/upload/image/jpg/20200614/77e2f7393bde43238cf3304338446ce5.jpg",
+    startTime: "0:00:00",
+    endTime: "0:00:07",
+  },
+};
+
 var SpgenUtils = (function(){
   function camelToKebab(s) {
     // (?<=...) are not supported by an old Firefox
@@ -27,7 +46,7 @@ var SpgenUtils = (function(){
   // return if the time value is valid
   function validateTime(val) {
     if (val == "" || val === null || val === undefined) {
-      console.log("missing time", val);
+      //console.log("missing time", val);
       return false;
     }
     var invalidChar = /[^:0-9.]/.test(val);
@@ -87,10 +106,10 @@ var Spgen = (function(){
         },
         uiType: "textarea",
         rows: 3,
-        placeholder: "https://i3.vzan.cc/upload/video/mp4/20200614/82a09afb5f0548c7a0de4d8d1fd36a65.mp4",
+        placeholder: SpgenRes.sampleVideo.url,
         hint: '片段音频请尝试：<br><a id="eg-src" '
-            + ' href="http://sina.xljt.cloud/xlfm/audio/1.diantaijiemu/2018/201806/wenda20180622.mp3"'
-            + ' target="TestLink">http://sina.xljt.cloud/xlfm/audio/1.diantaijiemu/2018/201806/wenda20180622.mp3</a> '
+            + ' href="' + SpgenRes.sampleAudio.url + '"'
+            + ' target="TestLink">' + SpgenRes.sampleAudio.url + '</a> '
             + '<button class="apply-btn" data-key="src" data-src="#eg-src">应用</button>',
       },
       {
@@ -103,7 +122,7 @@ var Spgen = (function(){
         },
         uiType: "textarea",
         rows: 3,
-        placeholder: "https://i2.vzan.cc/upload/image/jpg/20200614/77e2f7393bde43238cf3304338446ce5.jpg",
+        placeholder: SpgenRes.sampleVideo.poster,
       },
       {
         key: "start-time",
@@ -114,8 +133,9 @@ var Spgen = (function(){
         validator: SpgenUtils.validateTime,
         uiType: "input",
         placeholder: "00:00:00",
-        hint: '片段音频请尝试：<code id="eg-start-time">1:12:26</code> '
-            + '<button class="apply-btn" data-key="start-time" data-src="#eg-start-time">应用</button>',
+        hint: '片段音频请尝试：<code id="eg-start-time">' + SpgenRes.sampleAudio.startTime + '</code> '
+            + '<button class="apply-btn" data-key="start-time" data-src="#eg-start-time">应用</button><br>'
+            + '时间以秒计算。支持的格式："123"（"秒"）, "1:23"（"分钟:秒"）, "1:23:45"（"小时:分钟:秒"）',
       },
       {
         key: "end-time",
@@ -126,8 +146,9 @@ var Spgen = (function(){
         validator: SpgenUtils.validateTime,
         uiType: "input",
         placeholder: "00:00:00",
-        hint: '片段音频请尝试：<code id="eg-end-time">1:15:51</code> '
-            + '<button class="apply-btn" data-key="end-time" data-src="#eg-end-time">应用</button>',
+        hint: '片段音频请尝试：<code id="eg-end-time">' + SpgenRes.sampleAudio.endTime + '</code> '
+            + '<button class="apply-btn" data-key="end-time" data-src="#eg-end-time">应用</button><br>'
+            + '时间以秒计算。支持的格式："123"（"秒"）, "1:23"（"分钟:秒"）, "1:23:45"（"小时:分钟:秒"）',
       },
     ],
   }, // end of the basic tab
@@ -244,15 +265,16 @@ var Spgen = (function(){
         key: "plugin-server",
         name: "服务器",
         dataType: "string",
-        value: "cdn",
+        value: "default",
         validator: function(val) {
           return val !== "";
         },
         uiType: "select",
         options: [
-          {value: "cdn", name: "CDN"},
-          {value: "xljt", name: "XLJT"},
-          {value: "bhffer", name: "bhffer"},
+          {value: "default", name: "默认（支持 HTTPS）"},
+          //{value: "cdn", name: "CDN"},
+          //{value: "xljt", name: "XLJT"},
+          {value: "bhffer", name: "bhffer（支持 HTTPS）"},
           {value: "local", name: "内部测试"},
         ],
         internal: true,
@@ -266,7 +288,7 @@ var Spgen = (function(){
   }
 
   // add "dataKey" and "varName"
-  function processUiTabs() {
+  function initUiTabsData() {
     for (var i = 0; i < uiTabs.length; i++) { // tabs
       var fields = uiTabs[i].fields;
       for (var j = 0; j < fields.length; j++) {
@@ -312,10 +334,14 @@ var Spgen = (function(){
   var fieldDict = getFieldDict();
 
   function init() {
-    processUiTabs();
+    initUiTabsData(); // this should be done as soon as possible
   }
 
   init();
+
+  document.addEventListener("DOMContentLoaded", function() {
+    AppGV.vmSingleMediaPreviewer.update();
+  });
 
   return {
     uiTabs: uiTabs,

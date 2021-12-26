@@ -3,9 +3,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SM2音频列表</title>
-  <link rel="stylesheet" href="css/bar-ui.css"/>
-  <script type="text/javascript" src="js/soundmanager2.js"></script>
-  <script type="text/javascript" src="js/bar-ui.js"></script>
 <style>
 body {
   font-family: sans-serif;
@@ -131,71 +128,21 @@ updateFontSize();
     </div>
   </div>
 </div>
-
-<h2>下载</h2>
-
-<p>
-下载：<a href="./css/bar-ui.css">修改过的样式bar-ui.css</a>
-</p>
-
-<h2>主要改动</h2>
-
-<h3>防止长标题换行</h3>
-<pre class="code">
-... li a {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-</pre>
-
-<h3>右边按钮大小</h3>
-<p>
-fmplay2.png, fmpause2.png, playwrap.png
-<pre class="code">
-... li {
+<style>
+.sm2-playlist-bd span.lianhua {
+  height:2em;
+  width:2em;
   background-size:contain;
+/*
+  height:100%;
+  width:2em!important;
+*/
 }
-</pre>
-另外把li.selected a的背景还原到li.selected上
-</p>
+</style>
 
-<h3>莲花大小</h3>
-<p>
-调整后可以灵活调节字体大小。
-</p>
-<p>
-<code>.sm2-playlist-bd .lianhua</code>
-</p>
-
-<ul style="change">
-  <li class="code">width: <s>50px</s> 2.55em; </li>
-  <li class="code">height: <s>50px</s> 2.55em; </li>
-  <li class="code">background: url(../Sound/image/lianhua.png) no-repeat <s>3px 6px</s> center;</li>
-</ul>
-<p>注：
-<!--
-The tallest item in li is <code>li a</code>,
-and its height is 3em of the font-size of <code>li a</code>;
-the break-down is as follows;
-padding has 0.5em + 0.5em = 1em;
-line-height is 2 (inherited from ul, li).
-So the total height is 3em.
-The font-size of li is 95%,
-the font-size of li a is further multiplied by a factor of 110%,
-so the height of li is 3*1.1 = 3.3em of the font-size of li.
-So we can safely set the font-size of <code>.lianhua</code> as large as 3.3em;
--->
-<code>.sm2-playlist-wrapper ul li a</code>里的
-<code>padding: 0.5em 0.25em 0.5em 0.75em;</code>
-上下都是 0.5em，加起来就是1em。
-另外，
-<code>line-height: 1.5em;</code>
-字体高度就是1.5em，加起来就是2.6em;
-所以把高度设成稍小些2.55em，以防float(<code>.lianhua {float:left}</code>)元素溢出高度。
-background的最后参数background-position设成把居中。
-</p>
-
+  <link rel="stylesheet" href="../Sound/bar-ui.css"/>
+  <script type="text/javascript" src="../Sound/js/soundmanager2.js"></script>
+  <script type="text/javascript" src="../Sound/js/bar-ui.js"></script>
 </body>
 </html>
 

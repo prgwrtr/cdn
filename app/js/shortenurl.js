@@ -1,5 +1,7 @@
 "use strict";
 
+var ShortenUrl = (function(){
+
 function createXMLHttp()
 {
   if ( window.XMLHttpRequest ) {
@@ -38,7 +40,7 @@ function selectServerPath(url, patterns, defPath, https)
 }
 
 // AJAX URL shortener
-function shortenURL(url, type, callbackFunc, phpScriptPath)
+function shortenUrl(url, type, callbackFunc, phpScriptPath)
 {
   var xmlhttp = createXMLHttp();
   xmlhttp.onreadystatechange = function() {
@@ -50,7 +52,7 @@ function shortenURL(url, type, callbackFunc, phpScriptPath)
         var surl = resp; // if no error, response is url
         callbackFunc(resp);
       } else {
-        console.log("shortenURL() failed\nURL: " + url + "\n"
+        console.log("shortenUrl() failed\nURL: " + url + "\n"
           + "Type: " + type + "\n"
           + "Path: " + phpScriptPath + "\n" + resp);
       }
@@ -77,6 +79,10 @@ function shortenURL(url, type, callbackFunc, phpScriptPath)
   xmlhttp.send();
 }
 
+return {
+  shortenUrl: shortenUrl,
+};
 
+})();
 
 

@@ -1,20 +1,28 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SM2音频列表</title>
+  <title>SM2音频列表补丁版</title>
+  <link rel="stylesheet" href="../Sound/bar-ui.css"/>
+  <script type="text/javascript" src="../Sound/js/soundmanager2.js"></script>
+  <script type="text/javascript" src="../Sound/js/bar-ui.js"></script>
+  <!-- comment out the next line to enable dynamic patching -->
+<!--
+  <link rel="stylesheet" href="./sm2/css/bar-ui-patch.css"/>
+-->
 <style>
 body {
   font-family: sans-serif;
   font-size: 16px;
   letter-spacing: 0.1em;
 }
-a {
+.paragraph a {
   color: #0af;
   font-weight: bold;
   text-decoration: none;
 }
-a:hover {
+.paragraph a:hover {
   color: #08c;
 }
 .code, code {
@@ -34,7 +42,7 @@ s {
 </style>
 </head>
 <body>
-<h2>SM2音频列表测试</h2>
+<h2>SM2音频列表补丁版测试</h2>
 
 <p style="margin:0px 0px 20px 0px;display:flex">
 <label for="inp-font-size">字体大小：
@@ -57,11 +65,7 @@ function updateFontSize() {
 }
 updateFontSize();
 </script>
-<!--
-<div id="_m"><img src="https://i2.vzan.cc/upload/image/gif/20200710/543924e9c26b4a2da1e41f93e5e2d6f2.gif" onload='sm=0,bc=0,bj=0,x=document.getElementsByTagName("SCRIPT");for(i=0;i<x.length;i++){if(x[i].src.indexOf("soundmanager2.js")>=0)sm=1;else if(x[i].src.indexOf("bar-ui.js")>=0)bj=1;}if(!sm){s=document.createElement("SCRIPT");s.src="https://app.bhffer.com/sm2/js/soundmanager2.js";document.body.appendChild(s);}if(!bj){s=document.createElement("SCRIPT");s.src="https://app.bhffer.com/sm2/js/bar-ui.js";document.body.appendChild(s);}x=document.getElementsByTagName("LINK");for(i=0;i<x.length;i++){if(x[i].href.indexOf("bar-ui.css")>=0)bc=x[i];}if(!bc){bc=document.createElement("LINK");bc.rel="stylesheet";document.getElementsByTagName("head")[0].append(bc);}bc.href="https://app.bhffer.com/sm2/css/bar-ui.css";'></div>
--->
-
-<div class="sm2-bar-ui playlist-open no-volume full-width flat" style="font-size: 16px;">
+<div class="sm2-bar-ui playlist-open no-volume full-width flat item-download" style="font-size: 16px;">
   <div class="bd sm2-main-controls" style="background-color: rgba(218, 52, 52, 0.92);">
     <div class="sm2-inline-texture" style="background: transparent;"></div>
     <div class="sm2-inline-gradient"></div>
@@ -115,34 +119,35 @@ updateFontSize();
     <div class="sm2-playlist-wrapper">
       <ul class="sm2-playlist-bd">
 <!-- 播放列表 -->
-<li><span class="lianhua"></span>
-  <a href="https://i3.vzan.cc/upload/video/mp4/20200705/89562b2307c044978d30c8f81dc7d822.mp4">
-    88-白话-佛法的无生无灭</a></li>
-<li><span class="lianhua"></span>
-  <a href="http://note.cdn.xldhplay.com/video/baihuafofa/baihuafofa-live87.mp3">
-    87-白话-知无我 即放下</a></li>
-<li><span class="lianhua"></span>
-  <a href="http://note.cdn.xldhplay.com/video/baihuafofa/baihuafofa-live86.mp3">
-    86-白话-精进是成佛的根 aaa bbb ccc ddd eee fff </a></li>
+<li><span class="lianhua"></span> <a href="https://i3.vzan.cc/upload/video/mp4/20200705/89562b2307c044978d30c8f81dc7d822.mp4"> 88-白话-佛法的无生无灭</a></li>
+<li><span class="lianhua"></span> <a href="http://note.cdn.xldhplay.com/video/baihuafofa/baihuafofa-live87.mp3"> 87-白话-知无我 即放下</a></li>
+<li><span class="lianhua"></span> <a href="http://note.cdn.xldhplay.com/video/baihuafofa/baihuafofa-live86.mp3"> 86-白话-精进是成佛的根</a></li>
       </ul>
     </div>
   </div>
 </div>
-<style>
-.sm2-playlist-bd span.lianhua {
-  height:2em;
-  width:2em;
-  background-size:contain;
-/*
-  height:100%;
-  width:2em!important;
-*/
-}
-</style>
 
-  <link rel="stylesheet" href="Sound/bar-ui.css"/>
-  <script type="text/javascript" src="Sound/js/soundmanager2.js"></script>
-  <script type="text/javascript" src="Sound/js/bar-ui.js"></script>
+<!--
+<div style="display:none"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" alt="..." onload='(function(){try{s=document.createElement("style");document.head.appendChild(s);s=s.sheet;s.insertRule("span.lianhua{width:2em !important;height:2em !important;background-size:contain !important}",s.cssRules.length);}catch(e){};s=document.createElement("SCRIPT");window.sm2cdnver=""+Math.random();window.sm2root="./";s.src="./js/mbuembed.js";document.body.append(s)})()'></div>
+-->
+
+<!--
+<div style="display:none"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" alt="." onload='(function(){if(window.mbuembedOnce){return;}else{window.mbuembedOnce=1;var e=document.createElement("SCRIPT");window.sm2cdnver="0.1.32";window.sm2root="http://localhost:7777/sm2/";e.src="http://localhost:7777/sm2/js/mbuembed.js?v=0.1.32";document.body.append(e);}})()'></div>
+-->
+
+<div style="display:none"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" alt="."
+  onload='(function(){if(!window.mbuembedOnce){window.mbuembedOnce=1;var e=document.createElement("SCRIPT");window.sm2cdnver="0.1.38";window.sm2root="../";e.src="../js/mbuembed.js";document.body.append(e);}})()'></div>
+
+<h2>下载补丁</h2>
+
+<div class="paragraph">
+<ul>
+<li><a href="../css/bar-ui-patch.css">bar-ui-patch.css</a></li>
+<li><a href="../css/bar-ui.css">更改过的 bar-ui.css</a></li>
+</ul>
+</div>
+
+
 </body>
 </html>
 
