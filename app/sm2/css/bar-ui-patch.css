@@ -79,24 +79,28 @@
   width: 14px;
   padding: 4px 6px;
   font-size: 14px;
-  color: rgba(255, 255, 150, 1);
-  background-color: rgba(230, 100,  50, 1);
-  border: 3px solid rgba(255, 250, 250, 1);
-  border-radius: 7px;
-  box-shadow: .5px .5px 1px #ccc;
+  color: rgba(255, 255, 230, 1);
+  background-color: rgba(230, 100, 50, 1);
+  border: 1px solid rgba(250, 225, 150, 0.95);
+  border-radius: 4px;
+  box-shadow: none;
   cursor: pointer;
   line-height: 1;
   transition: all 0.2s ease;
 }
 
 .item-downloader:hover {
+  color: #fff;
   background-color: #a30;
+  border-color: rgba(255, 255, 255, 0.95);
   box-shadow: .5px .5px 2px #a84;
 }
 
 .item-downloader:active,
 .item-downloader:focus {
+  color: #fff;
   background-color: #c10;
+  border-color: rgba(255, 255, 255, 1);
   transform: translateY(-48%);
   transition: all 0.3s ease;
 }
