@@ -78,7 +78,8 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 }
 
 .item-downloader {
-  display: inline;
+  display: inline-block;
+  box-sizing: content-box; /* initial */
   height: 18px;
   width: 14px;
   padding: 4px 6px;
@@ -420,7 +421,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
                       data-root="http://sys.bhln.org/app/"
                       >静态站点2</option>
               <option value="site3"
-                      data-root="http://app1.jghrt3.com/app/"
+                      data-root="http://app1.jghrt9.com/app/"
                       >静态站点3</option>
               <option value="this"
                       >当前网站</option>

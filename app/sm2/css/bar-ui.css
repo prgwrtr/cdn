@@ -974,6 +974,7 @@
   top: 50%;
   right: 0;
   transform: translateY(-50%);
+  box-sizing: content-box; /* initial */
   height: 18px;
   width: 14px;
   padding: 4px 6px;
