@@ -968,30 +968,36 @@
 }
 
 .item-downloader {
-  margin: 0em 0.4em 0em 0.2em;
+  margin: 0em 0.5em 0em 0.2em;
   display: inline-block;
   position: absolute;
   top: 50%;
   right: 0;
-  transition: ease 0.1s;
   transform: translateY(-50%);
-  padding: 0.3em 0.4em;
-  background-color: #a32;
-  border-radius: 4px;
-  box-shadow: .5px .5px 1px #ca6;
+  height: 18px;
+  width: 14px;
+  padding: 4px 6px;
+  font-size: 14px;
+  color: rgba(255, 255, 150, 1);
+  background-color: rgba(230, 100,  50, 1);
+  border: 3px solid rgba(255, 250, 250, 1);
+  border-radius: 7px;
+  box-shadow: .5px .5px 1px #ccc;
   cursor: pointer;
   line-height: 1;
+  transition: all 0.2s ease;
 }
 
 .item-downloader:hover {
-  background-color: #d30;
+  background-color: #a30;
   box-shadow: .5px .5px 2px #a84;
 }
 
 .item-downloader:active,
 .item-downloader:focus {
-  background-color: #910;
+  background-color: #c10;
   transform: translateY(-48%);
+  transition: all 0.3s ease;
 }
 
 .sm2-bar-ui.item-download .sm2-playlist-wrapper ul.sm2-playlist-bd li {

@@ -25,6 +25,7 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 .shift-down {
   transform:translateY(0.4em);
 }
+
 .opt-group {
   margin: 2em 0;
 }
@@ -51,6 +52,7 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
   max-height: 150px;
   overflow-y: auto;
 }
+
 .mode-switcher {
   font-size: 16px;
   color: #fff;
@@ -69,19 +71,30 @@ else if(hv!=now){location.href=href.replace("t="+hv,"t="+now);}
 .mode-switcher:focus {
   background-color: #579;
 }
+
 .fat-textarea {
   white-space: pre;
   overflow-x: auto;
 }
+
 .item-downloader {
-  color: #fff;
+  display: inline;
+  height: 18px;
+  width: 14px;
+  padding: 4px 6px;
   font-size: 14px;
-  font-weight: normal;
-  padding: 0.3em 0.4em;
-  background-color: #a32;
-  border-radius: 4px;
+  color: rgba(255, 255, 150, 1);
+  background-color: rgba(230, 100,  50, 1);
+  border: 3px solid rgba(255, 250, 250, 1);
+  border-radius: 7px;
+  box-shadow: .5px .5px 1px #ccc;
   cursor: pointer;
   line-height: 1;
+}
+
+.input-note ul {
+  margin: 0;
+  padding: 0em 1em;
 }
 </style>
 </head>
@@ -274,7 +287,12 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
             <label for="inp-item-download">
               <input id="inp-item-download" type="checkbox" checked onchange="writeCode()">
               列表项右侧添加下载链接
-              <span class="item-downloader">下载</span>
+              <span class="item-downloader">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+              </span>
             </label>
           </div>
 
@@ -387,14 +405,35 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
             <label for="inp-plugin-server">
               插件服务器：
             </label>
-            <select id="inp-plugin-server" onchange="writeCode()">
-              <option value="cdn" selected>CDN</option>
-              <option value="xljt">XLJT</option>
-              <option value="this">当前网站</option>
-              <option value="local">内部测试用</option>
+            <select id="inp-plugin-server"
+                    onchange="writeCode()">
+              <option value="cdn"
+                      selected
+                      >CDN</option>
+              <option value="xljt"
+                      data-root="http://baidu.xljt.cloud/extra/app/"
+                      >XLJT</option>
+              <option value="site1"
+                      data-root="http://app.xf8.site/"
+                      >静态站点1</option>
+              <option value="site2"
+                      data-root="http://sys.bhln.org/app/"
+                      >静态站点2</option>
+              <option value="this"
+                      >当前网站</option>
+              <option value="local"
+                      data-root="./"
+                      >内部测试用</option>
             </select>
             <div class="inp-note">
-              <b>CDN</b> 和 <b>XLJT</b> 较快。
+              <ul>
+                <li>
+                  <b>CDN</b> 和 <b>XLJT</b> 较快，但版本上可能滞后，或在版本更新时出现问题。
+                </li>
+                <li>
+                  <b>静态站点</b> 通常是较为正确的版本，但速度稍慢。
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -412,9 +451,16 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
               <option value="latest-forced">强制最新</option>
             </select>
             <div class="inp-note">
-              前几个<b>固定</b>版本比较稳定，仅对CDN有效，不更新。
-              <b>最新</b>版本会自动更新加载脚本，但手机上仍会因浏览器的缓存而滞后；
-              <b>强制最新</b>版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
+              <ul>
+                <li>
+                  前几个<b>固定</b>版本比较稳定，仅对CDN有效，不更新。
+                </li>
+                <li>
+                  <b>最新</b>版本会自动更新加载脚本，但手机上仍会因浏览器的缓存而滞后
+                </li>
+                <li>
+                  <b>强制最新</b>版本会用时间戳强制刷新浏览器缓存，获取近15分钟内的版本，但可能会多次加载同一个文件。
+                </li>
             </div>
           </div>
         </div> <!-- opt-group-body -->
@@ -432,7 +478,7 @@ https://i3.vzan.cc/upload/audio/mp3/20200707/ef9567fa5176451da2430860217f6a10.mp
 -->
 <script src="./js/common1.js?v=0.38"></script>
 <script src="./js/shortenurl.js?v=0.36"></script>
-<script src="./js/sm2ls.js?v=0.39"></script>
+<script src="./js/sm2ls.js?v=0.1.34"></script>
 
 </body>
 </html>

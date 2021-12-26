@@ -1,6 +1,6 @@
 "use strict";
 
-var latestCDNVersion = "0.1.33";
+var latestCDNVersion = "0.1.34";
 
 var frameworkTemplate = '<section style="padding:20px 1%;margin:0;background-color:{bg-color}">\n'
  + '<section style="margin:0 0 15px 0;">{title-code}</section>\n'
@@ -175,6 +175,21 @@ function renderTitle(info)
   return renderTextComponent(info, "title", titleTemplates);
 }
 
+
+function getSelectedOption(selector)
+{
+  var sel = document.querySelector(selector);
+  if (sel) {
+    for (var i = 0; i < sel.options.length; i++) {
+      var opt = sel.options[i];
+      if (opt.selected) {
+        return opt;
+      }
+    }
+  }
+  return null;
+}
+
 function getPluginCode(info)
 {
   // manipulate the version
@@ -186,42 +201,58 @@ function getPluginCode(info)
     ver = lastestCDNVersion;
   }
 
-  var server = document.getElementById("inp-plugin-server").value;
-  var root = "", sm2Path = "";
-  var cssPatchFn = "css/bar-ui-patch.css", cssPatchPath = "";
-  var cssFn = "css/bar-ui.css", cssPath = "";
-  var jsFn = "js/sm2-bar-ui.js", jsPath = "", jsVar = "j";
-  var embedFn = "js/mbuembed.js", embedPath = "", embedVar = "e", embedCode = "";
+  var cssPatchFn = "css/bar-ui-patch.css",
+      cssPatchPath = "";
+  var cssFn = "css/bar-ui.css",
+      cssPath = "";
+  var jsFn = "js/sm2-bar-ui.js",
+      jsPath = "",
+      jsVar = "j";
+  var embedFn = "js/mbuembed.js",
+      embedPath = "",
+      embedVar = "e",
+      embedCode = "";
 
   // set the CDN version parameter
   embedCode += 'window.sm2cdnver="' + latestCDNVersion + '";';
 
-  if ( server === "local" ) {
-    root = "./";
-  } else if ( server === "xljt" ) {
-    root = "http://baidu.xljt.cloud/extra/app/";
-  } else if ( server === "cdn" ) {
-    root = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn";
-    // this is the default, no need to set the sm2root for other scripts
-    if ( (/^[0-9.]+$/.exec(ver) !== null) || ver === "latest" ) { // e.g., ver: "cdn-0.1.3" or "cdn-latest"
-      root = root + "@" + ver + "/app/";
-      // jsdelivr provides automatically minified js and css
-      cssPatchFn = cssPatchFn.replace(/[.]css$/, ".min.css");
-      cssFn = cssFn.replace(/[.]css$/, ".min.css");
-      // jsFn is already minimized
-      embedFn = embedFn.replace(/[.]js$/, ".min.js");
-    } else {
-      alert("cdn can't handle version " + ver + " fn " + fn);
-    }
-  } else if ( server === "this" ) {
-    root = selectServerPath(location.href,
-        [/bhffer\.com/, /xljt\.cloud/, /localhost:/],
-        "https://app.bhffer.com/");
-  } else {
-    alert("unknown plugin server " + server);
+  // determine the serverRoot
+  var serverOption = getSelectedOption("#inp-plugin-server"),
+      serverValue = null,
+      serverRoot = undefined;
+  if (serverOption) {
+    serverValue = serverOption.value;
+    serverRoot = serverOption.dataset.root;
   }
 
-  sm2Path = root + "sm2/";
+  // If the option does not have the data-root field set in HTML
+  // serverRoot would be undefined
+  // the value field (serverValue) is not used in this case
+  if ( serverRoot === undefined ) {
+    if ( serverValue === "cdn" ) {
+      serverRoot = "https://cdn.jsdelivr.net/gh/prgwrtr/cdn";
+      // this is the default, no need to set the sm2root for other scripts
+      if ( (/^[0-9.]+$/.exec(ver) !== null) || ver === "latest" ) { // e.g., ver: "cdn-0.1.3" or "cdn-latest"
+        serverRoot += "@" + ver + "/app/";
+        // minify JS and CSS
+        // jsdelivr provides automatically minified js and css
+        cssPatchFn = cssPatchFn.replace(/[.]css$/, ".min.css");
+        cssFn = cssFn.replace(/[.]css$/, ".min.css");
+        // jsFn is already minimized
+        embedFn = embedFn.replace(/[.]js$/, ".min.js");
+      } else {
+        alert("cdn can't handle version " + ver + " fn " + fn);
+      }
+    } else if ( serverValue === "this" ) {
+      serverRoot = selectServerPath(location.href,
+          [/bhffer\.com/, /xljt\.cloud/, /localhost:/],
+          "https://app.bhffer.com/");
+    } else {
+      console.log("Internal Error: unknown plugin server " + serverValue);
+    }
+  }
+
+  var sm2Path = serverRoot + "sm2/";
   // set the path for loading other scripts
   embedCode += 'window.sm2root="' + sm2Path + '";';
 

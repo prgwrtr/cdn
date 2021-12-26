@@ -51,11 +51,8 @@
     var s = document.createElement("LINK");
     s.rel = "stylesheet";
     if (url.indexOf("jsdelivr") >= 0) {
-      // 2021.12.26 disabling the minification
-      // It appears that jsdelivr would mess up the relative path with minified css
-      //     
       // minimize CSS for the CDN version
-      // url = url.replace(/[.]css$/, ".min.css");
+      url = url.replace(/[.]css$/, ".min.css");
     }
     url = appendVersion(url);
     s.href = url;
