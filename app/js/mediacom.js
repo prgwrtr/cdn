@@ -17,10 +17,10 @@ var mediacomVersion = "V0.39";
     defMedia = {
       "audioSrc": "https://i3.vzan.cc/upload/audio/mp3/20200220/e27968fdbc6b411a831ac9b7bfc56588.mp3",
                // "http://i3.vzan.cc/mp3/20190925/2cc455b03b164f40858eca52a6ef8d9d/v.f1010.mp3"
-      "videoSrc": "http://sina.xljt.cloud/xlfm/video/14.zhenhanshipin/3.mp4",
-      "videoPoster": "http://sina.xljt.cloud/xlfm/video/14.zhenhanshipin/3.jpg",
+      "videoSrc": "http://baidu.xljt.cloud/xlfm/video/14.zhenhanshipin/3.mp4",
+      "videoPoster": "http://baidu.xljt.cloud/xlfm/video/14.zhenhanshipin/3.jpg",
       "imageSrc": "https://i2.vzan.cc/image/liveimg/png/20190609/2299c4114637468387f6fb09e91113a4.png",
-      "qrcodeSrc": "http://sina.xljt.cloud/extra/app/img/fofabook-qrcode.png",
+      "qrcodeSrc": "http://baidu.xljt.cloud/extra/app/img/fofabook-qrcode.png",
     };
   }
 
